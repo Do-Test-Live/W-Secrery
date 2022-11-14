@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,64 +96,9 @@
 
                     </div>
                 </div>
-
-                <div class="right_side">
-
-                    <div class="header_widgets">
-
-                        <a href="#">
-                            <img src="assets/images/avatars/avatar-2.jpg" class="is_avatar" alt="">
-                        </a>
-                        <div uk-drop="mode: click;offset:5" class="header_dropdown profile_dropdown">
-
-                            <a href="#" class="user">
-                                <div class="user_avatar">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                </div>
-                                <div class="user_name">
-                                    <div> Zheng Lin</div>
-                                    <span>@zheng</span>
-                                </div>
-                            </a>
-                            <hr>
-                            <a href="#">
-                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
-                                My Account
-                            </a>
-                            <a href="add_post.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path>
-                                </svg>
-                                Add Post
-                            </a>
-                            <a href="#" id="night-mode" class="btn-night-mode">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                                </svg>
-                                Night mode
-                                <span class="btn-night-mode-switch">
-                                        <span class="uk-switch-button"></span>
-                                    </span>
-                            </a>
-                            <a href="login.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                </svg>
-                                Log Out
-                            </a>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <?php
+                include ("include/head_right.php");
+                ?>
             </div>
         </div>
     </header>
@@ -396,7 +344,7 @@
                                 <div class="flex-1">
                                     <a href="#" class="text-lg font-semibold line-clamp-1"> Wild to think that the smartest people I know are… </a>
                                     <div class="flex space-x-3 text-sm pb-2 mt-1 flex-wrap font-medium">
-                                        <a href="timeline.html" class="font-semibold"> Pan Guo </a>
+                                        <a href="timeline.html" class="font-semibold"> Justin Hau </a>
                                         <div class="text-gray-500"> Oct 20Th , 2020</div>
                                         <div class="text-gray-500"> 12 replies</div>
                                     </div>
@@ -404,13 +352,13 @@
                                 <div class="sm:flex items-center -space-x-4 hidden">
                                     <img src="assets/images/avatars/avatar-1.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Xiong Dong">
+                                         title="Justin Hau">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Zheng Lin">
+                                         title="Steven Tai">
                                     <img src="assets/images/avatars/avatar-3.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Cheng Yan">
+                                         title="Doris Logue">
                                     <div class="w-10 h-10 rounded-full flex justify-center items-center bg-red-100 text-red-500 font-semibold">
                                         12+
                                     </div>
@@ -423,7 +371,7 @@
                                 <div class="flex-1">
                                     <a href="#" class="text-lg font-semibold line-clamp-1"> Desi/Asian parents: can you give insight? </a>
                                     <div class="flex space-x-3 text-sm pb-2 flex-wrap">
-                                        <a href="timeline.html" class="font-semibold"> Cheng Yan </a>
+                                        <a href="timeline.html" class="font-semibold"> Doris Logue </a>
                                         <div class="text-gray-500"> Oct 20Th , 2020</div>
                                         <div class="text-gray-500"> 12 replies</div>
                                     </div>
@@ -431,13 +379,13 @@
                                 <div class="sm:flex items-center -space-x-4 hidden">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Cheng Yan">
+                                         title="Doris Logue">
                                     <img src="assets/images/avatars/avatar-1.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Xiong Dong">
+                                         title="Justin Hau">
                                     <img src="assets/images/avatars/avatar-4.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Zheng Lin">
+                                         title="Steven Tai">
                                     <div class="w-10 h-10 rounded-full flex justify-center items-center bg-green-100 text-green-500 font-semibold">
                                         12+
                                     </div>
@@ -450,7 +398,7 @@
                                 <div class="flex-1">
                                     <a href="#" class="text-lg font-semibold line-clamp-1"> Wtf LinkedIn??? Anyone experiencing this?</a>
                                     <div class="flex space-x-3 text-sm pb-2 mt-1 flex-wrap font-medium">
-                                        <a href="timeline.html" class="font-semibold"> Zheng Lin </a>
+                                        <a href="timeline.html" class="font-semibold"> Steven Tai </a>
                                         <div class="text-gray-500"> Oct 20Th , 2020</div>
                                         <div class="text-gray-500"> 12 replies</div>
                                     </div>
@@ -458,7 +406,7 @@
                                 <div class="sm:flex items-center -space-x-4 hidden">
                                     <img src="assets/images/avatars/avatar-3.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Cheng Yan">
+                                         title="Doris Logue">
                                     <img src="assets/images/avatars/avatar-4.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
                                          title="Steven Jesse">
@@ -474,7 +422,7 @@
                                 <div class="flex-1">
                                     <a href="#" class="text-lg font-semibold line-clamp-1">Green card rate race </a>
                                     <div class="flex space-x-3 text-sm pb-2 mt-1 flex-wrap font-medium">
-                                        <a href="timeline.html" class="font-semibold"> Xiong Dong </a>
+                                        <a href="timeline.html" class="font-semibold"> Justin Hau </a>
                                         <div class="text-gray-500"> Oct 20Th , 2020</div>
                                         <div class="text-gray-500"> 12 replies</div>
                                     </div>
@@ -482,13 +430,13 @@
                                 <div class="sm:flex items-center -space-x-4 hidden">
                                     <img src="assets/images/avatars/avatar-5.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white hover:z-10"
-                                         data-tippy-placement="top" title="Cheng Yan">
+                                         data-tippy-placement="top" title="Doris Logue">
                                     <img src="assets/images/avatars/avatar-6.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Xiong Dong">
+                                         title="Justin Hau">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt=""
                                          class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Zheng Lin">
+                                         title="Steven Tai">
                                     <div class="w-10 h-10 rounded-full flex justify-center items-center bg-green-100 text-green-500 font-semibold">
                                         18+
                                     </div>
@@ -510,7 +458,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Zheng Lin </a>
+                                    <a href="#" class="font-semibold"> Steven Tai </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 137 </span>
@@ -520,7 +468,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Cheng Yan </a>
+                                    <a href="#" class="font-semibold"> Doris Logue </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 14 </span>
@@ -530,7 +478,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-3.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Kang Shun </a>
+                                    <a href="#" class="font-semibold"> Sammy Ka </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 257 </span>
@@ -540,7 +488,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Zheng Lin </a>
+                                    <a href="#" class="font-semibold"> Steven Tai </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 137 </span>
@@ -550,7 +498,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Cheng Yan </a>
+                                    <a href="#" class="font-semibold"> Doris Logue </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 14 </span>
@@ -560,7 +508,7 @@
                             <li>
                                 <div class="flex items-center space-x-3">
                                     <img src="assets/images/avatars/avatar-3.jpg" alt="" class="w-8 h-8 rounded-full">
-                                    <a href="#" class="font-semibold"> Kang Shun </a>
+                                    <a href="#" class="font-semibold"> Sammy Ka </a>
                                     <div class="flex items-center space-x-2">
                                         <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                         <span> 257 </span>
@@ -672,7 +620,7 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Kang Shun</div>
+                    <div class="contact-username"> Sammy Ka</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -692,14 +640,14 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Zheng Lin</div>
+                    <div class="contact-username">Steven Tai</div>
                 </a>
 
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Cheng Yan</div>
+                    <div class="contact-username">Doris Logue</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -729,7 +677,7 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Kang Shun</div>
+                    <div class="contact-username"> Sammy Ka</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -749,14 +697,14 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Zheng Lin</div>
+                    <div class="contact-username">Steven Tai</div>
                 </a>
 
                 <a href="chats-group.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Cheng Yan</div>
+                    <div class="contact-username">Doris Logue</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">

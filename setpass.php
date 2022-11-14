@@ -2,11 +2,19 @@
 session_start();
 $email = $_SESSION["email"];
 include ("config/dbconfig.php");
+$result = 0;
 if(isset($_POST['set_pass'])){
     $password = mysqli_real_escape_string($con, $_POST['password']);
-    $key = GetConfigVariable("Secrery");
+    $key = 'Secrery';
     $Pwd_peppered = Hash_hmac("Sha256", $password, $key);
     $Pwd_hashed = Password_hash($Pwd_peppered, PASSWORD_ARGON2ID);
+    $query = $con->query("update `user` set `password` = '$Pwd_hashed' where `email` = '$email'");
+    if ($query){
+        header("Location: index.php");
+    }else{
+        echo "Something went wrong";
+        $result = 1;
+    }
 }
 ?>
 
@@ -36,6 +44,9 @@ if(isset($_POST['set_pass'])){
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 
     <style>
         input , .bootstrap-select.btn-group button{
@@ -70,7 +81,14 @@ if(isset($_POST['set_pass'])){
     <!-- Content-->
     <div>
         <div class="lg:p-12 max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-
+            <?php if ($result == 1){?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Sorry!</strong> Something Went Wrong.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
+            }
+            ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Set Password </h1>
 

@@ -9,20 +9,45 @@ if (isset($_POST['register'])) {
     $industry = mysqli_real_escape_string($con, $_POST['industry']);
     $position = mysqli_real_escape_string($con, $_POST['position']);
     $gender = mysqli_real_escape_string($con, $_POST['gender']);
-    $v_code = rand(100000,999999);
+    $v_code = rand(100000, 999999);
     $data = $con->query("select `email` from `user` where `email` = '$email'");
-    if ($data->num_rows == 0){
-        $query = $con->query("INSERT INTO `user`(`email`, `industry`, `position`, `company`, `domain_name`, `dob`, `gender`,`vcode`) 
-VALUES ('$email','$industry','$position','$company','$domain_name','$dob','$gender','$v_code')");
+    if ($data->num_rows == 0) {
+        $query = $con->query("INSERT INTO `user`(`email`, `industry`, `position`, `company`, `domain_name`, `dob`, `gender`,`vcode`)  VALUES ('$email','$industry','$position','$company','$domain_name','$dob','$gender','$v_code')");
         if ($query) {
-            session_start();
-            $_SESSION["email"] = $email;
-            Header("Location: email_verify.php");
+            $email_to = $email;
+            $subject = 'Verify your email.';
+
+
+            $headers = "From: Secrery <info@daycaredeviser.com>\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+            $messege = "
+            <html>
+                <body style='background-color: #eee; font-size: 16px;'>
+                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
+                 
+                    <h3 style='color:black'>Hi</h3>
+                
+                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
+                
+                    <p style='color:black;text-align: center'>
+                        6 digit authentication code for your email verification is : <strong>$v_code</strong>
+                    </p>
+                </div>
+                </body>
+            </html>";
+
+            if (mail($email_to, $subject, $messege, $headers)) {
+                session_start();
+                $_SESSION["email"] = $email;
+                Header("Location: email_verify.php");
+            }
         } else {
             echo "something went wrong";
             $value = 1;
         }
-    }else{
+
+    } else {
         $value = 2;
     }
 }
@@ -60,8 +85,11 @@ VALUES ('$email','$industry','$position','$company','$domain_name','$dob','$gend
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
           rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
     <style>
         input, .bootstrap-select.btn-group button {
@@ -100,20 +128,20 @@ VALUES ('$email','$industry','$position','$company','$domain_name','$dob','$gend
     <!-- Content-->
     <div>
         <div class="lg:p-12 max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-        <?php if ($value == 1){?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Sorry!</strong> Something Went Wrong.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <?php
-        } elseif ($value == 2){
-            ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Sorry!</strong> This Email is already registered with us.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <?php
-        }
+            <?php if ($value == 1) { ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Sorry!</strong> Something Went Wrong.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
+            } elseif ($value == 2) {
+                ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Sorry!</strong> This Email is already registered with us.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
+            }
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Register </h1>
