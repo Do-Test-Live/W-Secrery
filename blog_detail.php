@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/create-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:20:14 GMT -->
+<!-- Mirrored from demo.foxthemes.net/socialitev2.2/blog-read.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:21:06 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +14,10 @@
     <title>Secrery</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Secrery">
+    <meta name="description" content="Socialite is - Professional A unique and beautiful collection of UI elements">
 
     <!-- icons
-    ================================================== -->
+     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
     <!-- CSS
@@ -29,6 +29,7 @@
 
 </head>
 <body>
+
 
 
 <div id="wrapper">
@@ -56,102 +57,10 @@
                 <div class="header_search"><i class="uil-search-alt"></i>
                     <input value="" type="text" class="form-control"
                            placeholder="Search for Friends , Videos and more.." autocomplete="off">
-                    <div uk-drop="mode: click" class="header_search_dropdown">
-
-                        <h4 class="search_title"> Recently </h4>
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-1.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Erica Jones</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Coffee Addicts</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-3.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Mountain Riders</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-4.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Property Rent And Sale</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Erica Jones</div>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-
-                <div class="right_side">
-
-                    <div class="header_widgets">
-
-                        <a href="#">
-                            <img src="assets/images/avatars/avatar-2.jpg" class="is_avatar" alt="">
-                        </a>
-                        <div uk-drop="mode: click;offset:5" class="header_dropdown profile_dropdown">
-
-                            <a href="#" class="user">
-                                <div class="user_avatar">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                                </div>
-                                <div class="user_name">
-                                    <div> Steven Tai</div>
-                                    <span>@zheng</span>
-                                </div>
-                            </a>
-                            <hr>
-                            <a href="#">
-                                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
-                                My Account
-                            </a>
-                            <a href="add_post.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"></path>
-                                </svg>
-                                Add Post
-                            </a>
-                            <a href="#" id="night-mode" class="btn-night-mode">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                                </svg>
-                                Night mode
-                                <span class="btn-night-mode-switch">
-                                        <span class="uk-switch-button"></span>
-                                    </span>
-                            </a>
-                            <a href="login.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                </svg>
-                                Log Out
-                            </a>
-
-
-                        </div>
-
-                    </div>
 
                 </div>
+
+                <?php include ("include/head_right.php");?>
             </div>
         </div>
     </header>
@@ -170,7 +79,7 @@
                     <span> Feed </span> </a>
                 </li>
 
-                <li><a href="companies.html">
+                <li><a href="companies.php">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="text-blue-500">
                         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
@@ -213,13 +122,13 @@
 
                 <div class="contact-list my-2 ml-1">
 
-                    <a href="tech.html">
+                    <a href="tech.php">
                         <div class="contact-avatar">
                             <img src="assets/images/icons/technology.jpg" alt="">
                         </div>
                         <div class="contact-username"> Tech</div>
                     </a>
-                    <a href="finance.html">
+                    <a href="finance.php">
                         <div class="contact-avatar">
                             <img src="assets/images/icons/finance.jpg" alt="">
                             <span class="user_status"></span>
@@ -289,45 +198,148 @@
     <div class="main_content">
         <div class="mcontainer">
 
-            <!--  breadcrumb -->
-            <!--<div class="breadcrumb-area py-0">
-                <div class="breadcrumb">
-                    <h2 class="text-2xl font-semibold"> Create Post </h2>
-                </div>
-            </div>-->
+            <div class="lg:flex lg:space-x-10">
 
+                <div class="lg:w-3/4 space-y-5">
 
-            <!-- create page-->
-            <div class="max-w-2xl m-auto shadow-md rounded-md bg-white lg:mt-20">
+                    <div class="card">
 
-                <!-- form header -->
-                <div class="text-center border-b border-gray-100 py-6">
-                    <h3 class="font-bold text-xl"> Create New Post </h3>
-                </div>
+                        <div class="p-7">
 
-                <!-- form body -->
-                <div class="p-10 space-y-7">
+                            <h1 class="lg:text-3xl text-2xl font-semibold mb-6"> How do you know AWS is
+                                planning on laying you off? Do they give severance? </h1>
 
-                    <div class="line">
-                        <input class="line__input" name="" type="text" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off">
-                        <span for="username" class="line__placeholder"> Post Heading </span>
+                            <div class="flex items-center space-x-3 my-4 pb-4 border-b border-gray-100">
+                                <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-10 rounded-full">
+                                <div>
+                                    <div class="text-base font-semibold"> Steven Tai </div>
+                                    <div class="text-xs"> Published on Oct 22, 2017 </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <p>
+                                    Currently a Cloud Support Associate and have been working since July. Not really enjoying it and going through some personal depression that has melted into my work life. I understand meeting metrics but my manager makes me feel horrible for even taking two days of PTO and says I'm behind my peers because of it.
+                                </p>
+                                <p>I also feel like I'm spouting a bunch of BS with this job, and I get it, you help solve customer cases and answer their questions but I'm literally brain dead and the answers I give are subpar. Also talking on chat and on the phone constantly is draining when you don't know what you're even saying. It would be different if I knew what I was doing.</p>
+                                <p>
+                                    I sense PIP coming lol, but it's okay because I really want to get out of the customer support help desk role.
+                                </p>
+                                <p>
+                                    If it get PIPed and then laid off, do they offer a severance package? Would I have to pay back the sign on bonus since it's only been like 5 months since I last started.
+                                </p>
+                            </div>
+
+                        </div>
+
                     </div>
-                    <div class="flex items-center">
-                        <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md">  Category:   </div>
-                        <input type="text" class="with-border" placeholder="">
+
+                    <!-- related articles -->
+
+                    <div class="card p-6">
+
+                        <h1 class="block text-lg font-semibold mb-4"> Comments (12) </h1>
+
+                        <div class="space-y-5">
+
+                            <div class="flex gap-x-4 relative rounded-md">
+                                <img src="assets/images/avatars/avatar-4.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <a href="#" class="bg-gray-100 py-1.5 px-4 rounded-full absolute right-5 top-0">Replay</a>
+                                <div>
+                                    <h4 class="text-base m-0 font-semibold"> Steven Tai</h4>
+                                    <span class="text-gray-700 text-sm">10th, April 2021</span>
+                                    <p class="mt-3 md:ml-0 -ml-16">
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam ut laoreet dolore
+                                        magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+                                        ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <div class="flex gap-x-4 relative rounded-md">
+                                <a href="#" class="bg-gray-100 py-1.5 px-4 rounded-full absolute right-5 top-0">Replay</a>
+                                <img src="assets/images/avatars/avatar-3.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <div>
+                                    <h4 class="text-base m-0 font-semibold"> Sammy Ka</h4>
+                                    <span class="text-gray-700 text-sm"> 14th, April 2021 </span>
+                                    <p class="mt-3 md:ml-0 -ml-16">
+                                        elit, sed diam ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim ipsum dolor sit
+                                        amet, consectetuer adipiscing elit, sed diam ut laoreet dolore
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-x-4 relative rounded-md lg:ml-16">
+                                <a href="#" class="bg-gray-100 py-1.5 px-4 rounded-full absolute right-5 top-0">Replay</a>
+                                <img src="assets/images/avatars/avatar-1.jpg" alt="" class="rounded-full shadow w-12 h-12">
+                                <div>
+                                    <h4 class="text-base m-0 font-semibold"> Steven Tai</h4>
+                                    <span class="text-gray-700 text-sm"> 13th, May 2021 </span>
+                                    <p class="mt-3 md:ml-0 -ml-16">
+                                        elit, sed diam ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim ipsum dolor sit
+                                        amet, consectetuer adipiscing elit, sed diam ut laoreet dolore
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="flex justify-center mt-9">
+                            <a href="#" class="bg-gray-50 border hover:bg-gray-100 px-4 py-1.5 rounded-full text-sm">More Comments ..</a>
+                        </div>
+
                     </div>
-                    <div class="line h-32">
-                        <textarea class="line__input h-32" name="" type="text" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off"></textarea>
-                        <span for="username" class="line__placeholder"> Page description </span>
-                    </div>
+
 
                 </div>
+                <div class="lg:w-1/4 w-full">
 
-                <!-- form footer -->
-                <div class="border-t flex justify-content-center align-items-center lg:space-x-10 p-7 bg-gray-50 rounded-b-md">
-                    <button type="button" class="button lg:w-1/2">
-                        Create Now
-                    </button>
+                    <div uk-sticky="offset:100" class="uk-sticky">
+
+                        <h2 class="text-lg font-semibold mb-3"> Recently Posted </h2>
+                        <ul>
+                            <li>
+                                <a href="#" class="hover:bg-gray-100 rounded-md p-2 -mx-2 block">
+                                    <h3 class="font-medium line-clamp-2"> Manager forcing not to take paternal leave </h3>
+                                    <div class="flex items-center my-auto text-xs space-x-1.5">
+                                        <div> Sep 12, 2020</div> <div class="pb-1"> . </div>
+                                        <ion-icon name="chatbox-ellipses-outline"></ion-icon> <div> 23</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:bg-gray-100 rounded-md p-2 -mx-2 block">
+                                    <h3 class="font-medium line-clamp-2">  Capital One Lay offs?</h3>
+                                    <div class="flex items-center my-auto text-xs space-x-1.5">
+                                        <div> Sep 12, 2020</div> <div class="pb-1"> . </div>
+                                        <ion-icon name="chatbox-ellipses-outline"></ion-icon> <div> 23</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:bg-gray-100 rounded-md p-2 -mx-2 block">
+                                    <h3 class="font-medium line-clamp-2">Homestead Exemption on property tax in CA</h3>
+                                    <div class="flex items-center my-auto text-xs space-x-1.5">
+                                        <div> Sep 12, 2020</div> <div class="pb-1"> . </div>
+                                        <ion-icon name="chatbox-ellipses-outline"></ion-icon> <div> 23</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:bg-gray-100 rounded-md p-2 -mx-2 block">
+                                    <h3 class="font-medium line-clamp-2">Equity for tech sales rep - A series cloud sec 50m </h3>
+                                    <div class="flex items-center my-auto text-xs space-x-1.5">
+                                        <div> Sep 12, 2020</div> <div class="pb-1"> . </div>
+                                        <ion-icon name="chatbox-ellipses-outline"></ion-icon> <div> 23</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+
                 </div>
 
             </div>
@@ -338,52 +350,6 @@
 
 </div>
 
-<!-- Create new album -->
-
-<!--<div id="offcanvas-create" uk-offcanvas="flip: true; overlay: true">
-    <div class="uk-offcanvas-bar lg:w-4/12 w-full dark:bg-gray-700 dark:text-gray-300 p-0 bg-white flex flex-col justify-center">
-
-        <button class="uk-offcanvas-close absolute" type="button" uk-close></button>
-
-        &lt;!&ndash; notivication header &ndash;&gt;
-        <div class="-mb-1 border-b font-semibold px-5 py-5 text-lg">
-            <h4> Create album </h4>
-        </div>
-
-        <div class="p-6 space-y-3 flex-1">
-            <div>
-                <label> Album Name  </label>
-                <input type="text" class="with-border" placeholder="">
-            </div>
-            <div>
-                <label> Visibilty   </label>
-                <select id="" name=""  class="shadow-none selectpicker with-border">
-                    <option data-icon="uil-bullseye"> Private </option>
-                    <option data-icon="uil-chat-bubble-user">My Following</option>
-                    <option data-icon="uil-layer-group-slash">Unlisted</option>
-                    <option data-icon="uil-globe" selected>Puplic</option>
-                </select>
-            </div>
-            <div uk-form-custom class="w-full py-3">
-                <div class="bg-gray-100 border-2 border-dashed flex flex-col h-32 items-center justify-center relative w-full rounded-lg dark:bg-gray-800 dark:border-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
-                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                        <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                    </svg>
-                </div>
-                <input type="file">
-            </div>
-
-        </div>
-        <div class="p-5">
-            <button type="button"  class="button w-full">
-                Create Now
-            </button>
-        </div>
-
-
-    </div>
-</div>-->
 
 
 <!-- open chat box -->
@@ -468,7 +434,7 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Alex Dolgove</div>
+                    <div class="contact-username"> Sammy Ka</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -488,14 +454,14 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Stella Johnson</div>
+                    <div class="contact-username">Steven Tai</div>
                 </a>
 
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Adrian Mohani </div>
+                    <div class="contact-username">Doris Logue </div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -525,7 +491,7 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Alex Dolgove</div>
+                    <div class="contact-username"> Sammy Ka</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -545,14 +511,14 @@
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Stella Johnson</div>
+                    <div class="contact-username">Steven Tai</div>
                 </a>
 
                 <a href="chats-group.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Adrian Mohani </div>
+                    <div class="contact-username">Doris Logue </div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -631,5 +597,5 @@
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/create-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:20:14 GMT -->
+<!-- Mirrored from demo.foxthemes.net/socialitev2.2/blog-read.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:21:06 GMT -->
 </html>

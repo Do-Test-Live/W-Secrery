@@ -2,4 +2,4 @@
 
 $con=mysqli_connect("localhost","root","","secrery") or die("Could not Connect My Sql");
 
-/*$con=mysqli_connect("localhost","u727820269_xmvapp","C0iRn8:&","u727820269_xmvapp") or die("Could not Connect My Sql");*/
+/*$con=mysqli_connect("localhost","u727820269_secrery","cp/C6+fQ","u727820269_secrery") or die("Could not Connect My Sql");*/

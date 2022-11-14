@@ -112,7 +112,7 @@ if (isset($_POST['register'])) {
 
             <div class="flex items-center lg:justify-between justify-around">
 
-                <a href="#">
+                <a href="index.php">
                     <h2 class="text-2xl font-semibold"> Secrery </h2>
                 </a>
 

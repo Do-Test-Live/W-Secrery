@@ -75,8 +75,8 @@ if (isset($_POST['submit'])){
     
                     <div class="flex items-center lg:justify-between justify-around">
     
-                        <a href="trending.html">
-                            <img src="assets/images/logo.png" alt="" class="w-32">
+                        <a href="index.php">
+                            <h2 class="text-2xl font-semibold"> Secrery </h2>
                         </a>
     
                         <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
@@ -129,14 +129,8 @@ if (isset($_POST['submit'])){
             <!-- Footer -->
     
             <div class="lg:mb-5 py-3 uk-link-reset">
-                <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                    <div class="flex space-x-2 text-gray-700 uppercase">
-                        <a href="#"> About</a>
-                        <a href="#"> Help</a>
-                        <a href="#"> Terms</a>
-                        <a href="#"> Privacy</a>
-                    </div>
-                    <p class="capitalize"> © copyright 2020 by Socialite</p>
+                <div class="flex justify-content-center align-items-center lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+                    <p class="capitalize"> © copyright 2020 by Secrery</p>
                 </div>
             </div>
     

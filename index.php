@@ -58,43 +58,7 @@ session_start();
                 <div class="header_search"><i class="uil-search-alt"></i>
                     <input value="" type="text" class="form-control"
                            placeholder="Search for Friends , Videos and more.." autocomplete="off">
-                    <div uk-drop="mode: click" class="header_search_dropdown">
-
-                        <h4 class="search_title"> Recently </h4>
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-1.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Erica Jones</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Coffee Addicts</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-3.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Mountain Riders</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-4.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Property Rent And Sale</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img src="assets/images/avatars/avatar-5.jpg" alt="" class="list-avatar">
-                                    <div class="list-name"> Erica Jones</div>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div>
+                    <!-- -->
                 </div>
                 <?php
                 include ("include/head_right.php");
@@ -117,56 +81,26 @@ session_start();
                     <span> Feed </span> </a>
                 </li>
 
-                <li><a href="companies.html">
+                <li><a href="companies.php">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                          class="text-blue-500">
                         <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
                     </svg>
                     <span> Companies </span></a>
                 </li>
-                <!-- <li><a href="jobs.html">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                          class="text-pink-500">
-                         <path fill-rule="evenodd"
-                               d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                               clip-rule="evenodd"/>
-                         <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
-                     </svg>
-                     <span> Salary </span> </a>
-                 </li>-->
-                <!--<li><a href="#">
-                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                    <span> Chat </span> </a>
-                </li>-->
-
-
-                <!--<a href="#" class="see-mover h-10 flex my-1 pl-2 rounded-xl text-gray-600" uk-toggle="target: #more-veiw; animation: uk-animation-fade">
-                    <span class="w-full flex items-center" id="more-veiw">
-                        <svg class="  bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        See More
-                    </span>
-                    <span class="w-full flex items-center" id="more-veiw" hidden>
-                        <svg  class="bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7"  fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                        See Less
-                    </span>
-                </a>-->
 
                 <!--industry section starts-->
                 <h3 class="side-title"> Industries </h3>
 
                 <div class="contact-list my-2 ml-1">
 
-                    <a href="tech.html">
+                    <a href="tech.php">
                         <div class="contact-avatar">
                             <img src="assets/images/icons/technology.jpg" alt="">
                         </div>
                         <div class="contact-username"> Tech</div>
                     </a>
-                    <a href="finance.html">
+                    <a href="finance.php">
                         <div class="contact-avatar">
                             <img src="assets/images/icons/finance.jpg" alt="">
                             <span class="user_status"></span>
@@ -251,7 +185,7 @@ session_start();
                             <div class="flex items-start space-x-5 p-7">
                                 <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-12 h-12 rounded-full">
                                 <div class="flex-1">
-                                    <a href="blog_detail.html" class="text-lg font-semibold line-clamp-1 mb-1"> How do
+                                    <a href="blog_detail.php" class="text-lg font-semibold line-clamp-1 mb-1"> How do
                                         you know AWS is
                                         planning on laying you off? Do they give severance? </a>
                                     <p class="text-sm text-gray-400 mb-2"><span data-href="%40 .html"> </span>
