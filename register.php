@@ -1,20 +1,20 @@
 <?php
 include("config/dbconfig.php");
 $value = 0;
+/*register code*/
 if (isset($_POST['register'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
-    $domain_name = mysqli_real_escape_string($con, $_POST['domain_name']);
+    $c_domain_id = mysqli_real_escape_string($con, $_POST['c_domain_id']);
     $dob = mysqli_real_escape_string($con, $_POST['dob']);
-    $company = mysqli_real_escape_string($con, $_POST['company']);
     $industry = mysqli_real_escape_string($con, $_POST['industry']);
     $position = mysqli_real_escape_string($con, $_POST['position']);
     $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $v_code = rand(100000, 999999);
     $data = $con->query("select `email` from `user` where `email` = '$email'");
     if ($data->num_rows == 0) {
-        $query = $con->query("INSERT INTO `user`(`email`, `industry`, `position`, `company`, `domain_name`, `dob`, `gender`,`vcode`)  VALUES ('$email','$industry','$position','$company','$domain_name','$dob','$gender','$v_code')");
+        $query = $con->query("INSERT INTO `user`(`email`, `industry`, `position`, `dob`, `gender`,`vcode`,`c_domain_id`)  VALUES ('$email','$industry','$position','$dob','$gender','$v_code','$c_domain_id')");
         if ($query) {
-            $email_to = $email;
+            /*$email_to = $email;
             $subject = 'Verify your email.';
 
 
@@ -41,7 +41,10 @@ if (isset($_POST['register'])) {
                 session_start();
                 $_SESSION["email"] = $email;
                 Header("Location: email_verify.php");
-            }
+            }*/
+            session_start();
+            $_SESSION["email"] = $email;
+            header("Location: email_verify.php");
         } else {
             echo "something went wrong";
             $value = 1;
@@ -50,6 +53,21 @@ if (isset($_POST['register'])) {
     } else {
         $value = 2;
     }
+}
+
+if (isset($_POST['add_company'])){
+    $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
+    $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
+    $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
+    if($verify -> num_rows == 0){
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`) VALUES ('$company_name','$company_domain')");
+        if($insert_company){
+            $value = 3;
+        }else{
+            $value = 1;
+        }
+    }
+
 }
 
 ?>
@@ -69,6 +87,7 @@ if (isset($_POST['register'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Socialite is - Professional A unique and beautiful collection of UI elements">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- icons
     ================================================== -->
@@ -90,6 +109,9 @@ if (isset($_POST['register'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     <style>
         input, .bootstrap-select.btn-group button {
@@ -141,51 +163,54 @@ if (isset($_POST['register'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <?php
+            }elseif ($value == 3){
+            ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Congratulation!</strong> Company has been added successfully.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
             }
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Register </h1>
+
+                <div>
+                    <label class="mb-0">Select Your Company Domain </label>
+                    <select class="js-example-basic-single" name="c_domain_id">
+                        <?php
+                        $query = $con->query("select `id`,`domain_name` from `company_domain`");
+                        if($query->num_rows > 0){
+                            while($row = $query->fetch_assoc()){
+                                ?>
+                                <option value="<?php echo $row['id'];?>"><?php echo $row['domain_name']?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
+                    <p> Can't find your Company Domain?<a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Add Company
+                    </a></p>
+                </div>
                 <div>
                     <label class="mb-0"> Email Address</label>
                     <input type="email" name="email" placeholder="Your Company Email" required
                            class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
-                <div>
-                    <label class="mb-0"> Domain Name </label>
-                    <input type="text" name="domain_name" placeholder="Domain Name" required
-                           class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
-                </div>
-                <div>
-                    <label class="mb-0"> Date of Birth </label>
-                    <input type="date" name="dob" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                </div>
                 <div class="grid lg:grid-cols-2 gap-3">
                     <div>
-                        <label class="mb-0"> Company Name </label>
-                        <input type="text" name="company" list="company"
-                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                        <datalist id="company">
-                            <option>Volvo</option>
-                            <option>Saab</option>
-                            <option>Mercedes</option>
-                            <option>Audi</option>
-                        </datalist>
+                        <label class="mb-0"> Date of Birth </label>
+                        <input type="date" name="dob" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
                     </div>
                     <div>
-                        <label class="mb-0"> Industry </label>
-                        <input type="text" name="industry" list="industry"
+                        <label class="mb-0"> Gender </label>
+                        <input type="text" name="gender" list="gender"
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                        <datalist id="industry">
-                            <option>Tech</option>
-                            <option>Finance</option>
-                            <option>Hardware and Semiconductor</option>
-                            <option>E-Commerce and Retail</option>
-                            <option>Gaming</option>
-                            <option>Auto</option>
-                            <option>Media and Entertainment</option>
-                            <option>Telecom</option>
-                            <option>Health</option>
-                            <option>Aviation</option>
+                        <datalist id="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Others</option>
                         </datalist>
                     </div>
                 </div>
@@ -217,15 +242,22 @@ if (isset($_POST['register'])) {
                         </datalist>
                     </div>
                     <div>
-                        <label class="mb-0"> Gender </label>
-                        <input type="text" name="gender" list="gender"
-                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                        <datalist id="gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
-                        </datalist>
+                        <label class="mb-0"> Industry </label>
+                        <select class="js-example-basic-single" name="industry" required>
+                            <option value=" ">Choose Your Industry</option>
+                            <?php
+                            $query = $con->query("select `industry` from `industry`");
+                            if($query->num_rows > 0){
+                                while($row = $query->fetch_assoc()){
+                                    ?>
+                                    <option value="<?php echo $row['id'];?>"><?php echo $row['industry']?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
+
                 </div>
 
 
@@ -242,6 +274,7 @@ if (isset($_POST['register'])) {
                     </button>
                 </div>
             </form>
+            <p class="flex align-items-center justify-content-center">Already have an account? <a href="login.php"> Log In</a></p>
 
 
         </div>
@@ -257,9 +290,41 @@ if (isset($_POST['register'])) {
 
 </div>
 
+<!--company add form-->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Company</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
+                    <div>
+                        <label class="mb-0"> Company Name</label>
+                        <input type="text" name="company_name" placeholder="Your Company Name" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Company Domain</label>
+                        <input type="text" name="company_domain" placeholder="Your Company Name" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <button type="submit" name="add_company"
+                                class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
+                            Add Company
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- For Night mode -->
-<script>
+<!--<script>
     (function (window, document, undefined) {
         'use strict';
         if (!('localStorage' in window)) return;
@@ -292,16 +357,21 @@ if (isset($_POST['register'])) {
         }, false);
 
     })(window, document);
-</script>
+</script>-->
 
 <!-- Javascript
 ================================================== -->
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
 <script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>
-<script src="assets/js/custom.js"></script>
+<!--<script src="assets/js/custom.js"></script>-->
 <script src="assets/js/bootstrap-select.min.js"></script>
 <script src="unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
 

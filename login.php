@@ -122,6 +122,7 @@ if (isset($_POST['submit'])){
                                 Get Started</button>
                         </div>
                     </form>
+                    <p class="flex align-items-center justify-content-center">Don't have an account? <a href="register.php"> Sign Up</a></p>
  
                 </div>
             </div>

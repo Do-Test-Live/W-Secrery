@@ -27,6 +27,7 @@ session_start();
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="assets/css/toastr.min.css" rel="stylesheet">
 
 
 </head>
@@ -715,6 +716,8 @@ session_start();
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/bootstrap-select.min.js"></script>
 <script src="unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+    <script src="assets/js/toastr.min.js"></script>
+    <script src="assets/js/toastr-init.js"></script>
 
 </body>
 
