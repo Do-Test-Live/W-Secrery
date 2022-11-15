@@ -18,7 +18,7 @@ if (isset($_POST['register'])) {
             $subject = 'Verify your email.';
 
 
-            $headers = "From: Secrery <info@daycaredeviser.com>\r\n";
+            $headers = "From: Secrery <mingowhk@gmail.com>\r\n";
             $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
             $messege = "
