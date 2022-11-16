@@ -1,5 +1,6 @@
 <?php
 session_start();
+include ("config/dbconfig.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,73 +92,7 @@ session_start();
                 </li>
 
                 <!--industry section starts-->
-                <h3 class="side-title"> Industries </h3>
-
-                <div class="contact-list my-2 ml-1">
-
-                    <a href="tech.php">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/technology.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Tech</div>
-                    </a>
-                    <a href="finance.php">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/finance.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Finance</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/hardware.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Hardware & Semiconductor</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/E-Commerce%20&%20Retail.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> E-Commerce & Retail</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/Gaming.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Gaming</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/auto.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Auto</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/social-media.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Media & Entertainment</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/telecommunications.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Telecom</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/healthcare.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Health</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/Aviation.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Aviation</div>
-                    </a>
-
-                </div>
+                <?php include ("include/industry_menu.php");?>
                 <!--industry section ends-->
 
         </div>

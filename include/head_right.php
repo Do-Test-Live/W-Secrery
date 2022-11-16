@@ -1,34 +1,50 @@
 <?php
 if (isset($_SESSION["email"])) {
+    $email = $_SESSION["email"];
+    $query = $con->query("select `f_name`, `l_name`,`image` from `user` where `email` = '$email'");
+    if ($query->num_rows == 1) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $fname = $row['f_name'];
+            $lname = $row['l_name'];
+            $image = $row['image'];
+        }
+    }
     ?>
     <div class="right_side">
 
         <div class="header_widgets">
 
             <a href="#">
-                <img src="assets/images/avatars/avatar-2.jpg" class="is_avatar" alt="">
+                <img src="assets/images/user/<?php echo $image; ?>" class="is_avatar" alt="">
             </a>
             <div uk-drop="mode: click;offset:5" class="header_dropdown profile_dropdown">
 
                 <a href="#" class="user">
                     <div class="user_avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
+                        <img src="assets/images/user/<?php echo $image; ?>" alt="">
                     </div>
                     <div class="user_name">
-                        <div> Steven Tai</div>
-                        <span>@zheng</span>
+                        <div> <?php echo $fname ?> <?php echo $lname ?></div>
+                        <span>@<?php echo $lname ?></span>
                     </div>
                 </a>
                 <hr>
-                <a href="#">
+                <a href="edit_profile.php">
                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                               d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
                               clip-rule="evenodd"></path>
                     </svg>
-                    My Account
+                    Update Info
                 </a>
-                <a href="add_post.html">
+                <a href="company_update.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                        <path d="M352 320c88.4 0 160-71.6 160-160c0-15.3-2.2-30.1-6.2-44.2c-3.1-10.8-16.4-13.2-24.3-5.3l-76.8 76.8c-3 3-7.1 4.7-11.3 4.7H336c-8.8 0-16-7.2-16-16V118.6c0-4.2 1.7-8.3 4.7-11.3l76.8-76.8c7.9-7.9 5.4-21.2-5.3-24.3C382.1 2.2 367.3 0 352 0C263.6 0 192 71.6 192 160c0 19.1 3.4 37.5 9.5 54.5L19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L297.5 310.5c17 6.2 35.4 9.5 54.5 9.5zM80 456c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/>
+                    </svg>
+                    Update Company Info
+                </a>
+                <a href="add_post.php">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"

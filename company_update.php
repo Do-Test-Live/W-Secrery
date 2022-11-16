@@ -1,8 +1,53 @@
 <?php
 session_start();
+$email = $_SESSION["email"];
 include ("config/dbconfig.php");
-?>
+$query = $con->query("select `c_domain_id` from `user` where `email` = '$email'");
+if($query->num_rows == 1){
+    while($row = mysqli_fetch_assoc($query)){
+        $company_id = $row['c_domain_id'];
+    }
+}
+$result = 0;
+if (isset($_POST['update_info'])){
+    $c_location = mysqli_real_escape_string($con, $_POST['c_location']);
+    $experience = mysqli_real_escape_string($con, $_POST['experience']);
+    $working_hours = mysqli_real_escape_string($con, $_POST['working_hours']);
+    $working_days = mysqli_real_escape_string($con, $_POST['working_days']);
+    $salary = mysqli_real_escape_string($con, $_POST['salary']);
+    $hours = mysqli_real_escape_string($con, $_POST['hours']);
+    $promotion = mysqli_real_escape_string($con, $_POST['promotion']);
+    $happiness = mysqli_real_escape_string($con, $_POST['happiness']);
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+    $monthly_income = mysqli_real_escape_string($con, $_POST['monthly_income']);
+    $employee = mysqli_real_escape_string($con, $_POST['employee']);
+    $c_image = $_FILES['c_image']['name'];
+    $c_image_temp=$_FILES['c_image']['tmp_name'];
 
+    if($c_image_temp != "")
+    {
+        move_uploaded_file($c_image_temp , "assets/images/company/$c_image");
+        $c_update=$con->query("UPDATE `company_domain` SET `description`='$description',`salary`='$salary',`hours`='$hours',
+                            `promotion`='$promotion',`happiness`='$happiness',`experience`='$experience',`monthly_income`='$monthly_income',`location`='$c_location',`working_hour`='$working_hours',`working_day`='$working_days',
+                            `image`='$c_image',`employee`='$employee' WHERE `id` = '$company_id'");
+        if($c_update){
+            $result = 1;
+        }else{
+            $result = 2;
+        }
+    }else
+    {
+        $c_update=$con->query("UPDATE `company_domain` SET `description`='$description',`salary`='$salary',`hours`='$hours',
+                            `promotion`='$promotion',`happiness`='$happiness',`experience`='$experience',`monthly_income`='$monthly_income',`location`='$c_location',`working_hour`='$working_hours',`working_day`='$working_days',`employee`='$employee' WHERE `id` = '$company_id'");
+        if($c_update){
+            $result = 1;
+        }else{
+            $result = 2;
+        }
+    }
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,17 +63,23 @@ include ("config/dbconfig.php");
     <title>Secrery</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Secrery">
+    <meta name="description" content="Socialite is - Professional A unique and beautiful collection of UI elements">
 
     <!-- icons
     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
-    <!-- CSS 
+    <!-- CSS
     ================================================== -->
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
 
 </head>
@@ -44,8 +95,8 @@ include ("config/dbconfig.php");
                 <div class="left_side">
                         <span class="slide_menu" uk-toggle="target: #wrapper ; cls: is-collapse is-active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path
-                                        d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"
-                                        fill="currentColor"></path></svg>
+                                    d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"
+                                    fill="currentColor"></path></svg>
                         </span>
                     <div id="logo">
                         <a href="#">
@@ -61,9 +112,8 @@ include ("config/dbconfig.php");
                 <div class="header_search"><i class="uil-search-alt"></i>
                     <input value="" type="text" class="form-control"
                            placeholder="Search for Friends , Videos and more.." autocomplete="off">
-
+                    <!-- -->
                 </div>
-
                 <?php
                 include("include/head_right.php");
                 ?>
@@ -94,7 +144,7 @@ include ("config/dbconfig.php");
                 </li>
 
                 <!--industry section starts-->
-                <?php include ("include/industry_menu.php");?>
+                <?php include("include/industry_menu.php"); ?>
                 <!--industry section ends-->
 
         </div>
@@ -107,204 +157,96 @@ include ("config/dbconfig.php");
     <!-- Main Contents -->
     <div class="main_content">
         <div class="mcontainer">
+            <div class="grid lg:grid-cols-3 mt-12 gap-8">
+                <div class="bg-white rounded-md lg:shadow-md shadow col-span-2 lg:mx-16">
+                    <?php
+                    if ($result == 1){
+                        ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Congratulation!</strong> Company information updated successfully.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    }elseif ($result == 2){
+                        ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Sorry!</strong> Something went wrong!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        <h1 class="lg:text-2xl text-xl font-semibold mb-6 flex align-items-center justify-content-center" style="margin-top: 20px"> Provide Feedback for Company </h1>
+                        <div class="grid lg:p-6 p-4">
 
-            <div class="flex justify-between relative md:mb-4 mb-3">
-                <div class="flex-1">
-                    <h2 class="text-2xl font-semibold"> Companies </h2>
-                </div>
-            </div>
-
-            <div class="relative" uk-slider="finite: true">
-
-                <div class="uk-slider-container px-1 py-3">
-                    <ul class="uk-slider-items uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
-
-                        <!--fetch company from database-->
-                        <?php include ("include/fetch_company.php");?>
-
-                    </ul>
-
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -left-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="previous"> <i class="icon-feather-chevron-left"></i></a>
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -right-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="next"> <i class="icon-feather-chevron-right"></i></a>
-
-                </div>
-            </div>
-
-
-        </div>
-        <div class="mcontainer">
-            <div class="flex justify-between relative md:mb-4 mb-3">
-                <div class="flex-1">
-                    <h2 class="text-2xl font-semibold"> Popular </h2>
-                </div>
-            </div>
-
-            <div class="relative" uk-slider="finite: true">
-
-                <div class="uk-slider-container px-1 py-3">
-                    <ul class="uk-slider-items uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
-
-                        <li>
-                            <div class="card">
-                                <div class="card-media h-28">
-                                    <div class="card-media-overly"></div>
-                                    <img src="assets/images/group/group-cover-1.jpg" alt="" class="">
-
-                                    <div class="absolute bg-red-100 font-semibold px-2.5 py-1 rounded-lg text-red-500 text-xs top-2.5 left-2.5">
-                                        Trend
+                            <?php
+                            $query = $con->query("select * from `company_domain` where `id` = '$company_id'");
+                            if($query->num_rows > 0){
+                                while($row = mysqli_fetch_assoc($query)){
+                                    ?>
+                                    <div>
+                                        <label for="">Location of Company (Ex: Road, State, City)</label>
+                                        <input type="text" name="c_location" value="<?php echo $row['location'];?>" class="shadow-none with-border" required>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <a href="#" class="font-semibold text-lg truncate"> Salary, a full-time Chinese
-                                        teacher at Wise Children Education Centre </a>
-                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                        <a href="#"> <span> 200 members </span> </a>
-                                        <a href="#"> <span> 1.8/10 </span> </a>
+                                    <div>
+                                        <label for="">No. of Employee</label>
+                                        <input type="text" name="employee" value="<?php echo $row['employee'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                        <a href="#"
-                                           class="bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize">
-                                            Join
-                                        </a>
-                                        <a href="company_details.php"
-                                           class="bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize">
-                                            View
-                                        </a>
+                                    <div>
+                                        <label for=""> Years of Experience</label>
+                                        <input type="text" name="experience" value="<?php echo $row['experience'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="card">
-                                <div class="card-media h-28">
-                                    <div class="card-media-overly"></div>
-                                    <img src="assets/images/group/group-cover-2.jpg" alt="" class="">
-
-                                    <div class="absolute bg-red-100 font-semibold px-2.5 py-1 rounded-lg text-red-500 text-xs top-2.5 left-2.5">
-                                        Trend
+                                    <div>
+                                        <label for=""> Approximate Monthly Income </label>
+                                        <input type="text" name="monthly_income" value="<?php echo $row['monthly_income'];?>" class="shadow-none with-border" required>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <a href="#" class="font-semibold text-lg truncate"> Wise Children Education Center
-                                        Salary income </a>
-                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                        <a href="#"> <span> 350 members </span> </a>
-                                        <a href="#"> <span> 5.6/10 </span> </a>
+                                    <div>
+                                        <label for="">Working Hours (Ex: 9am to 5pm)</label>
+                                        <input type="text" name="working_hours" value="<?php echo $row['working_hour'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                        <a href="#"
-                                           class="bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize">
-                                            Join
-                                        </a>
-                                        <a href="#"
-                                           class="bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize">
-                                            View
-                                        </a>
+                                    <div>
+                                        <label for="">Working Days (Per Week)</label>
+                                        <input type="text" name="working_days" value="<?php echo $row['working_day'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="card">
-                                <div class="card-media h-28">
-                                    <div class="card-media-overly"></div>
-                                    <img src="assets/images/group/group-cover-3.jpg" alt="" class="">
-                                </div>
-                                <div class="card-body">
-                                    <a href="#" class="font-semibold text-lg truncate"> BOCI BOCI Analyst Salary
-                                        Income </a>
-                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                        <a href="#"> <span> 100 members </span> </a>
-                                        <a href="#"> <span> 2.2/10 </span> </a>
+                                    <div>
+                                        <label for="">Rate Income/Salary (Between 1 to 10)</label>
+                                        <input type="number" name="salary" value="<?php echo $row['salary'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                        <a href="#"
-                                           class="bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize">
-                                            Join
-                                        </a>
-                                        <a href="#"
-                                           class="bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize">
-                                            View
-                                        </a>
+                                    <div>
+                                        <label for="">Rate Working Hours (Between 1 to 10)</label>
+                                        <input type="number" name="hours" value="<?php echo $row['hours'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="card">
-                                <div class="card-media h-28">
-                                    <div class="card-media-overly"></div>
-                                    <img src="assets/images/group/group-cover-4.jpg" alt="" class="">
-                                </div>
-                                <div class="card-body">
-                                    <a href="#" class="font-semibold text-lg truncate"> FTW & Partners CPA Limited
-                                        Accounting Clerk Salary Income </a>
-                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                        <a href="#"> <span> 50 members </span> </a>
-                                        <a href="#"> <span> 1.2/10 </span> </a>
+                                    <div>
+                                        <label for="">Rate Promotion Prospect (Between 1 to 10)</label>
+                                        <input type="number" name="promotion" value="<?php echo $row['promotion'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                        <a href="#"
-                                           class="bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize">
-                                            Join
-                                        </a>
-                                        <a href="#"
-                                           class="bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize">
-                                            View
-                                        </a>
+                                    <div>
+                                        <label for="">Overall Satisfaction (Between 1 to 10)</label>
+                                        <input type="number" name="happiness" value="<?php echo $row['happiness'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="card">
-                                <div class="card-media h-28">
-                                    <div class="card-media-overly"></div>
-                                    <img src="assets/images/group/group-cover-1.jpg" alt="" class="">
-                                </div>
-                                <div class="card-body">
-                                    <a href="#" class="font-semibold text-lg truncate"> Prudential Prudential Assistant
-                                        Manager Salary Income </a>
-                                    <div class="flex items-center flex-wrap space-x-1 mt-1 text-sm text-gray-500 capitalize">
-                                        <a href="#"> <span> 500 members </span> </a>
-                                        <a href="#"> <span> 1.8/10 </span> </a>
+                                    <div>
+                                        <label for="">Add Company Cover</label>
+                                        <input type="file" name="c_image" class="shadow-none with-border">
                                     </div>
-
-                                    <div class="flex mt-3.5 space-x-2 text-sm font-medium">
-                                        <a href="#"
-                                           class="bg-blue-600 flex flex-1 h-8 items-center justify-center rounded-md text-white capitalize">
-                                            Join
-                                        </a>
-                                        <a href="#"
-                                           class="bg-gray-200 flex flex-1 h-8 items-center justify-center rounded-md capitalize">
-                                            View
-                                        </a>
+                                    <div>
+                                        <label for="">Write Company Description</label>
+                                        <input type="text" name="description" value="<?php echo $row['description'];?>" class="shadow-none with-border" required>
                                     </div>
-
-                                </div>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -left-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="previous"> <i class="icon-feather-chevron-left"></i></a>
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -right-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="next"> <i class="icon-feather-chevron-right"></i></a>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                        <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                            <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel</button>
+                            <button type="submit" name="update_info" class="button bg-blue-700"> Save</button>
+                        </div>
+                    </form>
 
                 </div>
-            </div>
 
+            </div>
 
         </div>
     </div>
@@ -313,11 +255,12 @@ include ("config/dbconfig.php");
 
 
 <!-- open chat box -->
-<!--<div uk-toggle="target: #offcanvas-chat" class="start-chat">
+<div uk-toggle="target: #offcanvas-chat" class="start-chat">
     <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
     </svg>
-</div>-->
+</div>
 
 <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
     <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
@@ -402,7 +345,7 @@ include ("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -422,14 +365,14 @@ include ("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue</div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -459,7 +402,7 @@ include ("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -479,14 +422,14 @@ include ("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-group.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue</div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -515,6 +458,7 @@ include ("config/dbconfig.php");
         </div>
     </div>
 </div>
+
 
 <!-- For Night mode -->
 <script>
@@ -565,5 +509,4 @@ include ("config/dbconfig.php");
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/companies.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:18:19 GMT -->
 </html>
