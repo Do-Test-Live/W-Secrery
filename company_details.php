@@ -2,7 +2,10 @@
 session_start();
 include("config/dbconfig.php");
 $company_id = $_GET['id'];
-$email = $_SESSION["email"];
+if(isset($_SESSION['email'])){
+    $email = $_SESSION["email"];
+}
+
 $query = $con->query("select * from `company_domain` where `id` = '$company_id'");
 if ($query->num_rows == 1) {
     while ($row = mysqli_fetch_assoc($query)) {
@@ -26,7 +29,6 @@ if ($query->num_rows == 1) {
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/course-intro.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:21:02 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -50,6 +52,7 @@ if ($query->num_rows == 1) {
     <link href="assets/css/uikit.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 
 
 </head>
@@ -139,7 +142,7 @@ if ($query->num_rows == 1) {
                             <h1 class="font-semibold text-3xl"><?php echo $company_name ?></h1>
                             <ul class="flex  gap-4">
                                 <li class="flex items-center">
-                                    <span class="bg-yellow-500 text-white mr-1.5 px-2 rounded font-semibold"> <?php echo $review;?> </span>
+                                    <span class="bg-yellow-500 text-white mr-1.5 px-2 rounded font-semibold"> <?php echo $review; ?> </span>
                                 </li>
                                 <li><i class="icon-feather-users"></i> <?php echo $employee; ?></li>
                             </ul>
@@ -155,8 +158,22 @@ if ($query->num_rows == 1) {
                             <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
                                 <li><a class="lg:px-2" href="#">Overview</a></li>
                                 <li><a class="lg:px-2" href="#">Post</a></li>
-                                <li><a class="lg:px-2" href="#">Channel</a></li>
                                 <li><a class="lg:px-2" href="#">Faq</a></li>
+                                <?php
+                                if (isset($_SESSION['email'])) {
+                                    $query = $con->query("select `c_domain_id`,`email` from `user` where `email` = '$email'");
+                                    if ($query->num_rows == 1) {
+                                        while ($result = mysqli_fetch_assoc($query)) {
+                                            $id = $result['c_domain_id'];
+                                        }
+                                    }
+                                    if ($id == $company_id) {
+                                        ?>
+                                        <li><a class="lg:px-2" href="#">Channel</a></li>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </ul>
                         </nav>
 
@@ -166,242 +183,15 @@ if ($query->num_rows == 1) {
 
 
                                 <!-- Overview -->
-                                <div>
-                                    <div class="md:flex md:space-x-14">
-                                        <div class="lg:mt-9 mt-5">
-
-                                            <!-- course description -->
-                                            <div class="space-y-5">
-                                                <div>
-                                                    <h3 class="font-semibold mb-2 text-xl"> Description </h3>
-                                                    <p>
-                                                        <?php echo $description; ?>
-                                                    </p>
-                                                </div>
-
-                                                <!-- course Reviews -->
-                                                <div class="flex space-x-5 my-8" id="reviews">
-                                                    <div class="w-full">
-                                                        <div class="bg-blue-100 p-4 rounded-md border border-blue-200 text-center shadow-xs">
-                                                            <h1 class="leading-none text-6xl"> <?php echo $review; ?></h1>
-                                                            <div class="flex justify-center">
-                                                                <?php
-                                                                $star = (int)$review;
-                                                                for ($i = 0; $i < $star; $i++) {
-                                                                    ?>
-                                                                    <svg class="w-5 h-5" fill="currentColor"
-                                                                         viewBox="0 0 20 20"
-                                                                         xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                                                    </svg>
-                                                                    <?php
-                                                                }
-                                                                for ($j = 0; $j < 5 - $star ; $j++) {
-                                                                    ?>
-                                                                    <svg class="w-5 h-5 text-gray-400"
-                                                                         fill="currentColor"
-                                                                         viewBox="0 0 20 20"
-                                                                         xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                                                    </svg>
-                                                                    <?php
-                                                                }
-                                                                ?>
-                                                            </div>
-                                                            <h5 class="text-base mb-0 mt-1 text-gray-800"> Company
-                                                                Rating</h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="w-full h-3 rounded-lg bg-gray-300 shadow-xs relative">
-                                                            <div class="w-<?php echo $salary;?>/12 h-3 rounded-lg bg-gray-800"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="flex">
-                                                            <span class="ml-2"> Income Salary - <?php echo $salary;?>/10</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="w-full h-3 rounded-lg bg-gray-300 shadow-xs relative">
-                                                            <div class="w-<?php echo $hours?>/12 h-3 rounded-lg bg-gray-800"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="flex">
-                                                            <span class="ml-2"> Hours are reasonable - <?php echo $hours?>/10</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="w-full h-3 rounded-lg bg-gray-300 shadow-xs relative">
-                                                            <div class="w-<?php echo $promotion;?>/12 h-3 rounded-lg bg-gray-800"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="flex">
-                                                            <span class="ml-2"> Promotion Prospect - <?php echo $promotion;?>/10</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="w-full h-3 rounded-lg bg-gray-300 shadow-xs relative">
-                                                            <div class="w-<?php echo $happiness; ?>/12 h-3 rounded-lg bg-gray-800"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="flex">
-                                                            <span class="ml-2">Happiness - <?php echo $happiness; ?>/10</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold mb-2 text-xl"> Income </h3>
-                                                    <ul class="grid md:grid-cols-1">
-                                                        <li><i class="uil-check text-xl font-bold mr-2"></i>Accounting
-                                                            Clerk Years of
-                                                            experience: <?php echo $experience; ?>
-                                                        </li>
-                                                        <li><i class="uil-check text-xl font-bold mr-2"></i>Monthly
-                                                            Income: <?php echo $monthly_income;?>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold text-xl mb-2"> Location of Company:</h3>
-                                                    <ul class="list-disc ml-5">
-                                                        <li><?php echo $location;?></li>
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold mb-2 text-xl"> Reasonable working
-                                                        Hours: </h3>
-                                                    <p> <?php echo $working_hour?></p>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold mb-2 text-xl"> Reasonable working Days: </h3>
-                                                    <p> <?php echo $working_day?></p>
-                                                </div>
-                                            </div>
-
-
-
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php include ("include/fetch_overview.php");?>
 
                                 <!-- Post -->
-                                <div>
-                                    <div class="md:flex md:space-x-14 mt-5 pt-4">
-                                        <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
-                                            <li>
-                                                <div class="flex items-start space-x-5 p-7">
-                                                    <img src="assets/images/avatars/avatar-2.jpg" alt=""
-                                                         class="w-12 h-12 rounded-full">
-                                                    <div class="flex-1">
-                                                        <a href="blog_detail.php"
-                                                           class="text-lg font-semibold line-clamp-1 mb-1"> How do
-                                                            you know AWS is
-                                                            planning on laying you off? Do they give severance? </a>
-                                                        <p class="text-sm text-gray-400 mb-2"><span
-                                                                    data-href="%40 .html"> </span>
-                                                            8 hours ago</span> </p>
-                                                        <p class="leading-6 line-clamp-2 mt-3">Currently a Cloud Support
-                                                            Associate and have
-                                                            been working since July. Not really enjoying it and going
-                                                            through some personal
-                                                            depression that has melted into my work life.</p>
-                                                    </div>
-                                                    <div class="sm:flex items-center space-x-4 hidden">
-                                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                                        </svg>
-                                                        <span class="text-xl"> 4 </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="flex items-start space-x-5 p-7">
-                                                    <img src="assets/images/avatars/avatar-1.jpg" alt=""
-                                                         class="w-12 h-12 rounded-full">
-                                                    <div class="flex-1">
-                                                        <a href="#" class="text-lg font-semibold line-clamp-1 mb-1">Talk
-                                                            privately with your
-                                                            coworkers.</a>
-                                                        <p class="text-sm text-gray-400 mb-2"><span
-                                                                    data-href="%40 .html"> </span>
-                                                            8 hours ago</span> </p>
-                                                        <p class="leading-6 line-clamp-2 mt-3">Promotions? All-hands?
-                                                            Join your company's
-                                                            internal discussion.</p>
-                                                    </div>
-                                                    <div class="sm:flex items-center space-x-4 hidden">
-                                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                                        </svg>
-                                                        <span class="text-xl"> 6 </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="flex items-start space-x-5 p-7">
-                                                    <img src="assets/images/avatars/avatar-3.jpg" alt=""
-                                                         class="w-12 h-12 rounded-full">
-                                                    <div class="flex-1">
-                                                        <a href="#" class="text-lg font-semibold line-clamp-1 mb-1">
-                                                            Don’t give Preference
-                                                            to laid off H1B holders </a>
-                                                        <p class="text-sm text-gray-400 mb-2"><span
-                                                                    data-href="%40 .html"> </span>
-                                                            8 hours ago</span> </p>
-                                                        <p class="leading-6 line-clamp-2 mt-3">DM me if you want to work
-                                                            on this cause. I
-                                                            will connect with the people who are contributing for this
-                                                            cause. We need your
-                                                            voice.</p>
-                                                    </div>
-                                                    <div class="sm:flex items-center space-x-4 hidden">
-                                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                                        </svg>
-                                                        <span class="text-xl"> 3 </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="flex items-start space-x-5 p-7">
-                                                    <img src="assets/images/avatars/avatar-2.jpg" alt=""
-                                                         class="w-12 h-12 rounded-full">
-                                                    <div class="flex-1">
-                                                        <a href="#" class="text-lg font-semibold line-clamp-1 mb-1">AMZN
-                                                            to GOOG - 3 months
-                                                            later</a>
-                                                        <p class="text-sm text-gray-400 mb-2"><span
-                                                                    data-href="%40 .html"> </span>
-                                                            8 hours ago</span> </p>
-                                                        <p class="leading-6 line-clamp-2 mt-3">I joined GCP from AWS
-                                                            three months ago and
-                                                            here’s what I saw so far in no particular order:</p>
-                                                    </div>
-                                                    <div class="sm:flex items-center space-x-4 hidden">
-                                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                                             xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                                        </svg>
-                                                        <span class="text-xl"> 2 </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <?php include ("include/fetch_company_blog.php");?>
+
+
+                                <!-- Faq -->
+                                <?php include ("include/fetch_faq.php");?>
+
 
                                 <!-- Channel -->
                                 <div>
@@ -558,59 +348,6 @@ if ($query->num_rows == 1) {
 
                                         </div>
                                     </div>
-                                </div>
-
-                                <!-- Faq -->
-                                <div>
-                                    <div class="md:flex md:space-x-14">
-                                        <div class="lg:mt-9">
-                                            <ul class="uk-accordion space-y-3" uk-accordion>
-                                                <li class="card hover:shadow-md px-6 py-4 rounded-md uk-open">
-                                                    <a class="uk-accordion-title font-semibold text-base" href="#">How
-                                                        many days of
-                                                        annual leave are there? How many days of AL available? </a>
-                                                    <div aria-hidden="false" class="uk-accordion-content mt-3">
-                                                        <p>“7 days” – Anonymous – 8.10.2022 </p>
-                                                    </div>
-                                                </li>
-                                                <li class="card hover:shadow-md px-6 py-4 rounded-md">
-                                                    <a class="uk-accordion-title font-semibold text-base" href="#">
-                                                        Promotion prospect
-                                                        Career Prospect:</a>
-                                                    <div aria-hidden="true" class="uk-accordion-content mt-3" hidden="">
-                                                        <p> "Different teams, different bosses, separate ways" –
-                                                            Anonymous – 8.10.202
-                                                            2 </p>
-                                                    </div>
-                                                </li>
-                                                <li class="card hover:shadow-md px-6 py-4 rounded-md">
-                                                    <a class="uk-accordion-title font-semibold text-base" href="#">
-                                                        Scope of Work Scope
-                                                        of Work: </a>
-                                                    <div aria-hidden="true" class="uk-accordion-content mt-3" hidden="">
-                                                        <p> “Secretary work” – Anonymous – 8.10.2022 </p>
-                                                    </div>
-                                                </li>
-                                                <li class="card hover:shadow-md px-6 py-4 rounded-md">
-                                                    <a class="uk-accordion-title font-semibold text-base" href="#">
-                                                        Happy index Are you
-                                                        happy? </a>
-                                                    <div aria-hidden="true" class="uk-accordion-content mt-3" hidden="">
-                                                        <p> “More with less money” – Anonymous – 8.10.2022 </p>
-                                                    </div>
-                                                </li>
-                                                <li class="card hover:shadow-md px-6 py-4 rounded-md">
-                                                    <a class="uk-accordion-title font-semibold text-base" href="#">
-                                                        Application
-                                                        Tips: </a>
-                                                    <div aria-hidden="true" class="uk-accordion-content mt-3" hidden="">
-                                                        <p> "Interview" - Anonymous - 8.10.202 2 </p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                             </div>
@@ -901,6 +638,8 @@ if ($query->num_rows == 1) {
         </div>
     </div>
 </div>
+
+
 
 
 <!-- For Night mode -->

@@ -1,7 +1,34 @@
+<?php
+session_start();
+$email = $_SESSION["email"];
+$result = 0;
+include ("config/dbconfig.php");
+$query = $con->query("select `id`,`c_domain_id`, `email` from `user` where `email` = '$email'");
+if($query->num_rows == 1){
+    while($row = mysqli_fetch_assoc($query)){
+        $user_id = $row['id'];
+        $domain_id = $row['c_domain_id'];
+    }
+}
+
+if(isset($_POST['add_post'])){
+    $post_heading = mysqli_real_escape_string($con, $_POST['post_heading']);
+    $industry = mysqli_real_escape_string($con, $_POST['industry']);
+    $post_description = mysqli_real_escape_string($con, $_POST['post_description']);
+
+    $query=$con->query("INSERT INTO `blog`(`blog_heading`, `blog_description`, `industry_id`, `company_domain_id`, `user_id`) VALUES ('$post_heading','$post_description','$industry','$domain_id','$user_id')");
+    if($query){
+        $result = 1;
+    }else{
+        $result = 2;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/create-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:20:14 GMT -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +52,11 @@
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -85,105 +116,9 @@
                     </svg>
                     <span> Companies </span></a>
                 </li>
-                <!-- <li><a href="jobs.html">
-                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                          class="text-pink-500">
-                         <path fill-rule="evenodd"
-                               d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
-                               clip-rule="evenodd"/>
-                         <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
-                     </svg>
-                     <span> Salary </span> </a>
-                 </li>-->
-                <!--<li><a href="#">
-                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                    <span> Chat </span> </a>
-                </li>-->
-
-
-                <!--<a href="#" class="see-mover h-10 flex my-1 pl-2 rounded-xl text-gray-600" uk-toggle="target: #more-veiw; animation: uk-animation-fade">
-                    <span class="w-full flex items-center" id="more-veiw">
-                        <svg class="  bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        See More
-                    </span>
-                    <span class="w-full flex items-center" id="more-veiw" hidden>
-                        <svg  class="bg-gray-100 mr-2 p-0.5 rounded-full text-lg w-7"  fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                        See Less
-                    </span>
-                </a>-->
 
                 <!--industry section starts-->
-                <h3 class="side-title"> Industries </h3>
-
-                <div class="contact-list my-2 ml-1">
-
-                    <a href="tech.php">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/technology.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Tech</div>
-                    </a>
-                    <a href="finance.php">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/finance.jpg" alt="">
-                            <span class="user_status"></span>
-                        </div>
-                        <div class="contact-username"> Finance</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/hardware.jpg" alt="">
-                        </div>
-                        <div class="contact-username">Hardware & Semiconductor</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/E-Commerce%20&%20Retail.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> E-Commerce & Retail</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/Gaming.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Gaming</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/auto.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Auto</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/social-media.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Media & Entertainment</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/telecommunications.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Telecom</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/healthcare.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Health</div>
-                    </a>
-                    <a href="#">
-                        <div class="contact-avatar">
-                            <img src="assets/images/icons/Aviation.jpg" alt="">
-                        </div>
-                        <div class="contact-username"> Aviation</div>
-                    </a>
-
-                </div>
+                <?php include ("include/industry_menu.php");?>
                 <!--industry section ends-->
 
         </div>
@@ -207,36 +142,66 @@
 
             <!-- create page-->
             <div class="max-w-2xl m-auto shadow-md rounded-md bg-white lg:mt-20">
+                <?php
+                if ($result == 1){
+                    ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Congratulation!</strong> Blog has been posted successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php
+                }elseif ($result == 2){
+                    ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Sorry!</strong> Something went wrong!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php
+                }
+                ?>
 
                 <!-- form header -->
+                <form action="#" method="post">
                 <div class="text-center border-b border-gray-100 py-6">
                     <h3 class="font-bold text-xl"> Create New Post </h3>
                 </div>
 
                 <!-- form body -->
                 <div class="p-10 space-y-7">
-
                     <div class="line">
-                        <input class="line__input" name="" type="text" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off">
+                        <input class="line__input" name="post_heading" type="text" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off">
                         <span for="username" class="line__placeholder"> Post Heading </span>
                     </div>
                     <div class="flex items-center">
-                        <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md">  Category:   </div>
-                        <input type="text" class="with-border" placeholder="">
+                        <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md">  Industry:   </div>
+                        <select class="js-example-basic-single" name="industry" required>
+                            <option value=" ">Choose Your Industry</option>
+                            <?php
+                            $query = $con->query("select `id`,`industry` from `industry`");
+                            if($query->num_rows > 0){
+                                while($row = $query->fetch_assoc()){
+                                    ?>
+                                    <option value="<?php echo $row['id'];?>"><?php echo $row['industry']?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="line h-32">
-                        <textarea class="line__input h-32" name="" type="text" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off"></textarea>
-                        <span for="username" class="line__placeholder"> Page description </span>
+                        <textarea class="line__input h-32" name="post_description" type="text" placeholder="Post Description" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off"></textarea>
                     </div>
+
 
                 </div>
 
                 <!-- form footer -->
                 <div class="border-t flex justify-content-center align-items-center lg:space-x-10 p-7 bg-gray-50 rounded-b-md">
-                    <button type="button" class="button lg:w-1/2">
-                        Create Now
+                    <button type="submit" name="add_post" class="button lg:w-1/2">
+                        Post
                     </button>
                 </div>
+                </form>
 
             </div>
 

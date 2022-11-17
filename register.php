@@ -246,7 +246,7 @@ if (isset($_POST['add_company'])){
                         <select class="js-example-basic-single" name="industry" required>
                             <option value=" ">Choose Your Industry</option>
                             <?php
-                            $query = $con->query("select `industry` from `industry`");
+                            $query = $con->query("select `id`,`industry` from `industry`");
                             if($query->num_rows > 0){
                                 while($row = $query->fetch_assoc()){
                                     ?>

@@ -1,19 +1,22 @@
 <?php
 session_start();
+include("config/dbconfig.php");
 $email = $_SESSION["email"];
-include ("config/dbconfig.php");
-$blog_id = $_GET['blog_id'];
-$query = $con->query("select * from `user` as u,`blog` as b where b.`id` = '$blog_id' and u.`email` = '$email';");
-if($query->num_rows == 1){
-    while($row = mysqli_fetch_assoc($query)){
-        $blog_heading = $row['blog_heading'];
-        $blog_description = $row['blog_description'];
-        $blog_description = $row['blog_description'];
-        $creat_date = $row['created_at'];
-        $fname = $row['f_name'];
-        $lname = $row['l_name'];
-        $image = $row['image'];
+$result = 0;
+$company_id = $_GET['id'];
+if (isset($_POST['add_question'])) {
+    $question = mysqli_real_escape_string($con, $_POST['question']);
+    $answer = mysqli_real_escape_string($con, $_POST['answer']);
+
+    $query = $con->query("INSERT INTO `faq`(`question`, `answer`, `company_id`, `user_email`) VALUES ('$question','$answer','$company_id','$email')");
+    if($query){
+        $result = 1;
+    }else{
+        $result = 2;
     }
+
+
+
 }
 ?>
 <!DOCTYPE html>
@@ -34,7 +37,7 @@ if($query->num_rows == 1){
     <meta name="description" content="Socialite is - Professional A unique and beautiful collection of UI elements">
 
     <!-- icons
-     ================================================== -->
+    ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
     <!-- CSS
@@ -43,10 +46,15 @@ if($query->num_rows == 1){
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
 
 </head>
 <body>
-
 
 
 <div id="wrapper">
@@ -58,11 +66,14 @@ if($query->num_rows == 1){
                 <div class="left_side">
                         <span class="slide_menu" uk-toggle="target: #wrapper ; cls: is-collapse is-active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path
-                                    d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" fill="currentColor"></path></svg>
+                                        d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"
+                                        fill="currentColor"></path></svg>
                         </span>
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
+                            <!--<img src="assets/images/logo.png" alt="">
+                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
                         </a>
                     </div>
                 </div>
@@ -72,10 +83,11 @@ if($query->num_rows == 1){
                 <div class="header_search"><i class="uil-search-alt"></i>
                     <input value="" type="text" class="form-control"
                            placeholder="Search for Friends , Videos and more.." autocomplete="off">
-
+                    <!-- -->
                 </div>
-
-                <?php include ("include/head_right.php");?>
+                <?php
+                include("include/head_right.php");
+                ?>
             </div>
         </div>
     </header>
@@ -87,24 +99,23 @@ if($query->num_rows == 1){
 
             <ul>
                 <li><a href="index.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="text-blue-600">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
-                    <span> Feed </span> </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="text-blue-600">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                        <span> Feed </span> </a>
                 </li>
 
                 <li><a href="companies.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="text-blue-500">
-                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                    </svg>
-                    <span> Companies </span></a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="text-blue-500">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                        <span> Companies </span></a>
                 </li>
 
-
                 <!--industry section starts-->
-                <?php include ("include/industry_menu.php");?>
+                <?php include("include/industry_menu.php"); ?>
                 <!--industry section ends-->
 
         </div>
@@ -117,43 +128,51 @@ if($query->num_rows == 1){
     <!-- Main Contents -->
     <div class="main_content">
         <div class="mcontainer">
+            <div class="grid lg:grid-cols-3 mt-12 gap-8">
+                <div class="bg-white rounded-md lg:shadow-md shadow col-span-2 lg:mx-16">
+                    <?php
+                    if ($result == 1) {
+                        ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Congratulation!</strong> Data has been added successfully. You can add more FAQ's from here.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    } elseif ($result == 2) {
+                        ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Sorry!</strong> Something went wrong!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <form action="#" method="post" enctype="multipart/form-data">
+                        <h1 class="lg:text-2xl text-xl font-semibold mb-6 flex align-items-center justify-content-center"
+                            style="margin-top: 20px"> Add FAQ </h1>
+                        <div class="lg:p-6 p-4">
 
-            <div class="lg:flex lg:space-x-10">
-
-                <div class="lg:w-3/4 space-y-5">
-
-                    <div class="card">
-
-                        <div class="p-7">
-
-                            <h1 class="lg:text-3xl text-2xl font-semibold mb-6"> <?php echo $blog_heading;?> </h1>
-
-                            <div class="flex items-center space-x-3 my-4 pb-4 border-b border-gray-100">
-                                <img src="assets/images/user/<?php echo $image;?>" alt="" class="w-10 rounded-full">
-                                <div>
-                                    <div class="text-base font-semibold"> <?php echo $fname;?> <?php echo $lname;?></div>
-                                    <div class="text-xs"> <?php echo $creat_date?> </div>
-                                </div>
+                            <div>
+                                <label for=""> Question </label>
+                                <input type="text" name="question"
+                                       class="shadow-none with-border" required>
                             </div>
-
-                            <div class="space-y-3">
-                                <p>
-                                   <?php echo $blog_description;?>
-                                </p>
+                            <div>
+                                <label for=""> Answer </label>
+                                <input type="text" name="answer"
+                                       class="shadow-none with-border" required>
                             </div>
 
                         </div>
-
-                    </div>
-
+                        <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                            <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel</button>
+                            <button type="submit" name="add_question" class="button bg-blue-700"> Save</button>
+                        </div>
+                    </form>
 
                 </div>
 
-                <!--random blog fetch-->
-                <?php include ("include/fetch_random_blog.php");?>
-
             </div>
-
 
         </div>
     </div>
@@ -161,13 +180,13 @@ if($query->num_rows == 1){
 </div>
 
 
-
 <!-- open chat box -->
-<!--<div uk-toggle="target: #offcanvas-chat" class="start-chat">
+<div uk-toggle="target: #offcanvas-chat" class="start-chat">
     <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
     </svg>
-</div>-->
+</div>
 
 <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
     <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
@@ -195,23 +214,31 @@ if($query->num_rows == 1){
                      uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon>
+                                Mark all as read
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>  Chat setting
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>
+                                Chat setting
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>   Disable notifications
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>
+                                Disable notifications
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="star-outline"  class="pr-2 text-xl"></ion-icon>  Create a group chat
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon>
+                                Create a group chat
                             </a>
                         </li>
                     </ul>
@@ -244,7 +271,7 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -264,14 +291,14 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue </div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -301,7 +328,7 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -321,14 +348,14 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-group.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue </div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -397,7 +424,8 @@ if($query->num_rows == 1){
 
 <!-- Javascript
 ================================================== -->
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>
@@ -407,5 +435,4 @@ if($query->num_rows == 1){
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/blog-read.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:21:06 GMT -->
 </html>
