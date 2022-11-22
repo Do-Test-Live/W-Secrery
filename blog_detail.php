@@ -1,18 +1,39 @@
 <?php
 session_start();
 $email = $_SESSION["email"];
-include ("config/dbconfig.php");
+$result = 0;
+include("config/dbconfig.php");
 $blog_id = $_GET['blog_id'];
-$query = $con->query("select * from `user` as u,`blog` as b where b.`id` = '$blog_id' and u.`email` = '$email';");
-if($query->num_rows == 1){
-    while($row = mysqli_fetch_assoc($query)){
+
+$select_data = $con->query("select * from `user` as u,`blog` as b where b.`id` = '$blog_id' and b.user_id = u.id;");
+if ($select_data->num_rows == 1) {
+    while ($row = mysqli_fetch_assoc($select_data)) {
         $blog_heading = $row['blog_heading'];
         $blog_description = $row['blog_description'];
-        $blog_description = $row['blog_description'];
         $creat_date = $row['created_at'];
-        $fname = $row['f_name'];
-        $lname = $row['l_name'];
-        $image = $row['image'];
+        $first_name = $row['f_name'];
+        $last_name = $row['l_name'];
+        $blog_owner_image = $row['image'];
+    }
+}
+
+
+/*adding comment to any post*/
+if (isset($_POST['add_comment'])) {
+    $comment = mysqli_real_escape_string($con, $_POST['comment']);
+    $query = $con->query("select id,email from user where email='$email'");
+    if ($query->num_rows == 1) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $user_id = $row['id'];
+        }
+    }
+
+    $insert_comment = $con->query("INSERT INTO `blog_comment`(`user_id`, `blog_id`, `comment`)
+ VALUES ('$user_id','$blog_id','$comment')");
+    if ($insert_comment) {
+        header("Location: blog_detail.php?blog_id=$blog_id");
+    } else {
+
     }
 }
 ?>
@@ -48,7 +69,6 @@ if($query->num_rows == 1){
 <body>
 
 
-
 <div id="wrapper">
 
     <!-- Header -->
@@ -58,7 +78,8 @@ if($query->num_rows == 1){
                 <div class="left_side">
                         <span class="slide_menu" uk-toggle="target: #wrapper ; cls: is-collapse is-active">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path
-                                    d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z" fill="currentColor"></path></svg>
+                                        d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"
+                                        fill="currentColor"></path></svg>
                         </span>
                     <div id="logo">
                         <a href="#">
@@ -75,7 +96,7 @@ if($query->num_rows == 1){
 
                 </div>
 
-                <?php include ("include/head_right.php");?>
+                <?php include("include/head_right.php"); ?>
             </div>
         </div>
     </header>
@@ -87,24 +108,24 @@ if($query->num_rows == 1){
 
             <ul>
                 <li><a href="index.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="text-blue-600">
-                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
-                    <span> Feed </span> </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="text-blue-600">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                        <span> Feed </span> </a>
                 </li>
 
                 <li><a href="companies.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="text-blue-500">
-                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                    </svg>
-                    <span> Companies </span></a>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="text-blue-500">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                        <span> Companies </span></a>
                 </li>
 
 
                 <!--industry section starts-->
-                <?php include ("include/industry_menu.php");?>
+                <?php include("include/industry_menu.php"); ?>
                 <!--industry section ends-->
 
         </div>
@@ -126,19 +147,20 @@ if($query->num_rows == 1){
 
                         <div class="p-7">
 
-                            <h1 class="lg:text-3xl text-2xl font-semibold mb-6"> <?php echo $blog_heading;?> </h1>
+                            <h1 class="lg:text-3xl text-2xl font-semibold mb-6"> <?php echo $blog_heading; ?> </h1>
 
                             <div class="flex items-center space-x-3 my-4 pb-4 border-b border-gray-100">
-                                <img src="assets/images/user/<?php echo $image;?>" alt="" class="w-10 rounded-full">
+                                <img src="assets/images/user/<?php echo $blog_owner_image; ?>" alt=""
+                                     class="w-10 rounded-full">
                                 <div>
-                                    <div class="text-base font-semibold"> <?php echo $fname;?> <?php echo $lname;?></div>
-                                    <div class="text-xs"> <?php echo $creat_date?> </div>
+                                    <div class="text-base font-semibold"> <?php echo $first_name; ?>&nbsp;<?php echo $last_name; ?></div>
+                                    <div class="text-xs"> <?php echo $creat_date ?> </div>
                                 </div>
                             </div>
 
                             <div class="space-y-3">
                                 <p>
-                                   <?php echo $blog_description;?>
+                                    <?php echo $blog_description; ?>
                                 </p>
                             </div>
 
@@ -146,11 +168,56 @@ if($query->num_rows == 1){
 
                     </div>
 
+                    <?php
+                    if (isset($_SESSION["email"])) {
+                        $query = $con->query("select * from blog_comment as b, user as u where b.blog_id = '$blog_id' and u.id = b.user_id;");
+                        if ($query->num_rows > 0) {
+                            ?>
+                            <h3 class="mb-8 mt-20 font-semibold text-2xl"> Reviews (<?php echo $query->num_rows ?>) </h3>
+                            <?php
+                            while($data = mysqli_fetch_assoc($query)){
+                                ?>
+                                <div class="flex gap-x-4 mb-5 relative">
+                                    <img src="assets/images/user/<?php echo $data['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
+                                    <div>
+                                        <h4 class="text-base m-0"><?php echo $data['f_name'];?>&nbsp;<?php echo $data['l_name'];?></h4>
+                                        <span class="text-gray-700 text-sm"><?php echo $data['position'];?></span>
+                                        <p class="mt-3">
+                                            <?php echo $data['comment'];?>
+                                        </p>
+
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+
+                        <h3 class="mb-8 mt-20 font-semibold text-xl"> Add your comment </h3>
+                        <form action="#" method="post">
+                            <div class="flex space-x-4 mb-5 relative">
+                                <div class="flex-1">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div class="col-span-2">
+                                        <textarea name="comment" id="" cols="30" rows="6"
+                                                  class="bg-gradient-to-b from-gray-100 to-gray-100"></textarea>
+                                        </div>
+                                        <div class="col-span-2 flex justify-between py-4">
+                                            <input type="submit" name="add_comment" value="Post Comment">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <?php
+                    }
+                    ?>
+
 
                 </div>
 
                 <!--random blog fetch-->
-                <?php include ("include/fetch_random_blog.php");?>
+                <?php include("include/fetch_random_blog.php"); ?>
 
             </div>
 
@@ -159,7 +226,6 @@ if($query->num_rows == 1){
     </div>
 
 </div>
-
 
 
 <!-- open chat box -->
@@ -195,23 +261,31 @@ if($query->num_rows == 1){
                      uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon> Mark all as read
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon>
+                                Mark all as read
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>  Chat setting
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>
+                                Chat setting
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>   Disable notifications
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>
+                                Disable notifications
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="star-outline"  class="pr-2 text-xl"></ion-icon>  Create a group chat
+                            <a href="#"
+                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
+                                <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon>
+                                Create a group chat
                             </a>
                         </li>
                     </ul>
@@ -271,7 +345,7 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue </div>
+                    <div class="contact-username">Doris Logue</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -328,7 +402,7 @@ if($query->num_rows == 1){
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue </div>
+                    <div class="contact-username">Doris Logue</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -397,7 +471,8 @@ if($query->num_rows == 1){
 
 <!-- Javascript
 ================================================== -->
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>
