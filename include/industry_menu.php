@@ -6,7 +6,7 @@
     if ($query->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($query)) {
             ?>
-            <a href="tech.php?id=<?php echo $row['id'];?>">
+            <a href="industry_blog.php?id=<?php echo $row['id'];?>">
                 <div class="contact-avatar">
                     <img src="<?php echo $row['image'];?>" alt="">
                 </div>

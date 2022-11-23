@@ -1,6 +1,13 @@
 <?php
 session_start();
 include("config/dbconfig.php");
+$industry_id = $_GET['id'];
+$select_industry = $con->query("SELECT id, industry FROM `industry` WHERE id = '$industry_id';");
+if ($select_industry){
+    while ($industry_data = mysqli_fetch_assoc($select_industry)){
+        $industry_name = $industry_data['industry'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,51 +120,51 @@ include("config/dbconfig.php");
 
                     <div class="flex justify-between relative md:mb-4 mb-3">
                         <div class="flex-1">
-                            <h2 class="text-2xl font-semibold"> Tranding </h2>
+                            <h2 class="text-2xl font-semibold"> <?php echo $industry_name; ?> </h2>
                         </div>
                     </div>
 
                     <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
                         <?php
-                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by rand() limit 5;");
+                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id and b.`industry_id` = '$industry_id' order by rand() limit 5;");
                         if ($feed_data->num_rows > 0){
-                        while($feed = mysqli_fetch_assoc($feed_data)){
-                        $blog = $feed['id'];
-                        ?>
-                        <li>
-                            <div class="flex items-start space-x-5 p-7">
-                                <img src="assets/images/user/<?php echo $feed['image']; ?>" alt=""
-                                     class="w-12 h-12 rounded-full">
-                                <div class="flex-1">
-                                    <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
-                                       class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
-                                    <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
-                                </div>
-                                <div class="sm:flex items-center space-x-4 hidden">
-                                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                    </svg>
-                                    <?php
-                                    $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
-                            if($comment){
-                                while($number = mysqli_fetch_assoc($comment)){
+                            while($feed = mysqli_fetch_assoc($feed_data)){
+                                $blog = $feed['id'];
                                 ?>
-                                <span class="text-xl"> <?php echo $number['number'];?> </span>
-                                <?php
-                                }
-                            }
+                                <li>
+                                    <div class="flex items-start space-x-5 p-7">
+                                        <img src="assets/images/user/<?php echo $feed['image']; ?>" alt=""
+                                             class="w-12 h-12 rounded-full">
+                                        <div class="flex-1">
+                                            <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
+                                               class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
+                                            <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
+                                        </div>
+                                        <div class="sm:flex items-center space-x-4 hidden">
+                                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
+                                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
+                                            </svg>
+                                            <?php
+                                            $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
+                                            if($comment){
+                                                while($number = mysqli_fetch_assoc($comment)){
+                                                    ?>
+                                                    <span class="text-xl"> <?php echo $number['number'];?> </span>
+                                                    <?php
+                                                }
+                                            }
 
-                                    ?>
-                                </div>
-                            </div>
-                        </li>
-                        <?php
-                        }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                            }
                         }else{
                             ?>
-                            <p class="leading-6 line-clamp-2 mt-3">No post published yet!</p>
+                            <p class="leading-6 line-clamp-2 mt-3">No post published yet in this category!</p>
                             <?php
                         }
                         ?>

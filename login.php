@@ -9,11 +9,11 @@ if (isset($_POST['submit'])){
     $password = mysqli_real_escape_string($con, $_POST['password']);
     $key = 'Secrery';
     $Pwd_peppered = Hash_hmac("Sha256", $password, $key);
-    $query = $con->query("select `password` from user where `email` = '$email'");
+    $query = $con->query("select `password`,`status` from user where `email` = '$email'");
     if($query -> num_rows == 1){
         while($row = mysqli_fetch_assoc($query)){
             $pass = $row["password"];
-            if(Password_verify($Pwd_peppered, $pass)){
+            if(Password_verify($Pwd_peppered, $pass) && $row['status'] == 1){
                 header("Location: index.php");
                 session_start();
                 $_SESSION["email"] = $email;

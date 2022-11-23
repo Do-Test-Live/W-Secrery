@@ -210,61 +210,10 @@ if ($query->num_rows == 1) {
 
                         <h2 class="text-lg font-semibold mb-3"> Related Companies </h2>
                         <ul>
-                            <li>
-                                <a class="hover:bg-gray-100 rounded-md p-2 -mx-2 block" href="#">
-                                    <h3 class="font-medium line-clamp-2"> Melco Resorts & Entertainment VP, Internal
-                                        Audit Salary Income </h3>
-                                    <div class="flex items-center my-auto text-xs space-x-1.5">
-                                        <div class="pb-1"> .</div>
-                                        <i class="icon-feather-users mr-2"></i>
-                                        <div> 10/10</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="hover:bg-gray-100 rounded-md p-2 -mx-2 block" href="#">
-                                    <h3 class="font-medium line-clamp-2">
-                                        Stephenson Harwood LLP Training Contract Guide </h3>
-                                    <div class="flex items-center my-auto text-xs space-x-1.5">
-                                        <div class="pb-1"> .</div>
-                                        <i class="icon-feather-users mr-2"></i>
-                                        <div> 10/10</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="hover:bg-gray-100 rounded-md p-2 -mx-2 block" href="#">
-                                    <h3 class="font-medium line-clamp-2"> HSBC HSBC Analyst Salary Income </h3>
-                                    <div class="flex items-center my-auto text-xs space-x-1.5">
-                                        <div class="pb-1"> .</div>
-                                        <i class="icon-feather-users mr-2"></i>
-                                        <div> 9.8/10</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="hover:bg-gray-100 rounded-md p-2 -mx-2 block" href="#">
-                                    <h3 class="font-medium line-clamp-2"> Apple Genius Salary Revenue </h3>
-                                    <div class="flex items-center my-auto text-xs space-x-1.5">
-                                        <div class="pb-1"> .</div>
-                                        <i class="icon-feather-users mr-2"></i>
-                                        <div> 9.8/10</div>
-                                    </div>
-                                </a>
-                            </li>
+                            <?php include ('include/fetch_random_company.php');?>
                         </ul>
                         <br>
-
-                        <h4 class="text-lg font-semibold mb-3"> Tags </h4>
-
-                        <div class="flex flex-wrap gap-2">
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> Marketing</a>
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> IT</a>
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> Law Firms</a>
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> Sales</a>
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> TC Train</a>
-                            <a class="bg-gray-100 py-1.5 px-4 rounded-full" href="#"> Invesment Bank</a>
-                        </div>
+                        <?php include ("include/fetch_tag.php");?>
 
                     </div>
 

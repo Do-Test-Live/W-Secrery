@@ -28,11 +28,9 @@ if (isset($_POST['add_comment'])) {
         }
     }
 
-    $insert_comment = $con->query("INSERT INTO `blog_comment`(`user_id`, `blog_id`, `comment`) VALUES ('$user_id','$blog_id','$comment')");
+    $insert_comment = $con->query("INSERT INTO `chanel_post_comment`(`user_id`, `blog_id`, `comment`) VALUES ('$user_id','$blog_id','$comment')");
     if ($insert_comment) {
-        header("Location: blog_detail.php?blog_id=$blog_id");
-    } else {
-
+        header("Location: blog_channel_details.php?blog_id=$blog_id");
     }
 }
 ?>
@@ -169,20 +167,20 @@ if (isset($_POST['add_comment'])) {
 
                     <?php
                     if (isset($_SESSION["email"])) {
-                        $query = $con->query("select * from blog_comment as b, user as u where b.blog_id = '$blog_id' and u.id = b.user_id;");
-                        if ($query->num_rows > 0) {
+                        $fetch_comment = $con->query("select * from `chanel_post_comment` as b, user as u where b.blog_id = '$blog_id' and u.id = b.user_id;");
+                        if ($fetch_comment->num_rows > 0) {
                             ?>
-                            <h3 class="mb-8 mt-20 font-semibold text-2xl"> Reviews (<?php echo $query->num_rows ?>) </h3>
+                            <h3 class="mb-8 mt-20 font-semibold text-2xl"> Reviews (<?php echo $fetch_comment->num_rows ?>) </h3>
                             <?php
-                            while($data = mysqli_fetch_assoc($query)){
+                            while($data_comment = mysqli_fetch_assoc($fetch_comment)){
                                 ?>
                                 <div class="flex gap-x-4 mb-5 relative">
-                                    <img src="assets/images/user/<?php echo $data['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
+                                    <img src="assets/images/user/<?php echo $data_comment['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <div>
-                                        <h4 class="text-base m-0"><?php echo $data['f_name'];?>&nbsp;<?php echo $data['l_name'];?></h4>
-                                        <span class="text-gray-700 text-sm"><?php echo $data['position'];?></span>
+                                        <h4 class="text-base m-0"><?php echo $data_comment['f_name'];?>&nbsp;<?php echo $data_comment['l_name'];?></h4>
+                                        <span class="text-gray-700 text-sm"><?php echo $data_comment['position'];?></span>
                                         <p class="mt-3">
-                                            <?php echo $data['comment'];?>
+                                            <?php echo $data_comment['comment'];?>
                                         </p>
 
                                     </div>
@@ -227,12 +225,6 @@ if (isset($_POST['add_comment'])) {
 </div>
 
 
-<!-- open chat box -->
-<!--<div uk-toggle="target: #offcanvas-chat" class="start-chat">
-    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-    </svg>
-</div>-->
 
 <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
     <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
