@@ -18,15 +18,13 @@ if (isset($_POST['register'])) {
             $subject = 'Verify your email.';
 
 
-            $headers = "From: Secrery <mingowhk@gmail.com>\r\n";
+            $headers = "From: Secrery <signup@nftprj.com>\r\n";
             $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
             $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
                 <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
-                 
-                    <h3 style='color:black'>Hi</h3>
                 
                     <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
                 

@@ -15,7 +15,7 @@
                                    class="text-lg font-semibold line-clamp-1 mb-1"> <?php echo $row['blog_heading'];?> </a>
                                 <p class="text-sm text-gray-400 mb-2"><span
                                             data-href="%40 .html"> </span>
-                                    <?php echo $row['f_name'];?></span> </p>
+                                    Anonymous</span> </p>
                                 <p class="leading-6 line-clamp-2 mt-3"><?php echo $row['blog_description'];?></p>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                 }
             }else{
                 ?>
-                <p>No Blog Posted Yet!</p>
+                <p class="px-3">No Blog Posted Yet!</p>
                 <?php
             }
             ?>

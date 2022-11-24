@@ -1,19 +1,32 @@
-<?php
-if (isset($_SESSION["email"])) {
-    $email = $_SESSION["email"];
-    $query = $con->query("select `f_name`, `l_name`,`image` from `user` where `email` = '$email'");
-    if ($query->num_rows == 1) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            $fname = $row['f_name'];
-            $lname = $row['l_name'];
-            $image = $row['image'];
-        }
-    }
-    ?>
-    <div class="right_side">
+<div class="right_side">
 
-        <div class="header_widgets">
+    <div class="header_widgets">
 
+        <a href="index.php" class="is_icon" uk-tooltip="title: Feed" title="" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/>
+            </svg>
+        </a>
+        <a href="companies.php" class="is_icon" uk-tooltip="title: Company" title="" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                <path d="M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V112zM272 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16z"/>
+            </svg>
+        </a>
+
+        <?php
+        if (isset($_SESSION["email"])) {
+            $email = $_SESSION["email"];
+            $query = $con->query("select `f_name`, `l_name`,`image` from `user` where `email` = '$email'");
+            if ($query->num_rows == 1) {
+                while ($row = mysqli_fetch_assoc($query)) {
+                    $fname = $row['f_name'];
+                    $lname = $row['l_name'];
+                    $image = $row['image'];
+                }
+            }
+            ?><?php
+            ?>
             <a href="#">
                 <img src="assets/images/user/<?php echo $image; ?>" class="is_avatar" alt="">
             </a>
@@ -79,16 +92,10 @@ if (isset($_SESSION["email"])) {
 
             </div>
 
-        </div>
+            <?php
 
-    </div>
-    <?php
-} else {
-    ?>
-    <div class="right_side">
-
-        <div class="header_widgets">
-
+        } else {
+            ?>
             <a href="#">
                 <img src="assets/images/avatars/images.png" class="is_avatar" alt="">
             </a>
@@ -112,11 +119,10 @@ if (isset($_SESSION["email"])) {
 
 
             </div>
-
-        </div>
+            <?php
+        }
+        ?>
 
     </div>
 
-    <?php
-}
-?>
+</div>

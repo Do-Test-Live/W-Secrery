@@ -153,7 +153,7 @@ if (isset($_POST['add_comment'])) {
                                 <img src="assets/images/user/<?php echo $blog_owner_image; ?>" alt=""
                                      class="w-10 rounded-full">
                                 <div>
-                                    <div class="text-base font-semibold"> <?php echo $first_name; ?>&nbsp;<?php echo $last_name; ?></div>
+                                    <div class="text-base font-semibold"> Anonymous</div>
                                     <div class="text-xs"> <?php echo $creat_date ?> </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@ if (isset($_POST['add_comment'])) {
                                 <div class="flex gap-x-4 mb-5 relative">
                                     <img src="assets/images/user/<?php echo $data['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <div>
-                                        <h4 class="text-base m-0"><?php echo $data['f_name'];?>&nbsp;<?php echo $data['l_name'];?></h4>
+                                        <h4 class="text-base m-0">Anonymous</h4>
                                         <span class="text-gray-700 text-sm"><?php echo $data['position'];?></span>
                                         <p class="mt-3">
                                             <?php echo $data['comment'];?>

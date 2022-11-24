@@ -107,7 +107,7 @@ if(isset($_POST['verify'])){
                 <p class="mb-6"> An email with a 6 digit code has been sent to your email. Please enter the code below to verify the account. </p>
 
                 <div>
-                    <input type="text" name="code" placeholder="xxxxxx" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
+                    <input type="text" name="code" placeholder="" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
                 </div>
 
                 <div>

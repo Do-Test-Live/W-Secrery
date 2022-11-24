@@ -119,7 +119,7 @@ include("config/dbconfig.php");
 
                     <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
                         <?php
-                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by rand() limit 5;");
+                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by b.id desc limit 6;");
                         if ($feed_data->num_rows > 0){
                         while($feed = mysqli_fetch_assoc($feed_data)){
                         $blog = $feed['id'];
@@ -157,7 +157,7 @@ include("config/dbconfig.php");
                         }
                         }else{
                             ?>
-                            <p class="leading-6 line-clamp-2 mt-3">No post published yet!</p>
+                            <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
                             <?php
                         }
                         ?>
@@ -214,7 +214,7 @@ include("config/dbconfig.php");
                                     <li>
                                         <div class="flex items-center space-x-3">
                                             <img src="assets/images/user/<?php echo $user['image'];?>" alt="" class="w-8 h-8 rounded-full">
-                                            <a href="#" class="font-semibold"> <?php echo $user['f_name'];?> <?php echo $user['l_name'];?></a>
+                                            <a href="#" class="font-semibold"> Anonymous</a>
                                             <div class="flex items-center space-x-2">
                                                 <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                                 <?php

@@ -19,6 +19,7 @@ if(isset($_POST['add_post'])){
     $query=$con->query("INSERT INTO `blog`(`blog_heading`, `blog_description`, `industry_id`, `company_domain_id`, `user_id`) VALUES ('$post_heading','$post_description','$industry','$domain_id','$user_id')");
     if($query){
         $result = 1;
+        header("Location: index.php");
     }else{
         $result = 2;
     }
@@ -211,60 +212,6 @@ if(isset($_POST['add_post'])){
 
 </div>
 
-<!-- Create new album -->
-
-<!--<div id="offcanvas-create" uk-offcanvas="flip: true; overlay: true">
-    <div class="uk-offcanvas-bar lg:w-4/12 w-full dark:bg-gray-700 dark:text-gray-300 p-0 bg-white flex flex-col justify-center">
-
-        <button class="uk-offcanvas-close absolute" type="button" uk-close></button>
-
-        &lt;!&ndash; notivication header &ndash;&gt;
-        <div class="-mb-1 border-b font-semibold px-5 py-5 text-lg">
-            <h4> Create album </h4>
-        </div>
-
-        <div class="p-6 space-y-3 flex-1">
-            <div>
-                <label> Album Name  </label>
-                <input type="text" class="with-border" placeholder="">
-            </div>
-            <div>
-                <label> Visibilty   </label>
-                <select id="" name=""  class="shadow-none selectpicker with-border">
-                    <option data-icon="uil-bullseye"> Private </option>
-                    <option data-icon="uil-chat-bubble-user">My Following</option>
-                    <option data-icon="uil-layer-group-slash">Unlisted</option>
-                    <option data-icon="uil-globe" selected>Puplic</option>
-                </select>
-            </div>
-            <div uk-form-custom class="w-full py-3">
-                <div class="bg-gray-100 border-2 border-dashed flex flex-col h-32 items-center justify-center relative w-full rounded-lg dark:bg-gray-800 dark:border-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
-                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-                        <path d="M9 13h2v5a1 1 0 11-2 0v-5z" />
-                    </svg>
-                </div>
-                <input type="file">
-            </div>
-
-        </div>
-        <div class="p-5">
-            <button type="button"  class="button w-full">
-                Create Now
-            </button>
-        </div>
-
-
-    </div>
-</div>-->
-
-
-<!-- open chat box -->
-<!--<div uk-toggle="target: #offcanvas-chat" class="start-chat">
-    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-    </svg>
-</div>-->
 
 <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
     <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
