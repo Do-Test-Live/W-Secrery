@@ -17,3 +17,8 @@
     }
     ?>
 </div>
+
+<div class="footer-links">
+    <a href="privacy_policy.php">Privacy Policy</a>
+    <a href="terms&conditions.php">Terms & Conditions </a>
+</div>

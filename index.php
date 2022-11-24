@@ -172,7 +172,7 @@ include("config/dbconfig.php");
                                     <a href="#" class="text-lg font-semibold line-clamp-1"> Wild to think that the
                                         smartest people I know are… </a>
                                     <div class="flex space-x-3 text-sm pb-2 mt-1 flex-wrap font-medium">
-                                        <a href="timeline.html" class="font-semibold"> Justin Hau </a>
+                                        <a href="timeline.html" class="font-semibold"> Anonymous </a>
                                         <div class="text-gray-500"> Oct 20Th , 2020</div>
                                         <div class="text-gray-500"> 12 replies</div>
                                     </div>
