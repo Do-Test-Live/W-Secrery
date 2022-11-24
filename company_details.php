@@ -83,7 +83,7 @@ if ($query->num_rows == 1) {
                 <!-- search icon for mobile -->
                 <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"></div>
                 <div class="header_search"><i class="uil-search-alt"></i>
-                    <input autocomplete="off" class="form-control" placeholder="Search for Friends , Videos and more.."
+                    <input autocomplete="off" class="form-control" placeholder="Search"
                            type="text" value="">
                 </div>
 

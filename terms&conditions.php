@@ -60,7 +60,7 @@ include("config/dbconfig.php");
                 <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"></div>
                 <div class="header_search"><i class="uil-search-alt"></i>
                     <input value="" type="text" class="form-control"
-                           placeholder="Search for Friends , Videos and more.." autocomplete="off">
+                           placeholder="Search" autocomplete="off">
                     <!-- -->
                 </div>
                 <?php
