@@ -170,38 +170,6 @@ if ($select_industry){
                         ?>
                     </ul>
 
-                    <h2 class="text-xl font-semibold mb-6 lg:mt-10 mt-4"> Top Contributors </h2>
-                    <ul class="card divide-y divide-gray-100">
-                        <li>
-                            <div class="flex items-center space-x-5 p-7">
-                                <img src="assets/images/avatars/avatar-1.jpg" alt="" class="w-12 h-12 rounded-full">
-                                <div class="flex-1">
-                                    <a href="#" class="text-lg font-semibold line-clamp-1"> Wild to think that the
-                                        smartest people I know are… </a>
-                                    <div class="flex space-x-3 text-sm pb-2 mt-1 flex-wrap font-medium">
-                                        <a href="timeline.html" class="font-semibold"> Justin Hau </a>
-                                        <div class="text-gray-500"> Oct 20Th , 2020</div>
-                                        <div class="text-gray-500"> 12 replies</div>
-                                    </div>
-                                </div>
-                                <div class="sm:flex items-center -space-x-4 hidden">
-                                    <img src="assets/images/avatars/avatar-1.jpg" alt=""
-                                         class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Justin Hau">
-                                    <img src="assets/images/avatars/avatar-2.jpg" alt=""
-                                         class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Steven Tai">
-                                    <img src="assets/images/avatars/avatar-3.jpg" alt=""
-                                         class="w-10 h-10 rounded-full border-2 border-white" data-tippy-placement="top"
-                                         title="Doris Logue">
-                                    <div class="w-10 h-10 rounded-full flex justify-center items-center bg-red-100 text-red-500 font-semibold">
-                                        12+
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-
                 </div>
 
                 <div class="lg:w-1/3 pt-5">

@@ -1,15 +1,17 @@
 <?php
-session_start();
-$email = $_SESSION["email"];
 include ("config/dbconfig.php");
 $result = 0;
+$id = $_GET['id'];
+$email = $_GET['email'];
 if(isset($_POST['set_pass'])){
     $password = mysqli_real_escape_string($con, $_POST['password']);
     $key = 'Secrery';
     $Pwd_peppered = Hash_hmac("Sha256", $password, $key);
     $Pwd_hashed = Password_hash($Pwd_peppered, PASSWORD_ARGON2ID);
-    $query = $con->query("update `user` set `password` = '$Pwd_hashed' where `email` = '$email'");
+    $query = $con->query("update `user` set `password` = '$Pwd_hashed' where `id` = '$id'");
     if ($query){
+        session_start();
+        $_SESSION["email"] = $email;
         header("Location: index.php");
     }else{
         echo "Something went wrong";

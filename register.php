@@ -3,16 +3,14 @@ include("config/dbconfig.php");
 $value = 0;
 /*register code*/
 if (isset($_POST['register'])) {
-    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $pemail = mysqli_real_escape_string($con, $_POST['pemail']);
+    $cemail = mysqli_real_escape_string($con, $_POST['cemail']);
     $c_domain_id = mysqli_real_escape_string($con, $_POST['c_domain_id']);
-    $dob = mysqli_real_escape_string($con, $_POST['dob']);
-    $industry = mysqli_real_escape_string($con, $_POST['industry']);
-    $position = mysqli_real_escape_string($con, $_POST['position']);
-    $gender = mysqli_real_escape_string($con, $_POST['gender']);
+    $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $v_code = rand(100000, 999999);
     $data = $con->query("select `email` from `user` where `email` = '$email'");
     if ($data->num_rows == 0) {
-        $query = $con->query("INSERT INTO `user`(`email`, `industry`, `position`, `dob`, `gender`,`vcode`,`c_domain_id`)  VALUES ('$email','$industry','$position','$dob','$gender','$v_code','$c_domain_id')");
+        $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
         if ($query) {
             /*$email_to = $email;
             $subject = 'Verify your email.';
@@ -41,8 +39,8 @@ if (isset($_POST['register'])) {
                 Header("Location: email_verify.php");
             }*/
             session_start();
-            $_SESSION["email"] = $email;
-            header("Location: email_verify.php");
+            $_SESSION["email"] = $pemail;
+            Header("Location: email_verify.php");
         } else {
             echo "something went wrong";
             $value = 1;
@@ -176,12 +174,13 @@ if (isset($_POST['add_company'])){
                 <div>
                     <label class="mb-0">Select Your Company Domain </label>
                     <select class="js-example-basic-single" name="c_domain_id">
+                        <option value="None">None</option>
                         <?php
-                        $query = $con->query("select `id`,`domain_name` from `company_domain`");
+                        $query = $con->query("select `id`,`company_name` from `company_domain`");
                         if($query->num_rows > 0){
                             while($row = $query->fetch_assoc()){
                                 ?>
-                                <option value="<?php echo $row['id'];?>"><?php echo $row['domain_name']?></option>
+                                <option value="<?php echo $row['id'];?>"><?php echo $row['company_name']?></option>
                                 <?php
                             }
                         }
@@ -192,78 +191,20 @@ if (isset($_POST['add_company'])){
                     </a></p>
                 </div>
                 <div>
-                    <label class="mb-0"> Email Address</label>
-                    <input type="email" name="email" placeholder="Your Company Email" required
+                    <label class="mb-0"> Nick Name</label>
+                    <input type="text" name="nickname" placeholder="Enter your Nickname" required
                            class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
-                <div class="grid lg:grid-cols-2 gap-3">
-                    <div>
-                        <label class="mb-0"> Date of Birth </label>
-                        <input type="date" name="dob" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                    </div>
-                    <div>
-                        <label class="mb-0"> Gender </label>
-                        <input type="text" name="gender" list="gender"
-                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                        <datalist id="gender">
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Others</option>
-                        </datalist>
-                    </div>
+                <div>
+                    <label class="mb-0">Personal Email Address</label>
+                    <input type="email" name="pemail" placeholder="Your Personal Email" required
+                           class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
-                <div class="grid lg:grid-cols-2 gap-3">
-                    <div>
-                        <label class="mb-0"> Position </label>
-                        <input type="text" name="position" list="position"
-                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full" required>
-                        <datalist id="position">
-                            <option>Account Manager</option>
-                            <option>Analyst</option>
-                            <option>Assistant Manager</option>
-                            <option>Associate</option>
-                            <option>Business Analyst</option>
-                            <option>Consultant</option>
-                            <option>Director</option>
-                            <option>Engineer</option>
-                            <option>Manager</option>
-                            <option>Partner</option>
-                            <option>Product Manager</option>
-                            <option>Senior Analyst</option>
-                            <option>Senior Associate</option>
-                            <option>Senior Consultant</option>
-                            <option>Senior Manager</option>
-                            <option>Software Engineer</option>
-                            <option>Student</option>
-                            <option>Unemployed</option>
-                            <option>Vice President</option>
-                        </datalist>
-                    </div>
-                    <div>
-                        <label class="mb-0"> Industry </label>
-                        <select class="js-example-basic-single" name="industry" required>
-                            <option value=" ">Choose Your Industry</option>
-                            <?php
-                            $query = $con->query("select `id`,`industry` from `industry`");
-                            if($query->num_rows > 0){
-                                while($row = $query->fetch_assoc()){
-                                    ?>
-                                    <option value="<?php echo $row['id'];?>"><?php echo $row['industry']?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-
+                <div>
+                    <label class="mb-0">Company Email Address</label>
+                    <input type="email" name="cemail" placeholder="Your Company Email" required
+                           class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
-
-
-                <!--<div class="checkbox">
-                    <input type="checkbox" id="chekcbox1" checked="">
-                    <label for="chekcbox1"><span class="checkbox-icon"></span> I agree to the <a href="pages-terms.html" target="_blank" class="uk-text-bold uk-text-small uk-link-reset"> Terms and Conditions </a>
-                    </label>
-                </div>-->
 
                 <div>
                     <button type="submit" name="register"
@@ -282,7 +223,7 @@ if (isset($_POST['add_company'])){
 
     <div class="lg:mb-5 py-3 uk-link-reset">
         <div class="flex align-items-center justify-content-center lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-            <p class="capitalize"> © copyright 2020 by Secrary</p>
+            <p class="capitalize"> © copyright 2022 by Secrary</p>
         </div>
     </div>
 

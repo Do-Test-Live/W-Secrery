@@ -1,6 +1,13 @@
 <?php
 session_start();
 include("config/dbconfig.php");
+$email = $_SESSION['email'];
+$query = $con->query("select id, email from user where email = '$email'");
+if($query-> num_rows > 0){
+    while($row = mysqli_fetch_assoc($query)){
+        $id = $row['id'];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,116 +114,78 @@ include("config/dbconfig.php");
     <div class="main_content">
         <div class="mcontainer">
 
-            <div class="lg:flex lg:space-x-12">
 
-                <div class="lg:w-2/3 flex-shirink-0">
+            <div class="flex-1">
+                <h2 class="text-2xl font-semibold"> Your Blogs </h2>
+            </div>
+            <?php
+            $fetch_blog = $con->query("select * from blog where user_id = '$id' order by id desc");
+            if($fetch_blog->num_rows > 0){
+                while($data = mysqli_fetch_assoc($fetch_blog)){
+                    ?>
+                    <div class="flex md:space-x-6 space-x-4 md:py-5 py-3 relative" id="view">
+                        <div class="flex-1 space-y-2">
 
-                    <div class="flex justify-between relative md:mb-4 mb-3">
-                        <div class="flex-1">
-                            <h2 class="text-2xl font-semibold"> Trending </h2>
+                            <a href="#" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
+                            <p class="leading-6 pr-4 line-clamp-2 md:block hidden"><?php echo $data["blog_description"];?></p>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex space-x-3 items-center text-sm md:pt-3">
+                                    <div><?php echo $data["created_at"];?></div>
+                                </div>
+                                <a href="edit_blog.php?id=<?php echo $data['id'];?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border">Edit</a>
+                            </div>
+
                         </div>
                     </div>
+                    <?php
+                }
+            }else{
+                ?>
+                <p class="leading-6 pr-4 line-clamp-2 md:block hidden">You haven't posted anything yet.</p>
+                <?php
+            }
+            ?>
 
-                    <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
-                        <?php
-                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by b.id desc limit 6;");
-                        if ($feed_data->num_rows > 0){
-                        while($feed = mysqli_fetch_assoc($feed_data)){
-                        $blog = $feed['id'];
-                        ?>
-                        <li>
-                            <div class="flex items-start space-x-5 p-7">
-                                <img src="assets/images/user/<?php echo $feed['image']; ?>" alt=""
-                                     class="w-12 h-12 rounded-full">
-                                <div class="flex-1">
-                                    <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
-                                       class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
-                                    <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
-                                </div>
-                                <div class="sm:flex items-center space-x-4 hidden">
-                                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                    </svg>
-                                    <?php
-                                    $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
-                            if($comment){
-                                while($number = mysqli_fetch_assoc($comment)){
-                                ?>
-                                <span class="text-xl"> <?php echo $number['number'];?> </span>
-                                <?php
-                                }
-                            }
 
-                                    ?>
-                                </div>
-                            </div>
-                        </li>
-                        <?php
-                        }
-                        }else{
-                            ?>
-                            <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-
-                </div>
-
-                <div class="lg:w-1/3 pt-5">
-
-                    <div uk-sticky="offset:100">
-
-                        <h2 class="text-xl font-semibold mb-2"> Top Contributors </h2>
-                        <p> People who started the most discussions on Talks. </p>
-                        <br>
-                        <ul class="space-y-3">
-                            <?php
-                            $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
-                            if ($select_user->num_rows > 0){
-                                while ($user = mysqli_fetch_assoc($select_user)){
-                                    $user_id = $user['id'];
-                                    ?>
-                                    <li>
-                                        <div class="flex items-center space-x-3">
-                                            <img src="assets/images/user/<?php echo $user['image'];?>" alt="" class="w-8 h-8 rounded-full">
-                                            <a href="#" class="font-semibold"> Anonymous</a>
-                                            <div class="flex items-center space-x-2">
-                                                <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
-                                                <?php
-                                                $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
-                                                if($num_of_post){
-                                                    while($post = mysqli_fetch_assoc($num_of_post)){
-                                                        ?>
-                                                        <span> <?php echo $post['post'];?> </span>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </ul>
-
-                    </div>
-
-                </div>
-
+            <div class="flex-1 mt-5">
+                <h2 class="text-2xl font-semibold"> Your Posts on Company Channel </h2>
             </div>
+            <?php
+            $fetch_blog = $con->query("select * from chanel_post where user_id = '$id' order by id desc");
+            if($fetch_blog->num_rows > 0){
+                while($data = mysqli_fetch_assoc($fetch_blog)){
+                    ?>
+                    <div class="flex md:space-x-6 space-x-4 md:py-5 py-3 relative" id="view">
+                        <div class="flex-1 space-y-2">
+
+                            <a href="#" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
+                            <p class="leading-6 pr-4 line-clamp-2 md:block hidden"><?php echo $data["blog_description"];?></p>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex space-x-3 items-center text-sm md:pt-3">
+                                    <div><?php echo $data["created_at"];?></div>
+                                </div>
+                                <a href="edit_channel_post.php?id=<?php echo $data['id'];?>" class="md:flex items-center justify-center h-9 px-8 rounded-md border">Edit</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <?php
+                }
+            }else{
+                ?>
+                <p class="leading-6 pr-4 line-clamp-2 md:block hidden">You haven't posted anything yet.</p>
+                <?php
+            }
+            ?>
 
         </div>
-    </div>
 
+    </div>
 </div>
 
-
-
+</div>
 
 
 <!-- For Night mode -->
@@ -270,5 +239,4 @@ include("config/dbconfig.php");
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/forums.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:15:04 GMT -->
 </html>

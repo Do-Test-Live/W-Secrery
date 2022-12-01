@@ -1,5 +1,5 @@
 <?php
-$query = $con->query("select * from `company_domain` order by rand()");
+$query = $con->query("select * from `company_domain` order by id desc limit 5");
 if($query->num_rows > 0){
     while ($row = mysqli_fetch_assoc($query)){
         $c_month = date('m');

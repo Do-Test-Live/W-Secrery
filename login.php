@@ -119,8 +119,9 @@ if (isset($_POST['submit'])){
 
                         <div>
                             <button type="submit" name="submit" class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
-                                Get Started</button>
+                                Log In</button>
                         </div>
+                        <p class="flex align-items-center justify-content-center">Forgot your password? <a href="forgot.php">Help</a></p>
                     </form>
                     <p class="flex align-items-center justify-content-center">Don't have an account? <a href="register.php"> Sign Up</a></p>
  
@@ -131,7 +132,7 @@ if (isset($_POST['submit'])){
     
             <div class="lg:mb-5 py-3 uk-link-reset">
                 <div class="flex justify-content-center align-items-center lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                    <p class="capitalize"> © copyright 2020 by Secrery</p>
+                    <p class="capitalize"> © copyright 2022 by Secrery</p>
                 </div>
             </div>
     

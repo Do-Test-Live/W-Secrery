@@ -1,26 +1,42 @@
-<?php
-session_start();
-$email = $_SESSION["email"];
-include ("config/dbconfig.php");
-$result = 0;
-if(isset($_POST['set_pass'])){
-    $password = mysqli_real_escape_string($con, $_POST['password']);
-    $key = 'Secrery';
-    $Pwd_peppered = Hash_hmac("Sha256", $password, $key);
-    $Pwd_hashed = Password_hash($Pwd_peppered, PASSWORD_ARGON2ID);
-    $query = $con->query("update `user` set `password` = '$Pwd_hashed' where `email` = '$email'");
-    if ($query){
-        header("Location: index.php");
-    }else{
-        echo "Something went wrong";
-        $result = 1;
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-100">
 
+<?php
+$result = 0;
+include ("config/dbconfig.php");
+if (isset($_POST['submit'])){
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $query = $con->query("select * from user where email = '$email'");
+    if($query->num_rows == 1){
+        while($data = mysqli_fetch_assoc($query)){
+            $id = $data['id'];
+        }
+        $email_to = $email;
+        $subject = 'Verify your email.';
+
+
+        $headers = "From: Secrery <signup@nftprj.com>\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+        $messege = "
+            <html>
+                <body style='background-color: #eee; font-size: 16px;'>
+                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
+                
+                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
+                
+                    <p style='color:black;text-align: center'>
+                        Please click on the link to reset your password : <strong><a href='https://secrery.nftprj.com/resetpass.php?id=$id&email=$email'>Click Here!</a></strong>
+                    </p>
+                </div>
+                </body>
+            </html>";
+        $result = 1;
+    }else{
+        $result = 2;
+    }
+}
+?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,9 +86,14 @@ if(isset($_POST['set_pass'])){
 
             <div class="flex items-center lg:justify-between justify-around">
 
-                <a href="trending.html">
+                <a href="index.php">
                     <h2 class="text-2xl font-semibold"> Secrery </h2>
                 </a>
+
+                <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
+                    <a href="login.php" class="py-3 px-4 bg-purple-500 purple-500 rounded-md shadow text-white">Login</a>
+                    <a href="register.php" class="px-6 py-3">Register</a>
+                </div>
 
             </div>
         </div>
@@ -82,26 +103,33 @@ if(isset($_POST['set_pass'])){
     <div>
         <div class="lg:p-12 max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
             <?php if ($result == 1){?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Congrats!</strong> Further instructions has been sent to your email!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
+            } elseif ($result == 2){
+                ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Sorry!</strong> Something Went Wrong.
+                    <strong>Sorry!</strong> Cann't find your email.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <?php
             }
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
-                <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Set Password </h1>
-
+                <h1 class="lg:text-2xl text-xl font-semibold mb-6"> Verify Your Email </h1>
                 <div>
-                    <label class="mb-0"> Password </label>
-                    <input type="password" placeholder="xxxxx" name="password"  class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    <label class="mb-0">Personal Email Address </label>
+                    <input type="email" name="email" placeholder="info@example.com" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
 
                 <div>
-                    <button type="submit" name="set_pass" class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
-                        Get Started</button>
+                    <button type="submit" name="submit" class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
+                        Send Email</button>
                 </div>
             </form>
+
 
         </div>
     </div>
@@ -109,7 +137,7 @@ if(isset($_POST['set_pass'])){
     <!-- Footer -->
 
     <div class="lg:mb-5 py-3 uk-link-reset">
-        <div class="flex justify-content-center align-items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
+        <div class="flex justify-content-center align-items-center lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
             <p class="capitalize"> © copyright 2022 by Secrery</p>
         </div>
     </div>

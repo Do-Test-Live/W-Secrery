@@ -3,27 +3,30 @@ session_start();
 include("config/dbconfig.php");
 $email = $_SESSION["email"];
 $result = 0;
-if (isset($_POST['update_info'])){
-    $fname = mysqli_real_escape_string($con, $_POST['fname']);
+if (isset($_POST['update_info'])) {
+    $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $lname = mysqli_real_escape_string($con, $_POST['lname']);
+    $position = mysqli_real_escape_string($con, $_POST['position']);
+    $industry = mysqli_real_escape_string($con, $_POST['industry']);
+    $dob = mysqli_real_escape_string($con, $_POST['dob']);
+    $gender = mysqli_real_escape_string($con, $_POST['gender']);
+    $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
     $c_image = $_FILES['c_image']['name'];
-    $c_image_temp=$_FILES['c_image']['tmp_name'];
+    $c_image_temp = $_FILES['c_image']['tmp_name'];
 
-    if($c_image_temp != "")
-    {
-        move_uploaded_file($c_image_temp , "assets/images/user/$c_image");
-        $c_update=$con->query("UPDATE `user` SET `f_name`='$fname',`l_name`='$lname',`image`='$c_image' WHERE `email` = '$email'");
-        if($c_update){
+    if ($c_image_temp != "") {
+        move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
+        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender' WHERE `email` = '$email'");
+        if ($c_update) {
             $result = 1;
-        }else{
+        } else {
             $result = 2;
         }
-    }else
-    {
-        $c_update=$con->query("UPDATE `user` SET `f_name`='$fname',`l_name`='$lname' WHERE `email` = '$email'");
-        if($c_update){
+    } else {
+        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender' WHERE `email` = '$email'");
+        if ($c_update) {
             $result = 1;
-        }else{
+        } else {
             $result = 2;
         }
     }
@@ -57,10 +60,10 @@ if (isset($_POST['update_info'])){
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
 
@@ -142,14 +145,14 @@ if (isset($_POST['update_info'])){
             <div class="grid lg:grid-cols-3 mt-12 gap-8">
                 <div class="bg-white rounded-md lg:shadow-md shadow col-span-2 lg:mx-16">
                     <?php
-                    if ($result == 1){
+                    if ($result == 1) {
                         ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>Congratulation!</strong> Data has been updated successfully.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <?php
-                    }elseif ($result == 2){
+                    } elseif ($result == 2) {
                         ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Sorry!</strong> Something went wrong!
@@ -159,30 +162,181 @@ if (isset($_POST['update_info'])){
                     }
                     ?>
                     <form action="#" method="post" enctype="multipart/form-data">
-                        <h1 class="lg:text-2xl text-xl font-semibold mb-6 flex align-items-center justify-content-center" style="margin-top: 20px"> Update Profile </h1>
+                        <h1 class="lg:text-2xl text-xl font-semibold mb-6 flex align-items-center justify-content-center"
+                            style="margin-top: 20px"> Update Profile </h1>
                         <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
 
-                                <?php
-                                $query = $con->query("select `f_name`, `l_name` from `user` where `email` = '$email'");
-                                if($query->num_rows == 1){
-                                    while($row = mysqli_fetch_assoc($query)){
-                                        ?>
-                                        <div>
-                                            <label for=""> First name</label>
-                                            <input type="text" name="fname" value="<?php echo $row['f_name'];?>" class="shadow-none with-border" required>
+                            <?php
+                            $query = $con->query("select * from `user` where `email` = '$email'");
+                            if ($query->num_rows == 1) {
+                                while ($row = mysqli_fetch_assoc($query)) {
+                                    ?>
+                                    <div>
+                                        <label for=""> Nick Name</label>
+                                        <input type="text" name="nickname" value="<?php echo $row['f_name']; ?>"
+                                               class="shadow-none with-border" required>
+                                    </div>
+                                    <div>
+                                        <label for="">ID</label>
+                                        <input type="text" name="lname" value="<?php echo $row['id']; ?>"
+                                               class="shadow-none with-border" required>
+                                    </div>
+                                    <div>
+                                        <label class="mb-0"> Position </label>
+                                        <input type="text" name="position" value="<?php echo $row['position']; ?>"
+                                               list="position"
+                                               class="shadow-none with-border">
+                                        <datalist id="position">
+                                            <option>Account Manager</option>
+                                            <option>Analyst</option>
+                                            <option>Assistant Manager</option>
+                                            <option>Associate</option>
+                                            <option>Business Analyst</option>
+                                            <option>Consultant</option>
+                                            <option>Director</option>
+                                            <option>Engineer</option>
+                                            <option>Manager</option>
+                                            <option>Partner</option>
+                                            <option>Product Manager</option>
+                                            <option>Senior Analyst</option>
+                                            <option>Senior Associate</option>
+                                            <option>Senior Consultant</option>
+                                            <option>Senior Manager</option>
+                                            <option>Software Engineer</option>
+                                            <option>Student</option>
+                                            <option>Unemployed</option>
+                                            <option>Vice President</option>
+                                        </datalist>
+                                    </div>
+
+                                    <div>
+                                        <label class="mb-0"> Industry </label>
+                                        <select class="shadow-none with-border"
+                                                name="industry" required="" data-select2-id="select2-data-4-7a5n"
+                                                tabindex="-1" aria-hidden="true">
+                                            <?php
+                                            $industry_id = $row['industry'];
+                                            $fetch_industry = $con->query("select id, industry from industry where id='$industry_id'");
+                                            while($fetch = mysqli_fetch_assoc($fetch_industry)){
+                                                $id = $fetch['id'];
+                                                $name = $fetch['industry'];
+                                            }
+                                            ?>
+                                            <option value="<?php echo $id;?>" data-select2-id="select2-data-6-uhfj"><?php echo $name;?>
+                                            </option>
+                                            <option value=" " data-select2-id="select2-data-6-uhfj">Choose Your
+                                                Industry
+                                            </option>
+                                            <?php
+                                            $industry = $con->query("select * from industry");
+                                            if ($industry->num_rows > 0) {
+                                                while ($ind = mysqli_fetch_assoc($industry)) {
+                                                    ?>
+                                                    <option value="<?php echo $ind['id']; ?>"><?php echo $ind['industry']; ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for=""> Date of Birth</label>
+                                        <input type="date" name="dob" value="<?php echo $row['dob']; ?>"
+                                               class="shadow-none with-border">
+                                    </div>
+                                    <div>
+                                        <label class="mb-0"> Gender </label>
+                                        <select class="shadow-none with-border"
+                                                name="gender" required="" data-select2-id="select2-data-4-7a5n"
+                                                tabindex="-1" aria-hidden="true">
+                                            <option><?php echo $row['gender']; ?></option>
+                                            <option value=" " data-select2-id="select2-data-6-uhfj">Choose Your
+                                                Gender
+                                            </option>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Others</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label for=""> Profile Image</label>
+                                        <input type="file" placeholder="" name="c_image"
+                                               class="shadow-none with-border">
+                                    </div>
+                                    <div class="row px-3">
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="1" value="1.jpg">
+                                            <img src="assets/images/user/1.jpg">
                                         </div>
-                                        <div>
-                                            <label for=""> Last name</label>
-                                            <input type="text" name="lname" value="<?php echo $row['l_name'];?>" class="shadow-none with-border" required>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="2" value="2.jpg">
+                                            <img src="assets/images/user/2.jpg">
                                         </div>
-                                        <div class="col-span-2">
-                                            <label for=""> Profile Image</label>
-                                            <input type="file" placeholder="" name="c_image" class="shadow-none with-border">
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="3" value="3.jpg">
+                                            <img src="assets/images/user/3.jpg">
                                         </div>
-                                        <?php
-                                    }
+                                    </div>
+                                    <div class="row px-3">
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="1" value="4.jpg">
+                                            <img src="assets/images/user/4.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="2" value="5.jpg">
+                                            <img src="assets/images/user/5.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="3" value="6.jpg">
+                                            <img src="assets/images/user/6.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="row px-3">
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="1" value="7.jpg">
+                                            <img src="assets/images/user/7.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="2" value="8.jpg">
+                                            <img src="assets/images/user/8.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="3" value="9.jpg">
+                                            <img src="assets/images/user/9.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="row px-3">
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="1" value="10.jpg">
+                                            <img src="assets/images/user/10.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="2" value="11.jpg">
+                                            <img src="assets/images/user/11.jpg">
+                                        </div>
+                                        <div class="col-4">
+                                            <input class="form-check-input" type="radio" name="avatar"
+                                                   id="3" value="12.jpg">
+                                            <img src="assets/images/user/12.jpg">
+                                        </div>
+                                    </div>
+                                    <?php
                                 }
-                                ?>
+                            }
+                            ?>
                         </div>
                         <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
                             <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel</button>
@@ -197,212 +351,6 @@ if (isset($_POST['update_info'])){
         </div>
     </div>
 
-</div>
-
-
-<!-- open chat box -->
-<div uk-toggle="target: #offcanvas-chat" class="start-chat">
-    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-    </svg>
-</div>
-
-<div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
-    <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
-
-
-        <div class="relative pt-5 px-4">
-
-            <h3 class="text-2xl font-bold mb-2"> Chats </h3>
-
-            <div class="absolute right-3 top-4 flex items-center space-x-2">
-
-                <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok"
-                        type="button" uk-close></button>
-
-                <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
-                    <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <a href="#">
-                    <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <a href="#">
-                    <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
-                     uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                    <ul class="space-y-1">
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon>
-                                Mark all as read
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>
-                                Chat setting
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>
-                                Disable notifications
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon>
-                                Create a group chat
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-        <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex"
-             id="search" hidden>
-            <input type="text" placeholder="Search.." class="flex-1">
-            <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer"
-                      uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
-        </div>
-
-        <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-            <ul uk-switcher="connect: #chats-tab; animation: uk-animation-fade">
-                <li class="uk-active"><a class="active" href="#0"> Friends </a></li>
-                <li><a href="#0">Groups <span> 10 </span> </a></li>
-            </ul>
-        </nav>
-
-        <div class="contact-list px-2 uk-switcher" id="chats-tab">
-
-            <div class="p-1">
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Alex Dolgove</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Stella Johnson</div>
-                </a>
-
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Adrian Mohani</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Jonathan Madano</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-
-
-            </div>
-            <div class="p-1">
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Alex Dolgove</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Stella Johnson</div>
-                </a>
-
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Adrian Mohani</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Jonathan Madano</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-
-
-            </div>
-
-        </div>
-    </div>
 </div>
 
 

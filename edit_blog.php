@@ -1,6 +1,24 @@
 <?php
 session_start();
+$email = $_SESSION["email"];
+$blog_id = $_GET['id'];
+$result = 0;
 include("config/dbconfig.php");
+
+if (isset($_POST['add_post'])) {
+    $post_heading = mysqli_real_escape_string($con, $_POST['post_heading']);
+    $industry = mysqli_real_escape_string($con, $_POST['industry']);
+    $post_description = mysqli_real_escape_string($con, $_POST['post_description']);
+
+    $query = $con->query("UPDATE `blog` SET `blog_heading`='$post_heading',`blog_description`='$post_description',
+                  `industry_id`='$industry' WHERE id=$blog_id");
+    if ($query) {
+        $result = 1;
+    } else {
+        $result = 2;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,12 +42,16 @@ include("config/dbconfig.php");
     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
-    <!-- CSS 
+    <!-- CSS
     ================================================== -->
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -64,9 +86,7 @@ include("config/dbconfig.php");
 
                 </div>
 
-                <?php
-                include("include/head_right.php");
-                ?>
+                <?php include("include/head_right.php"); ?>
             </div>
         </div>
     </header>
@@ -108,54 +128,91 @@ include("config/dbconfig.php");
     <div class="main_content">
         <div class="mcontainer">
 
-            <div class="flex justify-between relative md:mb-4 mb-3">
-                <div class="flex-1">
-                    <h2 class="text-2xl font-semibold"> Companies </h2>
-                </div>
-            </div>
 
-            <div class="relative" uk-slider="finite: true">
+            <!-- create page-->
+            <div class="max-w-2xl m-auto shadow-md rounded-md bg-white lg:mt-20">
+                <?php
+                if ($result == 1) {
+                    ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Congratulation!</strong> Blog has been posted successfully.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php
+                } elseif ($result == 2) {
+                    ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Sorry!</strong> Something went wrong!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php
+                }
+                ?>
 
-                <div class="uk-slider-container px-1 py-3">
-                    <ul class="uk-slider-items uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
+                <!-- form header -->
+                <form action="#" method="post">
+                    <div class="text-center border-b border-gray-100 py-6">
+                        <h3 class="font-bold text-xl"> Update Post </h3>
+                    </div>
 
-                        <!--fetch company from database-->
-                        <?php include("include/fetch_company.php"); ?>
+                    <?php
+                    $blog_data = $con->query("select * from blog where id='$blog_id'");
+                    if ($blog_data->num_rows == 1) {
+                        while ($data = mysqli_fetch_assoc($blog_data)) {
+                            ?>
+                            <!-- form body -->
+                            <div class="p-10 space-y-7">
+                                <div class="line">
+                                    <input class="line__input" name="post_heading" type="text" value="<?php echo $data['blog_heading'];?>">
+                                    <span for="username" class="line__placeholder"> Post Heading </span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md"> Industry:</div>
+                                    <select class="js-example-basic-single" name="industry" required>
+                                        <?php
+                                        $industry_id = $data['industry_id'];
+                                        $industry_data = $con->query("select * from industry where id= '$industry_id'");
+                                        while ($ind_data = mysqli_fetch_assoc($industry_data)){
+                                            $industry_name = $ind_data['industry'];
+                                            $ind_id = $ind_data['id'];
+                                        }
+                                        ?>
+                                        <option value="<?php echo $ind_id?>"><?php echo $industry_name;?></option>
+                                        <option value=" ">Choose Your Industry</option>
+                                        <?php
+                                        $query = $con->query("select `id`,`industry` from `industry`");
+                                        if ($query->num_rows > 0) {
+                                            while ($row = $query->fetch_assoc()) {
+                                                ?>
+                                                <option value="<?php echo $row['id']; ?>"><?php echo $row['industry'] ?></option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="line h-32">
+                                    <textarea class="line__input h-32" name="post_description" type="text"
+                                              placeholder="Post Description"
+                                              value="" style="color: black"><?php echo $data['blog_description'];?>
+                                    </textarea>
+                                </div>
 
-                    </ul>
 
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -left-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="previous"> <i class="icon-feather-chevron-left"></i></a>
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -right-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="next"> <i class="icon-feather-chevron-right"></i></a>
+                            </div>
 
-                </div>
-            </div>
+                            <!-- form footer -->
+                            <div class="border-t flex justify-content-center align-items-center lg:space-x-10 p-7 bg-gray-50 rounded-b-md">
+                                <button type="submit" name="add_post" class="button lg:w-1/2">
+                                    Post
+                                </button>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </form>
 
-
-        </div>
-        <div class="mcontainer">
-            <div class="flex justify-between relative md:mb-4 mb-3">
-                <div class="flex-1">
-                    <h2 class="text-2xl font-semibold"> New Companies </h2>
-                </div>
-            </div>
-
-            <div class="relative" uk-slider="finite: true">
-
-                <div class="uk-slider-container px-1 py-3">
-                    <ul class="uk-slider-items uk-child-width-1-4@m uk-child-width-1-3@s uk-grid-small uk-grid">
-                        <?php
-                        include("include/fetch_recent_company.php");
-                        ?>
-                    </ul>
-
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -left-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="previous"> <i class="icon-feather-chevron-left"></i></a>
-                    <a class="absolute bg-white bottom-1/2 flex items-center justify-center p-2 -right-4 rounded-full shadow-md text-xl w-9 z-10 dark:bg-gray-800 dark:text-white"
-                       href="#" uk-slider-item="next"> <i class="icon-feather-chevron-right"></i></a>
-
-                </div>
             </div>
 
 
@@ -164,13 +221,6 @@ include("config/dbconfig.php");
 
 </div>
 
-
-<!-- open chat box -->
-<!--<div uk-toggle="target: #offcanvas-chat" class="start-chat">
-    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-    </svg>
-</div>-->
 
 <div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
     <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
@@ -255,7 +305,7 @@ include("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -275,14 +325,14 @@ include("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue</div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-friend.html">
                     <div class="contact-avatar">
@@ -312,7 +362,7 @@ include("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-7.jpg" alt="">
                     </div>
-                    <div class="contact-username"> Sammy Ka</div>
+                    <div class="contact-username"> Alex Dolgove</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -332,14 +382,14 @@ include("config/dbconfig.php");
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-3.jpg" alt="">
                     </div>
-                    <div class="contact-username">Steven Tai</div>
+                    <div class="contact-username">Stella Johnson</div>
                 </a>
 
                 <a href="chats-group.html">
                     <div class="contact-avatar">
                         <img src="assets/images/avatars/avatar-5.jpg" alt="">
                     </div>
-                    <div class="contact-username">Doris Logue</div>
+                    <div class="contact-username">Adrian Mohani</div>
                 </a>
                 <a href="chats-group.html">
                     <div class="contact-avatar">
@@ -368,6 +418,7 @@ include("config/dbconfig.php");
         </div>
     </div>
 </div>
+
 
 <!-- For Night mode -->
 <script>
@@ -418,5 +469,5 @@ include("config/dbconfig.php");
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/companies.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:18:19 GMT -->
+<!-- Mirrored from demo.foxthemes.net/socialitev2.2/create-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:20:14 GMT -->
 </html>
