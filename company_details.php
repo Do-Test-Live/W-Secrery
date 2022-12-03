@@ -156,8 +156,8 @@ if ($query->num_rows == 1) {
 
                         <nav class="responsive-nav md:m-0 -mx-4 nav-small">
                             <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
-                                <li><a class="lg:px-2" href="#">Overview</a></li>
                                 <li><a class="lg:px-2" href="#">Post</a></li>
+                                <li><a class="lg:px-2" href="#">Overview</a></li>
                                 <li><a class="lg:px-2" href="#">Faq</a></li>
                                 <?php
                                 if (isset($_SESSION['email'])) {
@@ -181,12 +181,11 @@ if ($query->num_rows == 1) {
 
                             <div class="uk-switcher" id="components-nav">
 
+                                <!-- Post -->
+                                <?php include ("include/fetch_company_blog.php");?>
 
                                 <!-- Overview -->
                                 <?php include ("include/fetch_overview.php");?>
-
-                                <!-- Post -->
-                                <?php include ("include/fetch_company_blog.php");?>
 
 
                                 <!-- Faq -->

@@ -31,7 +31,10 @@ if (isset($_POST['submit'])){
                 </div>
                 </body>
             </html>";
-        $result = 1;
+        if (mail($email_to, $subject, $messege, $headers)) {
+            $result = 1;
+        }
+
     }else{
         $result = 2;
     }

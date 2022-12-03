@@ -12,7 +12,7 @@ if (isset($_POST['register'])) {
     if ($data->num_rows == 0) {
         $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
         if ($query) {
-            /*$email_to = $email;
+            $email_to = $email;
             $subject = 'Verify your email.';
 
 
@@ -37,10 +37,7 @@ if (isset($_POST['register'])) {
                 session_start();
                 $_SESSION["email"] = $email;
                 Header("Location: email_verify.php");
-            }*/
-            session_start();
-            $_SESSION["email"] = $pemail;
-            Header("Location: email_verify.php");
+            }
         } else {
             echo "something went wrong";
             $value = 1;

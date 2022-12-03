@@ -14,6 +14,9 @@ if ($select_data->num_rows == 1) {
         $first_name = $row['f_name'];
         $last_name = $row['l_name'];
         $blog_owner_image = $row['image'];
+        $c_domain_id = $row['c_domain_id'];
+        $position = $row['position'];
+        $industry_id = $row['industry_id'];
     }
 }
 
@@ -154,7 +157,24 @@ if (isset($_POST['add_comment'])) {
                                      class="w-10 rounded-full">
                                 <div>
                                     <div class="text-base font-semibold"> Anonymous</div>
-                                    <div class="text-xs"> <?php echo $creat_date ?> </div>
+                                    <?php
+                                    $company_name_fetch = $con->query("select * from company_domain where id = '$c_domain_id'");
+                                    if($company_name_fetch){
+                                        while ($company = mysqli_fetch_assoc($company_name_fetch)){
+                                            $company_name = $company['company_name'];
+                                        }
+                                    }
+                                    ?>
+                                    <div class="text-xs"> <?php echo $position ?>, <?php echo $company_name?> </div>
+                                    <?php
+                                    $fetch_industry = $con->query("select * from industry where id = '$industry_id'");
+                                    if($fetch_industry){
+                                        while ($industry = mysqli_fetch_assoc($fetch_industry)){
+                                            $industry_name = $industry['industry'];
+                                        }
+                                    }
+                                    ?>
+                                    <div class="text-xs"> <?php echo $industry_name ?></div>
                                 </div>
                             </div>
 
@@ -169,7 +189,6 @@ if (isset($_POST['add_comment'])) {
                     </div>
 
                     <?php
-                    if (isset($_SESSION["email"])) {
                         $query = $con->query("select * from blog_comment as b, user as u where b.blog_id = '$blog_id' and u.id = b.user_id;");
                         if ($query->num_rows > 0) {
                             ?>
@@ -181,7 +200,8 @@ if (isset($_POST['add_comment'])) {
                                     <img src="assets/images/user/<?php echo $data['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <div>
                                         <h4 class="text-base m-0">Anonymous</h4>
-                                        <span class="text-gray-700 text-sm"><?php echo $data['position'];?></span>
+                                        <span class="text-gray-700 text-sm"><?php echo $data['position'];?><br></span>
+                                        <span class="text-gray-700 text-sm"><?php $date=date_create($data['created_at']); echo date_format($date,"d M Y h:i:s A");?></span>
                                         <p class="mt-3">
                                             <?php echo $data['comment'];?>
                                         </p>
@@ -191,6 +211,7 @@ if (isset($_POST['add_comment'])) {
                                 <?php
                             }
                         }
+                    if (isset($_SESSION["email"])) {
                         ?>
 
                         <h3 class="mb-8 mt-20 font-semibold text-xl"> Add your comment </h3>
