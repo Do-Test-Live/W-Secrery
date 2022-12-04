@@ -48,15 +48,17 @@ if (isset($_POST['register'])) {
     }
 }
 
-if (isset($_POST['add_company'])){
+if (isset($_POST['add_company'])) {
     $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
     $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
+    $company_s_domain =  $_POST['company_s_domain'];
     $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
-    if($verify -> num_rows == 0){
-        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`) VALUES ('$company_name','$company_domain')");
-        if($insert_company){
+    if ($verify->num_rows == 0) {
+        foreach ($company_s_domain as $s => $value)
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$value."')");
+        if ($insert_company) {
             $value = 3;
-        }else{
+        } else {
             $value = 1;
         }
     }
@@ -102,7 +104,7 @@ if (isset($_POST['add_company'])){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
@@ -156,8 +158,8 @@ if (isset($_POST['add_company'])){
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <?php
-            }elseif ($value == 3){
-            ?>
+            } elseif ($value == 3) {
+                ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Congratulation!</strong> Company has been added successfully.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -173,19 +175,20 @@ if (isset($_POST['add_company'])){
                     <select class="js-example-basic-single" name="c_domain_id">
                         <option value="None">None</option>
                         <?php
-                        $query = $con->query("select `id`,`company_name` from `company_domain`");
-                        if($query->num_rows > 0){
-                            while($row = $query->fetch_assoc()){
+                        $query = $con->query("select `id`, `company_name` from `company_domain`");
+                        if ($query->num_rows > 0) {
+                            while ($row = $query->fetch_assoc()) {
                                 ?>
-                                <option value="<?php echo $row['id'];?>"><?php echo $row['company_name']?></option>
+                                <option value="<?php echo $row['id']; ?>"><?php echo $row['company_name'] ?></option>
                                 <?php
                             }
                         }
                         ?>
                     </select>
-                    <p> Can't find your Company Domain?<a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Add Company
-                    </a></p>
+                    <p> Can't find your Company Domain?<a href="" data-bs-toggle="modal"
+                                                          data-bs-target="#staticBackdrop">
+                            Add Company
+                        </a></p>
                 </div>
                 <div>
                     <label class="mb-0"> Nick Name</label>
@@ -210,7 +213,8 @@ if (isset($_POST['add_company'])){
                     </button>
                 </div>
             </form>
-            <p class="flex align-items-center justify-content-center">Already have an account? <a href="login.php"> Log In</a></p>
+            <p class="flex align-items-center justify-content-center">Already have an account? <a href="login.php"> Log
+                    In</a></p>
 
 
         </div>
@@ -228,7 +232,8 @@ if (isset($_POST['add_company'])){
 
 <!--company add form-->
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -243,9 +248,24 @@ if (isset($_POST['add_company'])){
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Company Domain</label>
-                        <input type="text" name="company_domain" placeholder="Your Company Name" required
+                        <label class="mb-0"> Company Primary Domain</label>
+                        <input type="text" name="company_domain" placeholder="Your Company Primary Domain" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div class="row" id="row">
+                        <div class="col-8">
+                            <label> Company Secondary Domain</label>
+                            <input type="text" name="company_s_domain[]" id="s_domain"
+                                   placeholder="Your Company Secondary Domain"
+                                   class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                        </div>
+                        <div class="col-4">
+                            <button type="button" name="add_sub_domain"
+                                    class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full"
+                                    id="add_sub_domain">
+                                Add
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <button type="submit" name="add_company"
@@ -259,51 +279,29 @@ if (isset($_POST['add_company'])){
     </div>
 </div>
 
-<!-- For Night mode -->
-<!--<script>
-    (function (window, document, undefined) {
-        'use strict';
-        if (!('localStorage' in window)) return;
-        var nightMode = localStorage.getItem('gmtNightMode');
-        if (nightMode) {
-            document.documentElement.className += ' night-mode';
-        }
-    })(window, document);
-
-    (function (window, document, undefined) {
-
-        'use strict';
-
-        // Feature test
-        if (!('localStorage' in window)) return;
-
-        // Get our newly insert toggle
-        var nightMode = document.querySelector('#night-mode');
-        if (!nightMode) return;
-
-        // When clicked, toggle night mode on or off
-        nightMode.addEventListener('click', function (event) {
-            event.preventDefault();
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.setItem('gmtNightMode', true);
-                return;
-            }
-            localStorage.removeItem('gmtNightMode');
-        }, false);
-
-    })(window, document);
-</script>-->
 
 <!-- Javascript
 ================================================== -->
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.js-example-basic-single').select2();
     });
 </script>
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        let html = '<div class="row"> <div class="col-8"> <label> Company Secondary Domain</label> <input type="text" name="company_s_domain[]" id="s_domain" placeholder="Your Company Secondary Domain" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"> </div> <div class="col-4"> <button type="button" name="add_sub_domain"class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full" id="remove">Remove </button> </div> </div>';
+        let x = 1;
+        $ ("#add_sub_domain").click(function (){
+            $("#row").append(html);
+        });
+        $ ("#row").on('click','#remove',function (){
+            $(this).closest('.row').remove();
+        });
+    });
+</script>
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>
