@@ -52,10 +52,10 @@ if (isset($_POST['add_company'])) {
     $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
     $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
     $company_s_domain =  $_POST['company_s_domain'];
+    $subDomain = implode(",", $company_s_domain);
     $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
     if ($verify->num_rows == 0) {
-        foreach ($company_s_domain as $s => $value)
-        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$value."')");
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$subDomain."')");
         if ($insert_company) {
             $value = 3;
         } else {
@@ -88,7 +88,7 @@ if (isset($_POST['add_company'])) {
     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
-    <!-- CSS 
+    <!-- CSS
     ================================================== -->
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
