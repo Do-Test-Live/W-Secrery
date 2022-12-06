@@ -8,18 +8,27 @@ if (isset($_POST['register'])) {
     $c_domain_id = mysqli_real_escape_string($con, $_POST['c_domain_id']);
     $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $v_code = rand(100000, 999999);
-    $data = $con->query("select `email` from `user` where `email` = '$email'");
+    $data = $con->query("select `email` from `user` where `email` = '$pemail'");
     if ($data->num_rows == 0) {
-        $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
-        if ($query) {
-            $email_to = $email;
-            $subject = 'Verify your email.';
+        if($cemail != null){
+            $select_sub_domain = $con->query("select id, domain_name from company_domain where id = '$c_domain_id'");
+            if($select_sub_domain->num_rows == 1){
+                while ($fetch_sub_domain = mysqli_fetch_assoc($select_sub_domain)){
+                    $sub_domain = $fetch_sub_domain['domain_name'];
+                }
+            }
+            $cemail_last = explode("@",$cemail);
+            if($sub_domain == $cemail_last[1]){
+                $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
+                if ($query) {
+                    $email_to = $pemail;
+                    $subject = 'Verify your email.';
 
 
-            $headers = "From: Secrery <signup@nftprj.com>\r\n";
-            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+                    $headers = "From: Secrery <signup@nftprj.com>\r\n";
+                    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-            $messege = "
+                    $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
                 <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
@@ -33,14 +42,51 @@ if (isset($_POST['register'])) {
                 </body>
             </html>";
 
-            if (mail($email_to, $subject, $messege, $headers)) {
-                session_start();
-                $_SESSION["email"] = $email;
-                Header("Location: email_verify.php");
+                    if (mail($email_to, $subject, $messege, $headers)) {
+                        session_start();
+                        $_SESSION["email"] = $pemail;
+                        Header("Location: email_verify.php");
+                    }
+                } else {
+                    echo "something went wrong";
+                    $value = 1;
+                }
+            }else{
+                $value = 4;
             }
-        } else {
-            echo "something went wrong";
-            $value = 1;
+        }else{
+            $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
+            if ($query) {
+                $email_to = $pemail;
+                $subject = 'Verify your email.';
+
+
+                $headers = "From: Secrery <signup@nftprj.com>\r\n";
+                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+                $messege = "
+            <html>
+                <body style='background-color: #eee; font-size: 16px;'>
+                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
+                
+                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
+                
+                    <p style='color:black;text-align: center'>
+                        6 digit authentication code for your email verification is : <strong>$v_code</strong>
+                    </p>
+                </div>
+                </body>
+            </html>";
+
+                if (mail($email_to, $subject, $messege, $headers)) {
+                    session_start();
+                    $_SESSION["email"] = $pemail;
+                    Header("Location: email_verify.php");
+                }
+            } else {
+                echo "something went wrong";
+                $value = 1;
+            }
         }
 
     } else {
@@ -52,10 +98,10 @@ if (isset($_POST['add_company'])) {
     $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
     $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
     $company_s_domain =  $_POST['company_s_domain'];
+    $subDomain = implode(",", $company_s_domain);
     $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
     if ($verify->num_rows == 0) {
-        foreach ($company_s_domain as $s => $value)
-        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$value."')");
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$subDomain."')");
         if ($insert_company) {
             $value = 3;
         } else {
@@ -88,7 +134,7 @@ if (isset($_POST['add_company'])) {
     ================================================== -->
     <link rel="stylesheet" href="assets/css/icons.css">
 
-    <!-- CSS 
+    <!-- CSS
     ================================================== -->
     <link rel="stylesheet" href="assets/css/uikit.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -105,6 +151,7 @@ if (isset($_POST['add_company'])) {
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
@@ -165,6 +212,13 @@ if (isset($_POST['add_company'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <?php
+            } elseif ($value == 4) {
+                ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Sorry!</strong> Company Name and Company Email didn't Match.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php
             }
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
@@ -202,7 +256,7 @@ if (isset($_POST['add_company'])) {
                 </div>
                 <div>
                     <label class="mb-0">Company Email Address</label>
-                    <input type="email" name="cemail" placeholder="Your Company Email" required
+                    <input type="email" name="cemail" placeholder="Your Company Email"
                            class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                 </div>
 
@@ -310,7 +364,7 @@ if (isset($_POST['add_company'])) {
 <script src="unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
 
 
+
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/register.php by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:21:01 GMT -->
 </html>

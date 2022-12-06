@@ -3,8 +3,8 @@ session_start();
 include("config/dbconfig.php");
 $industry_id = $_GET['id'];
 $select_industry = $con->query("SELECT id, industry FROM `industry` WHERE id = '$industry_id';");
-if ($select_industry){
-    while ($industry_data = mysqli_fetch_assoc($select_industry)){
+if ($select_industry) {
+    while ($industry_data = mysqli_fetch_assoc($select_industry)) {
         $industry_name = $industry_data['industry'];
     }
 }
@@ -37,6 +37,8 @@ if ($select_industry){
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="assets/css/toastr.min.css" rel="stylesheet">
 
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+
 
 </head>
 <body>
@@ -66,8 +68,10 @@ if ($select_industry){
                 <!-- search icon for mobile -->
                 <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"></div>
                 <div class="header_search"><i class="uil-search-alt"></i>
-                    <input value="" type="text" class="form-control"
-                           placeholder="Search" autocomplete="off">
+                    <form>
+                        <input value="" type="text" class="form-control"
+                               placeholder="Search" id="filter" autocomplete="off">
+                    </form>
                     <!-- -->
                 </div>
                 <?php
@@ -116,19 +120,29 @@ if ($select_industry){
 
             <div class="lg:flex lg:space-x-12">
 
-                <div class="lg:w-2/3 flex-shirink-0">
+                <div class="lg:w-2/3 flex-shirink-0" id="post">
 
                     <div class="flex justify-between relative md:mb-4 mb-3">
                         <div class="flex-1">
                             <h2 class="text-2xl font-semibold"> <?php echo $industry_name; ?> </h2>
                         </div>
+                        <?php
+                        if(isset($_SESSION['email'])){
+                            ?>
+                            <div class="flex-2">
+                                <button class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
+                                    <a href="add_post.php">Add Post</a></button>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
 
                     <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
                         <?php
                         $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id and b.`industry_id` = '$industry_id' order by b.id desc limit 20;");
-                        if ($feed_data->num_rows > 0){
-                            while($feed = mysqli_fetch_assoc($feed_data)){
+                        if ($feed_data->num_rows > 0) {
+                            while ($feed = mysqli_fetch_assoc($feed_data)) {
                                 $blog = $feed['id'];
                                 ?>
                                 <li>
@@ -148,10 +162,10 @@ if ($select_industry){
                                             </svg>
                                             <?php
                                             $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
-                                            if($comment){
-                                                while($number = mysqli_fetch_assoc($comment)){
+                                            if ($comment) {
+                                                while ($number = mysqli_fetch_assoc($comment)) {
                                                     ?>
-                                                    <span class="text-xl"> <?php echo $number['number'];?> </span>
+                                                    <span class="text-xl"> <?php echo $number['number']; ?> </span>
                                                     <?php
                                                 }
                                             }
@@ -162,7 +176,7 @@ if ($select_industry){
                                 </li>
                                 <?php
                             }
-                        }else{
+                        } else {
                             ?>
                             <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet in this category!</p>
                             <?php
@@ -182,22 +196,23 @@ if ($select_industry){
                         <ul class="space-y-3">
                             <?php
                             $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
-                            if ($select_user->num_rows > 0){
-                                while ($user = mysqli_fetch_assoc($select_user)){
+                            if ($select_user->num_rows > 0) {
+                                while ($user = mysqli_fetch_assoc($select_user)) {
                                     $user_id = $user['id'];
                                     ?>
                                     <li>
                                         <div class="flex items-center space-x-3">
-                                            <img src="assets/images/user/<?php echo $user['image'];?>" alt="" class="w-8 h-8 rounded-full">
+                                            <img src="assets/images/user/<?php echo $user['image']; ?>" alt=""
+                                                 class="w-8 h-8 rounded-full">
                                             <a href="#" class="font-semibold"> Anonymous</a>
                                             <div class="flex items-center space-x-2">
                                                 <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                                 <?php
                                                 $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
-                                                if($num_of_post){
-                                                    while($post = mysqli_fetch_assoc($num_of_post)){
+                                                if ($num_of_post) {
+                                                    while ($post = mysqli_fetch_assoc($num_of_post)) {
                                                         ?>
-                                                        <span> <?php echo $post['post'];?> </span>
+                                                        <span> <?php echo $post['post']; ?> </span>
                                                         <?php
                                                     }
                                                 }
@@ -224,8 +239,41 @@ if ($select_industry){
 
 
 
+<script>
+    $(document).ready(function(){
+        $("#filter").keyup(function(){
 
+            // Retrieve the input field text and reset the count to zero
+            var filter = $(this).val(), count = 0;
 
+            // Loop through the comment list
+            $("#post ul li").each(function(){
+
+                // If the list item does not contain the text phrase fade it out
+                if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                    $(this).fadeOut();
+
+                    // Show the list item if the phrase matches and increase the count by 1
+                } else {
+                    $(this).show();
+                    count++;
+                }
+            });
+
+            // Update the count
+            var numberItems = count;
+            $("#filter-count").text("Number of Filter = "+count);
+        });
+    });
+</script>
+<script src="assets/js/tippy.all.min.js"></script>
+<script src="assets/js/uikit.js"></script>
+<script src="assets/js/simplebar.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/bootstrap-select.min.js"></script>
+<script src="unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
+<script src="assets/js/toastr.min.js"></script>
+<script src="assets/js/toastr-init.js"></script>
 <!-- For Night mode -->
 <script>
     (function (window, document, undefined) {
@@ -235,6 +283,8 @@ if ($select_industry){
         if (nightMode) {
             document.documentElement.className += ' night-mode';
         }
+
+        localStorage.removeItem('gmtNightMode');
     })(window, document);
 
     (function (window, document, undefined) {
@@ -258,22 +308,14 @@ if ($select_industry){
             }
             localStorage.removeItem('gmtNightMode');
         }, false);
-
+        localStorage.removeItem('gmtNightMode');
     })(window, document);
+
 </script>
 
 <!-- Javascript
 ================================================== -->
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
-<script src="assets/js/tippy.all.min.js"></script>
-<script src="assets/js/uikit.js"></script>
-<script src="assets/js/simplebar.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="assets/js/bootstrap-select.min.js"></script>
-<script src="unpkg.com/ionicons%405.2.3/dist/ionicons.js"></script>
-<script src="assets/js/toastr.min.js"></script>
-<script src="assets/js/toastr-init.js"></script>
+
 
 </body>
 

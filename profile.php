@@ -36,6 +36,8 @@ if($query-> num_rows > 0){
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="assets/css/toastr.min.css" rel="stylesheet">
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+
 
 
 </head>
@@ -226,8 +228,7 @@ if($query-> num_rows > 0){
 
 <!-- Javascript
 ================================================== -->
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>

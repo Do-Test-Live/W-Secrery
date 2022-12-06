@@ -65,6 +65,7 @@ if (isset($_POST['update_info'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
 
 
 </head>
@@ -392,8 +393,7 @@ if (isset($_POST['update_info'])) {
 
 <!-- Javascript
 ================================================== -->
-<script src="code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
 <script src="assets/js/tippy.all.min.js"></script>
 <script src="assets/js/uikit.js"></script>
 <script src="assets/js/simplebar.js"></script>
