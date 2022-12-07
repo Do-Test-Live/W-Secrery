@@ -10,20 +10,21 @@ if (isset($_POST['update_info'])) {
     $industry = mysqli_real_escape_string($con, $_POST['industry']);
     $dob = mysqli_real_escape_string($con, $_POST['dob']);
     $gender = mysqli_real_escape_string($con, $_POST['gender']);
+    $salary = mysqli_real_escape_string($con, $_POST['salary']);
     $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
     $c_image = $_FILES['c_image']['name'];
     $c_image_temp = $_FILES['c_image']['tmp_name'];
 
     if ($c_image_temp != "") {
         move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
-        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender' WHERE `email` = '$email'");
+        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
         if ($c_update) {
             $result = 1;
         } else {
             $result = 2;
         }
     } else {
-        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender' WHERE `email` = '$email'");
+        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
         if ($c_update) {
             $result = 1;
         } else {
@@ -65,7 +66,6 @@ if (isset($_POST['update_info'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
 
 
 </head>
@@ -187,27 +187,6 @@ if (isset($_POST['update_info'])) {
                                         <input type="text" name="position" value="<?php echo $row['position']; ?>"
                                                list="position"
                                                class="shadow-none with-border">
-                                        <datalist id="position">
-                                            <option>Account Manager</option>
-                                            <option>Analyst</option>
-                                            <option>Assistant Manager</option>
-                                            <option>Associate</option>
-                                            <option>Business Analyst</option>
-                                            <option>Consultant</option>
-                                            <option>Director</option>
-                                            <option>Engineer</option>
-                                            <option>Manager</option>
-                                            <option>Partner</option>
-                                            <option>Product Manager</option>
-                                            <option>Senior Analyst</option>
-                                            <option>Senior Associate</option>
-                                            <option>Senior Consultant</option>
-                                            <option>Senior Manager</option>
-                                            <option>Software Engineer</option>
-                                            <option>Student</option>
-                                            <option>Unemployed</option>
-                                            <option>Vice President</option>
-                                        </datalist>
                                     </div>
 
                                     <div>
@@ -259,6 +238,11 @@ if (isset($_POST['update_info'])) {
                                             <option>Female</option>
                                             <option>Others</option>
                                         </select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="">Salary (Monthly)</label>
+                                        <input type="number" name="salary" value="<?php echo $row['salary']; ?>"
+                                               class="shadow-none with-border" required>
                                     </div>
 
                                     <div class="col-span-2">
