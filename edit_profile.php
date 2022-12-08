@@ -12,24 +12,37 @@ if (isset($_POST['update_info'])) {
     $gender = mysqli_real_escape_string($con, $_POST['gender']);
     $salary = mysqli_real_escape_string($con, $_POST['salary']);
     $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
+    $company = mysqli_real_escape_string($con, $_POST['company']);
+    $company_email = mysqli_real_escape_string($con, $_POST['company_email']);
     $c_image = $_FILES['c_image']['name'];
     $c_image_temp = $_FILES['c_image']['tmp_name'];
 
-    if ($c_image_temp != "") {
-        move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
-        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
-        if ($c_update) {
-            $result = 1;
+    $select_sub_domain = $con->query("select id, domain_name from company_domain where id = '$company'");
+    if ($select_sub_domain->num_rows == 1) {
+        while ($fetch_sub_domain = mysqli_fetch_assoc($select_sub_domain)) {
+            $sub_domain = $fetch_sub_domain['domain_name'];
+        }
+    }
+    echo $cemail_last = explode("@", $company_email);
+    if ($sub_domain == $cemail_last[1]) {
+        if ($c_image_temp != "") {
+            move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
+            $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
+            if ($c_update) {
+                $result = 1;
+            } else {
+                $result = 2;
+            }
         } else {
-            $result = 2;
+            $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
+            if ($c_update) {
+                $result = 1;
+            } else {
+                $result = 2;
+            }
         }
     } else {
-        $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
-        if ($c_update) {
-            $result = 1;
-        } else {
-            $result = 2;
-        }
+        $result = 3;
     }
 
 }
@@ -160,6 +173,13 @@ if (isset($_POST['update_info'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <?php
+                    } elseif ($result == 3) {
+                        ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Sorry!</strong> Company Name and email don't match.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
                     }
                     ?>
                     <form action="#" method="post" enctype="multipart/form-data">
@@ -179,7 +199,7 @@ if (isset($_POST['update_info'])) {
                                     </div>
                                     <div>
                                         <label for="">ID</label>
-                                        <input type="text" name="lname" value="<?php echo $row['id']; ?>"
+                                        <input type="text" name="lname" value="<?php echo $row['id']; ?>" disabled
                                                class="shadow-none with-border" required>
                                     </div>
                                     <div>
@@ -197,14 +217,15 @@ if (isset($_POST['update_info'])) {
                                             <?php
                                             $industry_id = $row['industry'];
                                             $fetch_industry = $con->query("select id, industry from industry where id='$industry_id'");
-                                            while($fetch = mysqli_fetch_assoc($fetch_industry)){
+                                            while ($fetch = mysqli_fetch_assoc($fetch_industry)) {
                                                 $id = $fetch['id'];
                                                 $name = $fetch['industry'];
                                             }
                                             ?>
-                                            <option value="<?php echo $id;?>" data-select2-id="select2-data-6-uhfj"><?php echo $name;?>
+                                            <option value="<?php echo $id; ?>"
+                                                    data-select2-id="select2-data-6-uhfj"><?php echo $name; ?>
                                             </option>
-                                            <option value=" " data-select2-id="select2-data-6-uhfj">Choose Your
+                                            <option value="" data-select2-id="select2-data-6-uhfj">Choose Your
                                                 Industry
                                             </option>
                                             <?php
@@ -239,10 +260,49 @@ if (isset($_POST['update_info'])) {
                                             <option>Others</option>
                                         </select>
                                     </div>
-                                    <div class="col-span-2">
+                                    <div>
                                         <label for="">Salary (Monthly)</label>
                                         <input type="number" name="salary" value="<?php echo $row['salary']; ?>"
                                                class="shadow-none with-border" required>
+                                    </div>
+
+                                    <div>
+                                        <label for="">Company Name</label>
+                                        <?php
+                                        $c_id = $row['c_domain_id'];
+                                        $fetch_company = $con->query("select * from company_domain where id = '$c_id'");
+                                        if ($fetch_company) {
+                                            while ($company_fetch = mysqli_fetch_assoc($fetch_company)) {
+                                                $company_id = $company_fetch['id'];
+                                                $company_name = $company_fetch['company_name'];
+                                            }
+                                        }
+                                        ?>
+                                        <select class="shadow-none with-border"
+                                                name="company" required="" data-select2-id="select2-data-4-7a5n"
+                                                tabindex="-1" aria-hidden="true">
+                                            <option value="<?php echo $company_id; ?>"><?php echo $company_name; ?></option>
+                                            <option value=" " data-select2-id="select2-data-6-uhfj">Choose Your
+                                                Company
+                                            </option>
+                                            <?php
+                                            $select_company = $con->query("select * from company_domain");
+                                            if ($select_company) {
+                                                while ($company = mysqli_fetch_assoc($select_company)) {
+                                                    ?>
+                                                    <option value="<?php echo $company['id']; ?>"><?php echo $company['company_name']; ?></option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label for=""> Company Email</label>
+                                        <input type="email" name="company_email"
+                                               value="<?php echo $row['company_email']; ?>"
+                                               class="shadow-none with-border">
                                     </div>
 
                                     <div class="col-span-2">
