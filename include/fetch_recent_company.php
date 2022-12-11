@@ -2,8 +2,9 @@
 $query = $con->query("select * from `company_domain` order by id desc limit 5");
 if($query->num_rows > 0){
     while ($row = mysqli_fetch_assoc($query)){
+        $company_domain = $row['id'];
         $c_month = date('m');
-        $blog_number = $con->query("select count(id) as number, created_at from chanel_post where month(created_at) = '$c_month'");
+        $blog_number = $con->query("select count(id) as number, created_at from blog where month(created_at) = '$c_month' and company_domain_id = '$company_domain'");
         if($blog_number){
             while ($number = mysqli_fetch_assoc($blog_number)){
                 $number_of_blog = $number['number'];

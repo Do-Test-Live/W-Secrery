@@ -1,4 +1,10 @@
 /* ----------------- Start Document ----------------- */
+
+function alertCompany(){
+    alert("Please add a company email to your profile first!");
+}
+
+
 (function($){
     "use strict";
     
@@ -115,6 +121,8 @@
     });
     
     })(this.jQuery);
+
+
     
 
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -132,3 +140,5 @@
 
     // Whenever the user explicitly chooses to respect the OS preference
     localStorage.removeItem('theme')
+
+
