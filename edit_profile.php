@@ -3,6 +3,7 @@ session_start();
 include("config/dbconfig.php");
 $email = $_SESSION["email"];
 $result = 0;
+$value = 0;
 if (isset($_POST['update_info'])) {
     $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $lname = mysqli_real_escape_string($con, $_POST['lname']);
@@ -46,6 +47,25 @@ if (isset($_POST['update_info'])) {
     }
 
 }
+
+if (isset($_POST['add_company'])) {
+    $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
+    $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
+    $company_s_domain =  $_POST['company_s_domain'];
+    $subDomain = implode(",", $company_s_domain);
+    $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
+    if ($verify->num_rows == 0) {
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$subDomain."')");
+        if ($insert_company) {
+            $value = 1;
+        } else {
+            $value = 2;
+        }
+    }
+
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,11 +94,14 @@ if (isset($_POST['update_info'])) {
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="unpkg.com/tailwindcss%402.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 </head>
@@ -125,23 +148,6 @@ if (isset($_POST['update_info'])) {
 
         <div class="sidebar_inner" data-simplebar>
 
-            <ul>
-                <li><a href="index.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="text-blue-600">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                        </svg>
-                        <span> Feed </span> </a>
-                </li>
-
-                <li><a href="companies.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="text-blue-500">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                        </svg>
-                        <span> Companies </span></a>
-                </li>
-
                 <!--industry section starts-->
                 <?php include("include/industry_menu.php"); ?>
                 <!--industry section ends-->
@@ -180,6 +186,22 @@ if (isset($_POST['update_info'])) {
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <?php
+                    }
+                    if($value = 1){
+                        ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Congrats!</strong> Company added successfully!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+                    }elseif($value = 2){
+                        ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Sorry!</strong> Something Went Wrong.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php
+
                     }
                     ?>
                     <form action="#" method="post" enctype="multipart/form-data">
@@ -296,6 +318,10 @@ if (isset($_POST['update_info'])) {
                                             }
                                             ?>
                                         </select>
+                                        <p> Can't find your Company Domain?<a href="" data-bs-toggle="modal"
+                                                                              data-bs-target="#staticBackdrop">
+                                                Add Company
+                                            </a></p>
                                     </div>
 
                                     <div class="col-span-2">
@@ -398,6 +424,54 @@ if (isset($_POST['update_info'])) {
 
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Company</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
+                    <div>
+                        <label class="mb-0"> Company Name</label>
+                        <input type="text" name="company_name" placeholder="Your Company Name" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Company Primary Domain</label>
+                        <input type="text" name="company_domain" placeholder="Your Company Primary Domain" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div class="row" id="row">
+                        <div class="col-8">
+                            <label> Company Secondary Domain</label>
+                            <input type="text" name="company_s_domain[]" id="s_domain"
+                                   placeholder="Your Company Secondary Domain"
+                                   class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                        </div>
+                        <div class="col-4">
+                            <button type="button" name="add_sub_domain"
+                                    class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full"
+                                    id="add_sub_domain">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" name="add_company"
+                                class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
+                            Add Company
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- For Night mode -->
 <script>
@@ -437,6 +511,20 @@ if (isset($_POST['update_info'])) {
     function alertCompany(){
         alert("Please add a company email to your profile first!");
     }
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        let html = '<div class="row"> <div class="col-8"> <label> Company Secondary Domain</label> <input type="text" name="company_s_domain[]" id="s_domain" placeholder="Your Company Secondary Domain" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"> </div> <div class="col-4"> <button type="button" name="add_sub_domain"class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full" id="remove">Remove </button> </div> </div>';
+        let x = 1;
+        $ ("#add_sub_domain").click(function (){
+            $("#row").append(html);
+        });
+        $ ("#row").on('click','#remove',function (){
+            $(this).closest('.row').remove();
+        });
+    });
 </script>
 
 <!-- Javascript
