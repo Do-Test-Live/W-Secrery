@@ -311,6 +311,10 @@ if ($select_industry) {
         localStorage.removeItem('gmtNightMode');
     })(window, document);
 
+    function alertCompany(){
+        alert("Please add a company email to your profile first!");
+    }
+
 </script>
 
 <!-- Javascript

@@ -433,6 +433,10 @@ if (isset($_POST['update_info'])) {
         }, false);
 
     })(window, document);
+
+    function alertCompany(){
+        alert("Please add a company email to your profile first!");
+    }
 </script>
 
 <!-- Javascript

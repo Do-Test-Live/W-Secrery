@@ -288,6 +288,10 @@ include("config/dbconfig.php");
             $("#filter-count").text("Number of Filter = "+count);
         });
     });
+
+    function alertCompany(){
+        alert("Please add a company email to your profile first!");
+    }
 </script>
 
 <script src="assets/js/tippy.all.min.js"></script>

@@ -259,6 +259,9 @@ if (isset($_POST['set_pass'])) {
             length.classList.add("invalid");
         }
     }
+    function alertCompany(){
+        alert("Please add a company email to your profile first!");
+    }
 </script>
 
 <!-- Javascript
