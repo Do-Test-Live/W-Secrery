@@ -53,9 +53,16 @@ if (isset($_POST['add_company'])) {
     $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
     $company_s_domain =  $_POST['company_s_domain'];
     $subDomain = implode(",", $company_s_domain);
+    $company_location = mysqli_real_escape_string($con,$_POST['company_location']);
+    $description = mysqli_real_escape_string($con,$_POST['description']);
+    $salary = mysqli_real_escape_string($con,$_POST['salary']);
+    $hours = mysqli_real_escape_string($con,$_POST['hours']);
+    $days = mysqli_real_escape_string($con,$_POST['days']);
+    $year = mysqli_real_escape_string($con,$_POST['year']);
     $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
     if ($verify->num_rows == 0) {
-        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`) VALUES ('".$company_name."','".$company_domain."','".$subDomain."')");
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`,`description`,`monthly_income`,`location`,`working_hour`,`working_day`,`experience`) 
+VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$description."','".$salary."','".$company_location."','".$hours."','".$days."','".$year."')");
         if ($insert_company) {
             $value = 1;
         } else {
@@ -187,14 +194,14 @@ if (isset($_POST['add_company'])) {
                         </div>
                         <?php
                     }
-                    if($value = 1){
+                    if($value == 1){
                         ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>Congrats!</strong> Company added successfully!
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <?php
-                    }elseif($value = 2){
+                    }elseif($value == 2){
                         ?>
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Sorry!</strong> Something Went Wrong.
@@ -438,6 +445,36 @@ if (isset($_POST['add_company'])) {
                     <div>
                         <label class="mb-0"> Company Name</label>
                         <input type="text" name="company_name" placeholder="Your Company Name" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Company Location</label>
+                        <input type="text" name="company_location" placeholder="Your Company Location" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Description </label>
+                        <textarea name="description" placeholder="Your Company Description" required
+                                  class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"></textarea>
+                    </div>
+                    <div>
+                        <label class="mb-0"> Average Monthly Salary </label>
+                        <input type="text" name="salary" placeholder="Average Monthly Salary" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Working Hours </label>
+                        <input type="text" name="hours" placeholder="Working Hours" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Working Days </label>
+                        <input type="text" name="days" placeholder="Working Days" required
+                               class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
+                    </div>
+                    <div>
+                        <label class="mb-0"> Establishment Year </label>
+                        <input type="text" name="year" placeholder="Your Company Establishment Year" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>

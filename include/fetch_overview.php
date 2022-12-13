@@ -90,12 +90,11 @@
                 <div>
                     <h3 class="font-semibold mb-2 text-xl"> Income </h3>
                     <ul class="grid md:grid-cols-1">
-                        <li><i class="uil-check text-xl font-bold mr-2"></i>Accounting
-                            Clerk Years of
-                            experience: <?php echo $experience; ?>
+                        <li><i class="uil-check text-xl font-bold mr-2"></i>
+                            Company Establishment Year: <?php echo $experience; ?>
                         </li>
                         <li><i class="uil-check text-xl font-bold mr-2"></i>Monthly
-                            Income: <?php echo $monthly_income; ?>
+                            Average Income: <?php echo $monthly_income; ?>
                         </li>
                     </ul>
                 </div>
@@ -115,6 +114,8 @@
                         Days: </h3>
                     <p> <?php echo $working_day ?></p>
                 </div>
+
+                <p>Do you fell any of the informations here need to change? <a href="mailto:official@secrery.nftprj.com" style="color: #5c5cef">Contact Us</a></p>
             </div>
 
 
