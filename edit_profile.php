@@ -15,8 +15,8 @@ if (isset($_POST['update_info'])) {
     $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
     $company = mysqli_real_escape_string($con, $_POST['company']);
     $company_email = mysqli_real_escape_string($con, $_POST['company_email']);
-    $c_image = $_FILES['c_image']['name'];
-    $c_image_temp = $_FILES['c_image']['tmp_name'];
+    /*$c_image = $_FILES['c_image']['name'];
+    $c_image_temp = $_FILES['c_image']['tmp_name'];*/
 
     $select_sub_domain = $con->query("select id, domain_name from company_domain where id = '$company'");
     if ($select_sub_domain->num_rows == 1) {
@@ -26,7 +26,7 @@ if (isset($_POST['update_info'])) {
     }
     echo $cemail_last = explode("@", $company_email);
     if ($sub_domain == $cemail_last[1]) {
-        if ($c_image_temp != "") {
+        /*if ($c_image_temp != "") {
             move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
             $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
             if ($c_update) {
@@ -34,14 +34,13 @@ if (isset($_POST['update_info'])) {
             } else {
                 $result = 2;
             }
-        } else {
+        }*/
             $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
             if ($c_update) {
                 $result = 1;
             } else {
                 $result = 2;
             }
-        }
     } else {
         $result = 3;
     }
@@ -338,11 +337,11 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$descripti
                                                class="shadow-none with-border">
                                     </div>
 
-                                    <div class="col-span-2">
+                                    <!--<div class="col-span-2">
                                         <label for=""> Profile Image</label>
                                         <input type="file" placeholder="" name="c_image"
                                                class="shadow-none with-border">
-                                    </div>
+                                    </div>-->
                                     <div class="row px-3">
                                         <div class="col-4">
                                             <input class="form-check-input" type="radio" name="avatar"

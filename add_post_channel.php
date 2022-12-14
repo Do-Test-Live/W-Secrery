@@ -13,10 +13,9 @@ if ($query->num_rows == 1) {
 
 if (isset($_POST['add_post'])) {
     $post_heading = mysqli_real_escape_string($con, $_POST['post_heading']);
-    $industry = mysqli_real_escape_string($con, $_POST['industry']);
     $post_description = mysqli_real_escape_string($con, $_POST['post_description']);
 
-    $query = $con->query("INSERT INTO `chanel_post`(`blog_heading`, `blog_description`, `industry_id`, `company_domain_id`, `user_id`) VALUES ('$post_heading','$post_description','$industry','$domain_id','$user_id')");
+    $query = $con->query("INSERT INTO `chanel_post`(`blog_heading`, `blog_description`, `company_domain_id`, `user_id`) VALUES ('$post_heading','$post_description','$domain_id','$user_id')");
     if ($query) {
         $result = 1;
     } else {
@@ -152,22 +151,6 @@ if (isset($_POST['add_post'])) {
                                    onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off">
                             <span for="username" class="line__placeholder"> Post Heading </span>
                         </div>
-                        <div class="flex items-center">
-                            <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md"> Industry:</div>
-                            <select class="js-example-basic-single" name="industry" required>
-                                <option value=" ">Choose Your Industry</option>
-                                <?php
-                                $query = $con->query("select `id`,`industry` from `industry`");
-                                if ($query->num_rows > 0) {
-                                    while ($row = $query->fetch_assoc()) {
-                                        ?>
-                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['industry'] ?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select>
-                        </div>
                         <div class="line h-32">
                             <textarea class="line__input h-32" name="post_description" type="text"
                                       placeholder="Post Description" onkeyup="this.setAttribute('value', this.value);"
@@ -194,202 +177,7 @@ if (isset($_POST['add_post'])) {
 </div>
 
 
-<div id="offcanvas-chat" uk-offcanvas="flip: true; overlay: true">
-    <div class="uk-offcanvas-bar bg-white p-0 w-full lg:w-80 shadow-2xl">
 
-
-        <div class="relative pt-5 px-4">
-
-            <h3 class="text-2xl font-bold mb-2"> Chats </h3>
-
-            <div class="absolute right-3 top-4 flex items-center space-x-2">
-
-                <button class="uk-offcanvas-close  px-2 -mt-1 relative rounded-full inset-0 lg:hidden blcok"
-                        type="button" uk-close></button>
-
-                <a href="#" uk-toggle="target: #search;animation: uk-animation-slide-top-small">
-                    <ion-icon name="search" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <a href="#">
-                    <ion-icon name="settings-outline" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <a href="#">
-                    <ion-icon name="ellipsis-vertical" class="text-xl hover:bg-gray-100 p-1 rounded-full"></ion-icon>
-                </a>
-                <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden border border-gray-100 dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
-                     uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small; offset:5">
-                    <ul class="space-y-1">
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="checkbox-outline" class="pr-2 text-xl"></ion-icon>
-                                Mark all as read
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="settings-outline" class="pr-2 text-xl"></ion-icon>
-                                Chat setting
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="notifications-off-outline" class="pr-2 text-lg"></ion-icon>
-                                Disable notifications
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center px-3 py-2 hover:bg-gray-100 hover:text-gray-800 rounded-md dark:hover:bg-gray-800">
-                                <ion-icon name="star-outline" class="pr-2 text-xl"></ion-icon>
-                                Create a group chat
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-        <div class="absolute bg-white z-10 w-full -mt-5 lg:-mt-2 transform translate-y-1.5 py-2 border-b items-center flex"
-             id="search" hidden>
-            <input type="text" placeholder="Search.." class="flex-1">
-            <ion-icon name="close-outline" class="text-2xl hover:bg-gray-100 p-1 rounded-full mr-4 cursor-pointer"
-                      uk-toggle="target: #search;animation: uk-animation-slide-top-small"></ion-icon>
-        </div>
-
-        <nav class="responsive-nav border-b extanded mb-2 -mt-2">
-            <ul uk-switcher="connect: #chats-tab; animation: uk-animation-fade">
-                <li class="uk-active"><a class="active" href="#0"> Friends </a></li>
-                <li><a href="#0">Groups <span> 10 </span> </a></li>
-            </ul>
-        </nav>
-
-        <div class="contact-list px-2 uk-switcher" id="chats-tab">
-
-            <div class="p-1">
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Alex Dolgove</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Stella Johnson</div>
-                </a>
-
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Adrian Mohani</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Jonathan Madano</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-friend.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-
-
-            </div>
-            <div class="p-1">
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Alex Dolgove</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-8.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-3.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Stella Johnson</div>
-                </a>
-
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-5.jpg" alt="">
-                    </div>
-                    <div class="contact-username">Adrian Mohani</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                    </div>
-                    <div class="contact-username"> Jonathan Madano</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-2.jpg" alt="">
-                        <span class="user_status"></span>
-                    </div>
-                    <div class="contact-username"> Erica Jones</div>
-                </a>
-                <a href="chats-group.html">
-                    <div class="contact-avatar">
-                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        <span class="user_status status_online"></span>
-                    </div>
-                    <div class="contact-username"> Dennis Han</div>
-                </a>
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
 <!-- For Night mode -->

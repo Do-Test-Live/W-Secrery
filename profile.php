@@ -113,7 +113,7 @@ if($query-> num_rows > 0){
                     <div class="flex md:space-x-6 space-x-4 md:py-5 py-3 relative" id="view">
                         <div class="flex-1 space-y-2">
 
-                            <a href="#" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
+                            <a href="edit_blog.php?id=<?php echo $data['id'];?>" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
                             <p class="leading-6 pr-4 line-clamp-2 md:block hidden"><?php echo $data["blog_description"];?></p>
 
                             <div class="flex items-center justify-between">
@@ -146,7 +146,7 @@ if($query-> num_rows > 0){
                     <div class="flex md:space-x-6 space-x-4 md:py-5 py-3 relative" id="view">
                         <div class="flex-1 space-y-2">
 
-                            <a href="#" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
+                            <a href="edit_channel_post.php?id=<?php echo $data['id'];?>" class="md:text-xl font-semibold line-clamp-2"><?php echo $data["blog_heading"];?></a>
                             <p class="leading-6 pr-4 line-clamp-2 md:block hidden"><?php echo $data["blog_description"];?></p>
 
                             <div class="flex items-center justify-between">

@@ -139,9 +139,8 @@ if ($query->num_rows == 1) {
 
                         <nav class="responsive-nav md:m-0 -mx-4 nav-small">
                             <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
-                                <li><a class="lg:px-2" href="#">Post</a></li>
-                                <li><a class="lg:px-2" href="#">Overview</a></li>
-                                <li><a class="lg:px-2" href="#">Faq</a></li>
+                                <!--<li><a class="lg:px-2" href="#">Post</a></li>-->
+
                                 <?php
                                 if (isset($_SESSION['email'])) {
                                     $query = $con->query("select `c_domain_id`,`email` from `user` where `email` = '$email'");
@@ -157,6 +156,22 @@ if ($query->num_rows == 1) {
                                     }
                                 }
                                 ?>
+                                <li><a class="lg:px-2" href="#">Overview</a></li>
+                                <?php
+                                if (isset($_SESSION['email'])) {
+                                    $query = $con->query("select `c_domain_id`,`email` from `user` where `email` = '$email'");
+                                    if ($query->num_rows == 1) {
+                                        while ($result = mysqli_fetch_assoc($query)) {
+                                            $id = $result['c_domain_id'];
+                                        }
+                                    }
+                                    if ($id == $company_id) {
+                                        ?>
+                                        <li><a class="lg:px-2" href="#">Faq</a></li>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </ul>
                         </nav>
 
@@ -165,18 +180,26 @@ if ($query->num_rows == 1) {
                             <div class="uk-switcher" id="components-nav">
 
                                 <!-- Post -->
-                                <?php include ("include/fetch_company_blog.php");?>
+                                <?php /*include ("include/fetch_company_blog.php");*/?>
+
+                                <!-- Channel -->
+                                <?php
+                                if ($id == $company_id){
+                                    include ("include/chanel.php");
+                                }
+                                    ?>
+
 
                                 <!-- Overview -->
                                 <?php include ("include/fetch_overview.php");?>
 
-
                                 <!-- Faq -->
-                                <?php include ("include/fetch_faq.php");?>
+                                <?php
+                                if ($id == $company_id){
+                                    include ("include/fetch_faq.php");
+                                }
+                                ?>
 
-
-                                <!-- Channel -->
-                                <?php include ("include/chanel.php");?>
 
                             </div>
 

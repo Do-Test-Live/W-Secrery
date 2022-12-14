@@ -7,10 +7,9 @@ include("config/dbconfig.php");
 
 if (isset($_POST['add_post'])) {
     $post_heading = mysqli_real_escape_string($con, $_POST['post_heading']);
-    $industry = mysqli_real_escape_string($con, $_POST['industry']);
     $post_description = mysqli_real_escape_string($con, $_POST['post_description']);
 
-    $query = $con->query("UPDATE `chanel_post` SET `blog_heading`='$post_heading',`blog_description`='$post_description',`industry_id`='$industry' WHERE id=$blog_id");
+    $query = $con->query("UPDATE `chanel_post` SET `blog_heading`='$post_heading',`blog_description`='$post_description' WHERE id=$blog_id");
     if ($query) {
         $result = 1;
     } else {
@@ -150,31 +149,6 @@ if (isset($_POST['add_post'])) {
                                 <div class="line">
                                     <input class="line__input" name="post_heading" type="text" value="<?php echo $data['blog_heading'];?>">
                                     <span for="username" class="line__placeholder"> Post Heading </span>
-                                </div>
-                                <div class="flex items-center">
-                                    <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md"> Industry:</div>
-                                    <select class="js-example-basic-single" name="industry" required>
-                                        <?php
-                                        $industry_id = $data['industry_id'];
-                                        $industry_data = $con->query("select * from industry where id= '$industry_id'");
-                                        while ($ind_data = mysqli_fetch_assoc($industry_data)){
-                                            $industry_name = $ind_data['industry'];
-                                            $ind_id = $ind_data['id'];
-                                        }
-                                        ?>
-                                        <option value="<?php echo $ind_id?>"><?php echo $industry_name;?></option>
-                                        <option value=" ">Choose Your Industry</option>
-                                        <?php
-                                        $query = $con->query("select `id`,`industry` from `industry`");
-                                        if ($query->num_rows > 0) {
-                                            while ($row = $query->fetch_assoc()) {
-                                                ?>
-                                                <option value="<?php echo $row['id']; ?>"><?php echo $row['industry'] ?></option>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
-                                    </select>
                                 </div>
                                 <div class="line h-32">
                                     <textarea class="line__input h-32" name="post_description" type="text"
