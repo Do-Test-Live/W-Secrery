@@ -14,7 +14,7 @@ if (isset($_POST['update_info'])) {
     $salary = mysqli_real_escape_string($con, $_POST['salary']);
     $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
     $company = mysqli_real_escape_string($con, $_POST['company']);
-    $company_email = mysqli_real_escape_string($con, $_POST['company_email']);
+    $company_email = strtolower(mysqli_real_escape_string($con, $_POST['company_email']));
     /*$c_image = $_FILES['c_image']['name'];
     $c_image_temp = $_FILES['c_image']['tmp_name'];*/
 
@@ -49,7 +49,7 @@ if (isset($_POST['update_info'])) {
 
 if (isset($_POST['add_company'])) {
     $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
-    $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
+    $company_domain = strtolower(mysqli_real_escape_string($con, $_POST['company_domain']));
     $company_s_domain =  $_POST['company_s_domain'];
     $subDomain = implode(",", $company_s_domain);
     $company_location = mysqli_real_escape_string($con,$_POST['company_location']);

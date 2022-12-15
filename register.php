@@ -3,8 +3,8 @@ include("config/dbconfig.php");
 $value = 0;
 /*register code*/
 if (isset($_POST['register'])) {
-    $pemail = mysqli_real_escape_string($con, $_POST['pemail']);
-    $cemail = mysqli_real_escape_string($con, $_POST['cemail']);
+    $pemail = strtolower(mysqli_real_escape_string($con, $_POST['pemail']));
+    $cemail = strtolower(mysqli_real_escape_string($con, $_POST['cemail']));
     $c_domain_id = mysqli_real_escape_string($con, $_POST['c_domain_id']);
     $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $v_code = rand(100000, 999999);
@@ -96,7 +96,7 @@ if (isset($_POST['register'])) {
 
 if (isset($_POST['add_company'])) {
     $company_name = mysqli_real_escape_string($con, $_POST['company_name']);
-    $company_domain = mysqli_real_escape_string($con, $_POST['company_domain']);
+    $company_domain = strtolower(mysqli_real_escape_string($con, $_POST['company_domain']));
     $company_s_domain =  $_POST['company_s_domain'];
     $subDomain = implode(",", $company_s_domain);
     $company_location = mysqli_real_escape_string($con,$_POST['company_location']);
