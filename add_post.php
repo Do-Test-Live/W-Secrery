@@ -159,7 +159,7 @@ if(isset($_POST['add_post'])){
                     </div>
                     <div class="flex items-center">
                         <div class="-mr-1 bg-gray-100 border px-3 py-3 rounded-l-md">  Industry:   </div>
-                        <select class="js-example-basic-single" name="industry" required>
+                        <select class="js-example-basic-single mx-2" name="industry" required>
                             <option value=" ">Choose Your Industry</option>
                             <?php
                             $query = $con->query("select `id`,`industry` from `industry`");

@@ -126,6 +126,7 @@ include("config/dbconfig.php");
                                                     <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
                                                        class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
                                                     <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
+                                                    <p style="margin-top: 20px;"><?php echo $feed['created_at'];?></p>
                                                 </div>
                                                 <div class="sm:flex items-center space-x-4 hidden">
                                                     <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
@@ -137,6 +138,7 @@ include("config/dbconfig.php");
 
                                                 </div>
                                             </div>
+
                                         </li>
                                         <?php
                                     }
@@ -174,6 +176,7 @@ include("config/dbconfig.php");
                                             <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
                                                class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
                                             <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
+                                            <p style="margin-top: 20px;"><?php echo $feed['created_at'];?></p>
                                         </div>
                                         <div class="sm:flex items-center space-x-4 hidden">
                                             <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
