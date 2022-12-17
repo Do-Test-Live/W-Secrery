@@ -26,7 +26,21 @@
                     $c_domain_id = $row['c_domain_id'];
                 }
             }
-            ?><?php
+            ?>
+
+            <?php
+            if ($c_domain_id != 0) {
+                ?>
+                <a href="add_post_channel.php" class="is_icon" uk-tooltip="title: Add Post to Company Channel" title=""
+                   aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M224 32H64C46.3 32 32 46.3 32 64v64c0 17.7 14.3 32 32 32H441.4c4.2 0 8.3-1.7 11.3-4.7l48-48c6.2-6.2 6.2-16.4 0-22.6l-48-48c-3-3-7.1-4.7-11.3-4.7H288c0-17.7-14.3-32-32-32s-32 14.3-32 32zM480 256c0-17.7-14.3-32-32-32H288V192H224v32H70.6c-4.2 0-8.3 1.7-11.3 4.7l-48 48c-6.2 6.2-6.2 16.4 0 22.6l48 48c3 3 7.1 4.7 11.3 4.7H448c17.7 0 32-14.3 32-32V256zM288 480V384H224v96c0 17.7 14.3 32 32 32s32-14.3 32-32z"/>
+                    </svg>
+                </a>
+                <?php
+            }
+            ?>
+            <?php
             if ($c_domain_id != 0) {
                 ?>
                 <a href="add_post.php" class="is_icon" uk-tooltip="title: Add Post" title="" aria-expanded="false">
@@ -44,18 +58,6 @@
                         <path fill-rule="evenodd"
                               d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
                               clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-                <?php
-            }
-            ?>
-            <?php
-            if ($c_domain_id != 0) {
-                ?>
-                <a href="add_post_channel.php" class="is_icon" uk-tooltip="title: Add Post to Company Channel" title=""
-                   aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path d="M224 32H64C46.3 32 32 46.3 32 64v64c0 17.7 14.3 32 32 32H441.4c4.2 0 8.3-1.7 11.3-4.7l48-48c6.2-6.2 6.2-16.4 0-22.6l-48-48c-3-3-7.1-4.7-11.3-4.7H288c0-17.7-14.3-32-32-32s-32 14.3-32 32zM480 256c0-17.7-14.3-32-32-32H288V192H224v32H70.6c-4.2 0-8.3 1.7-11.3 4.7l-48 48c-6.2 6.2-6.2 16.4 0 22.6l48 48c3 3 7.1 4.7 11.3 4.7H448c17.7 0 32-14.3 32-32V256zM288 480V384H224v96c0 17.7 14.3 32 32 32s32-14.3 32-32z"/>
                     </svg>
                 </a>
                 <?php
