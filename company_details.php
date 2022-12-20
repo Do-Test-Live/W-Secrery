@@ -141,6 +141,8 @@ if ($query->num_rows == 1) {
                             <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
                                 <!--<li><a class="lg:px-2" href="#">Post</a></li>-->
 
+                                <li><a class="lg:px-2" href="#">Overview</a></li>
+
                                 <?php
                                 if (isset($_SESSION['email'])) {
                                     $query = $con->query("select `c_domain_id`,`email` from `user` where `email` = '$email'");
@@ -156,7 +158,7 @@ if ($query->num_rows == 1) {
                                     }
                                 }
                                 ?>
-                                <li><a class="lg:px-2" href="#">Overview</a></li>
+
                                 <?php
                                 if (isset($_SESSION['email'])) {
                                     $query = $con->query("select `c_domain_id`,`email` from `user` where `email` = '$email'");
@@ -182,16 +184,15 @@ if ($query->num_rows == 1) {
                                 <!-- Post -->
                                 <?php /*include ("include/fetch_company_blog.php");*/?>
 
+                                <!-- Overview -->
+                                <?php include ("include/fetch_overview.php");?>
+
                                 <!-- Channel -->
                                 <?php
                                 if ($id == $company_id){
                                     include ("include/chanel.php");
                                 }
                                     ?>
-
-
-                                <!-- Overview -->
-                                <?php include ("include/fetch_overview.php");?>
 
                                 <!-- Faq -->
                                 <?php

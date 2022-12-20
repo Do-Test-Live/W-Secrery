@@ -74,7 +74,7 @@ if (!isset($_SESSION["email"])) {
                 <div class="collapse navbar-collapse justify-content-between">
                     <div class="header-left">
                         <div class="dashboard_bar">
-                            Dashboard
+                            Salary Info
                         </div>
                     </div>
 
@@ -141,101 +141,11 @@ if (!isset($_SESSION["email"])) {
 
             </div>
             <div class="row">
-                <div class="col-xl-3 col-xxl-6 col-sm-6">
-                    <?php
-                    $company_data = $con->query("select count(id) as number from company_domain;");
-                    if ($company_data) {
-                        while ($number = mysqli_fetch_assoc($company_data)) {
-                            $no_of_company = $number['number'];
-                        }
-                    }
-                    ?>
-                    <div class="card gradient-bx text-white bg-danger rounded">
-                        <div class="card-body">
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <p class="mb-1">Total Company</p>
-                                    <div class="d-flex flex-wrap">
-                                        <h2 class="fs-40 font-w600 text-white mb-0 mr-3"><?php echo $no_of_company; ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-xxl-6 col-sm-6">
-                    <div class="card gradient-bx text-white bg-success rounded">
-                        <?php
-                        $user_data = $con->query("select count(id) as number from user;");
-                        if ($user_data) {
-                            while ($number = mysqli_fetch_assoc($user_data)) {
-                                $no_of_user = $number['number'];
-                            }
-                        }
-                        ?>
-                        <div class="card-body">
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <p class="mb-1">Total User</p>
-                                    <div class="d-flex flex-wrap">
-                                        <h2 class="fs-40 font-w600 text-white mb-0 mr-3"><?php echo $no_of_user ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-xxl-6 col-sm-6">
-                    <div class="card gradient-bx text-white bg-info rounded">
-                        <?php
-                        $blog_data = $con->query("select count(id) as number from blog;");
-                        if ($blog_data) {
-                            while ($number = mysqli_fetch_assoc($blog_data)) {
-                                $no_of_blog = $number['number'];
-                            }
-                        }
-                        ?>
-                        <div class="card-body">
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <p class="mb-1">Total Blog</p>
-                                    <div class="d-flex flex-wrap">
-                                        <h2 class="fs-40 font-w600 text-white mb-0 mr-3"><?php echo $no_of_blog; ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-xxl-6 col-sm-6">
-                    <div class="card gradient-bx text-white bg-secondary rounded">
-                        <?php
-                        $channel_data = $con->query("select count(id) as number from chanel_post;");
-                        if ($channel_data) {
-                            while ($number = mysqli_fetch_assoc($channel_data)) {
-                                $no_of_channel = $number['number'];
-                            }
-                        }
-                        ?>
-                        <div class="card-body">
-                            <div class="media align-items-center">
-                                <div class="media-body">
-                                    <p class="mb-1">Total Channel Blog</p>
-                                    <div class="d-flex flex-wrap">
-                                        <h2 class="fs-40 font-w600 text-white mb-0 mr-3"><?php echo $no_of_channel; ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
 
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Company Info.</h4>
+                            <h4 class="card-title">Salary Info</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -243,28 +153,37 @@ if (!isset($_SESSION["email"])) {
                                     <thead>
                                     <tr>
                                         <th>Sl No</th>
+                                        <th>User Email</th>
+                                        <th>Job Rank</th>
+                                        <th>Job Title</th>
+                                        <th>Annual Salary</th>
+                                        <th>Annual Bonus</th>
+                                        <th>Salary Year</th>
+                                        <th>Year of Tenture</th>
                                         <th>Company Name</th>
-                                        <th>Location</th>
-                                        <th>Working Hour</th>
-                                        <th>Working Days</th>
-                                        <th>Edit</th>
+                                        <th>Comments</th>
+                                        <th>Delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $fetch_company = $con->query("select * from company_domain");
-                                    if ($fetch_company) {
+                                    $fetch_salary = $con->query("SELECT * FROM salary,user WHERE salary.user_id = user.id order by salary.salary_id desc");
+                                    if ($fetch_salary) {
                                         $sl = 1;
-                                        while ($company = mysqli_fetch_assoc($fetch_company)) {
+                                        while ($salary = mysqli_fetch_assoc($fetch_salary)) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $sl;?></td>
-                                                <td><?php echo $company['company_name'];?></td>
-                                                <td><?php echo $company['location'];?></td>
-                                                <td><?php echo $company['working_hour'];?></td>
-                                                <td><?php echo $company['working_day'];?></td>
-                                                <td><a href="edit_company.php?id=<?php echo $company['id'];?>" class="btn btn-primary shadow btn-xs sharp mr-1"><i
-                                                                class="fa fa-pencil"></i></a></td>
+                                                <td><?php echo $salary['email'];?></td>
+                                                <td><?php echo $salary['job_rank'];?></td>
+                                                <td><?php echo $salary['job_title'];?></td>
+                                                <td><?php echo $salary['annual_salary'];?></td>
+                                                <td><?php echo $salary['annual_bonas'];?></td>
+                                                <td><?php echo $salary['salary_year'];?></td>
+                                                <td><?php echo $salary['year_of_tenture'];?></td>
+                                                <td><?php echo $salary['company'];?></td>
+                                                <td><?php echo $salary['comments'];?></td>
+                                                <td><a href="delete_salary.php?id=<?php echo $salary['salary_id'];?>" class="btn btn-danger shadow btn-xs sharp mr-1"><i class="fa fa-trash"></i></a></td>
                                             </tr>
                                             <?php
                                             $sl++;
@@ -275,11 +194,16 @@ if (!isset($_SESSION["email"])) {
                                     <tfoot>
                                     <tr>
                                         <th>Sl No</th>
+                                        <th>User Email</th>
+                                        <th>Job Rank</th>
+                                        <th>Job Title</th>
+                                        <th>Annual Salary</th>
+                                        <th>Annual Bonus</th>
+                                        <th>Salary Year</th>
+                                        <th>Year of Tenture</th>
                                         <th>Company Name</th>
-                                        <th>Location</th>
-                                        <th>Working Hour</th>
-                                        <th>Working Days</th>
-                                        <th>Edit</th>
+                                        <th>Comments</th>
+                                        <th>Delete</th>
                                     </tr>
                                     </tfoot>
                                 </table>
