@@ -120,8 +120,13 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                 <li><a class="ai-icon" href="salary.php" aria-expanded="false">
-                        <i class="flaticon-381-networking"></i>
+                        <i class="flaticon-381-battery"></i>
                         <span class="nav-text">Salary</span>
+                    </a>
+                </li>
+                <li><a class="ai-icon" href="industry.php" aria-expanded="false">
+                        <i class="flaticon-381-box"></i>
+                        <span class="nav-text">Industry</span>
                     </a>
                 </li>
             </ul>
