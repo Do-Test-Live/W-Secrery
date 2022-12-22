@@ -12,55 +12,37 @@ include("config/dbconfig.php");
 $result = 0;
 if (isset($_POST['verify'])) {
     $code = mysqli_real_escape_string($con, $_POST['code']);
-    $query = $con->query("select `vcode`,company_email,company_vcode from user where `email` = '$email'");
+    $query = $con->query("select email,company_email,company_vcode from user where email = '$email'");
     if ($query->num_rows == 1) {
         while ($row = mysqli_fetch_assoc($query)) {
-            $vcode = $row["vcode"];
             $c_email = $row['company_email'];
             $company_vcode = $row['company_vcode'];
         }
-        if ($vcode == $code) {
-
-            $email_to = $c_email;
-            $subject = 'Verify your email.';
-
-
-            $headers = "From: Secrery <signup@nftprj.com>\r\n";
-            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-            $messege = "
-            <html>
-                <body style='background-color: #eee; font-size: 16px;'>
-                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
-                
-                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
-                
-                    <p style='color:black;text-align: center'>
-                        6 digit authentication code for your company email verification is : <strong>$company_vcode</strong>
-                    </p>
-                </div>
-                </body>
-            </html>";
-
-            if (mail($email_to, $subject, $messege, $headers)) {
-                header("Location: verify_company_email.php");
+        if ($company_vcode == $code) {
+            $update = $con->query("update `user` set `status` = '1' where `email` = '$email'");
+            if ($update) {
+                header("Location: setpass.php");
+            } else {
+                echo "something went wrong";
+                $result = 1;
             }
-
+        } else {
+            $result = 1;
+            session_destroy();
         }
-    } else {
-        $result = 2;
-        session_destroy();
     }
 }
 
+
 if (isset($_POST['resend_email'])) {
-    $verification_code = $con->query("select vcode,email from user where email='$email'");
+    $verification_code = $con->query("select email,company_vcode,company_email from user where email='$email'");
     if ($verification_code) {
         while ($code = mysqli_fetch_assoc($verification_code)) {
-            $ver_code = $code['vcode'];
+            $ver_code = $code['company_vcode'];
+            $company_email = $code['company_email'];
         }
-        $email_to = $email;
-        $subject = 'Verify your email.';
+        $email_to = $company_email;
+        $subject = 'Verify your company email.';
 
 
         $headers = "From: Secrery <signup@nftprj.com>\r\n";
@@ -74,7 +56,7 @@ if (isset($_POST['resend_email'])) {
                     <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
                 
                     <p style='color:black;text-align: center'>
-                        6 digit authentication code for your email verification is : <strong>$ver_code</strong>
+                        6 digit authentication code for your company email verification is : <strong>$ver_code</strong>
                     </p>
                 </div>
                 </body>
@@ -180,8 +162,8 @@ if (isset($_POST['resend_email'])) {
             }
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
-                <p class="mb-6"> An email with a 6 digit code has been sent to your email. Please enter the code below
-                    to verify the account. </p>
+                <p class="mb-6"> An email with a 6 digit code has been sent to your company email. Please enter the code below
+                    to verify the account. <?php echo $email?></p>
 
                 <div>
                     <input type="text" name="code" placeholder="" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"

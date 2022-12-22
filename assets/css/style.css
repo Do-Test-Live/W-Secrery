@@ -6819,7 +6819,7 @@ header .header_inner .right_side {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
-  background-color: #eef1f5;
+  background-color: #a1a1a1;
 }
 
 .header_widgets .is_icon:hover {

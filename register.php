@@ -8,6 +8,7 @@ if (isset($_POST['register'])) {
     $c_domain_id = mysqli_real_escape_string($con, $_POST['c_domain_id']);
     $nickname = mysqli_real_escape_string($con, $_POST['nickname']);
     $v_code = rand(100000, 999999);
+    $company_v_code = rand(100000, 999999);
     $data = $con->query("select `email` from `user` where `email` = '$pemail'");
     if ($data->num_rows == 0) {
         if($cemail != null){
@@ -19,7 +20,8 @@ if (isset($_POST['register'])) {
             }
             $cemail_last = explode("@",$cemail);
             if($sub_domain == $cemail_last[1]){
-                $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES ('$pemail','$v_code','$c_domain_id','$nickname','$cemail')");
+                $query = $con->query("INSERT INTO `user`(`email`, `vcode`,`company_vcode`,`c_domain_id`,`f_name`,`company_email`)  VALUES 
+                                                                                                    ('$pemail','$v_code','$company_v_code','$c_domain_id','$nickname','$cemail')");
                 if ($query) {
                     $email_to = $pemail;
                     $subject = 'Verify your email.';
@@ -48,7 +50,6 @@ if (isset($_POST['register'])) {
                         Header("Location: email_verify.php");
                     }
                 } else {
-                    echo "something went wrong";
                     $value = 1;
                 }
             }else{
