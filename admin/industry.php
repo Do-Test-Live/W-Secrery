@@ -90,7 +90,7 @@ if(isset($_POST['add_industry'])){
                 <div class="collapse navbar-collapse justify-content-between">
                     <div class="header-left">
                         <div class="dashboard_bar">
-                            Salary Info
+                            Industry Info
                         </div>
                     </div>
 
@@ -160,7 +160,7 @@ if(isset($_POST['add_industry'])){
         <div class="container-fluid">
             <div class="form-head d-flex mb-3 mb-md-4 align-items-start">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#basicModal">Basic modal</button>
+                <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#basicModal">Add Industry</button>
                 <!-- Modal -->
                 <div class="modal fade" id="basicModal">
                     <div class="modal-dialog" role="document">
@@ -249,8 +249,8 @@ if(isset($_POST['add_industry'])){
                                     <tfoot>
                                     <tr>
                                         <th>Sl No</th>
-                                        <th>User Email</th>
-                                        <th>Job Rank</th>
+                                        <th>Industry Name</th>
+                                        <th>Delete</th>
                                     </tr>
                                     </tfoot>
                                 </table>

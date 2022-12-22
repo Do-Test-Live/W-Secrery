@@ -27,7 +27,7 @@ VALUES ('$user_id','$job_rank','$job_title','$annual_salary','$annual_bonus','$s
         $result = 2;
     }
 }
-if (isset($_POST['salary_update'])) {
+/*if (isset($_POST['salary_update'])) {
     $job_rank = mysqli_real_escape_string($con, $_POST['job_rank']);
     $job_title = mysqli_real_escape_string($con, $_POST['job_title']);
     $annual_salary = mysqli_real_escape_string($con, $_POST['annual_salary']);
@@ -43,7 +43,7 @@ if (isset($_POST['salary_update'])) {
     } else {
         $result = 2;
     }
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -158,6 +158,15 @@ if (isset($_POST['salary_update'])) {
                                 $query = $con->query("select * from salary where user_id = '$user_id'");
                                 if($query-> num_rows > 0){
                                     while ($salary_data = mysqli_fetch_assoc($query)){
+                                       $job_rank = $salary_data['job_rank'];
+                                       $job_title = $salary_data['job_title'];
+                                       $annual_salary = $salary_data['annual_salary'];
+                                       $annual_bonas = $salary_data['annual_bonas'];
+                                       $salary_year = $salary_data['salary_year'];
+                                       $year_of_tenture = $salary_data['year_of_tenture'];
+                                       $company = $salary_data['company'];
+                                       $comments = $salary_data['comments'];
+                                    }
                                         ?>
                                         <form action="#" method="post">
                                             <div class="row">
@@ -165,14 +174,14 @@ if (isset($_POST['salary_update'])) {
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Job Rank</label>
                                                         <input type="text" name="job_rank" class="form-control"
-                                                               value="<?php echo $salary_data['job_rank'];?>" required>
+                                                               value="<?php echo $job_rank;?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="mb-3">
                                                         <label for="exampleInputPassword1" class="form-label">Job Title</label>
                                                         <input type="text" name="job_title" class="form-control"
-                                                               value="<?php echo $salary_data['job_title'];?>" required>
+                                                               value="<?php echo $job_title;?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,7 +190,7 @@ if (isset($_POST['salary_update'])) {
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Annual Salary</label>
                                                         <input type="text" name="annual_salary" class="form-control"
-                                                               value="<?php echo $salary_data['annual_salary'];?>" required>
+                                                               value="<?php echo $annual_salary;?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -189,7 +198,7 @@ if (isset($_POST['salary_update'])) {
                                                         <label for="exampleInputPassword1" class="form-label">Annual
                                                             Bonus</label>
                                                         <input type="text" name="annual_bonus" class="form-control"
-                                                               value="<?php echo $salary_data['annual_bonas'];?>" required>
+                                                               value="<?php echo $annual_bonas;?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,7 +207,7 @@ if (isset($_POST['salary_update'])) {
                                                     <div class="mb-3">
                                                         <label for="exampleInputEmail1" class="form-label">Salary Year</label>
                                                         <input type="text" name="salary_year" class="form-control"
-                                                               value="<?php echo $salary_data['salary_year'];?>" required>
+                                                               value="<?php echo $salary_year;?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
@@ -206,7 +215,7 @@ if (isset($_POST['salary_update'])) {
                                                         <label for="exampleInputPassword1" class="form-label">Year of
                                                             Tenture</label>
                                                         <input type="text" name="year_of_tenture" class="form-control"
-                                                               value="<?php echo $salary_data['year_of_tenture'];?>" required>
+                                                               value="<?php echo $year_of_tenture;?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -214,18 +223,16 @@ if (isset($_POST['salary_update'])) {
                                                 <label for="exampleInputPassword1" class="form-label">Name of the
                                                     Company</label>
                                                 <input type="text" name="company" class="form-control"
-                                                       value="<?php echo $salary_data['company'];?>" required>
+                                                       value="<?php echo $company;?>" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="exampleFormControlTextarea1" class="form-label">Comments</label>
-                                                <textarea class="form-control" name="comments" rows="3"><?php echo $salary_data['comments'];?></textarea>
+                                                <textarea class="form-control" name="comments" rows="3"><?php echo $comments;?></textarea>
                                             </div>
 
-                                            <button type="submit" name="salary_update" class="btn btn-primary">Submit</button>
+                                            <button type="submit" name="salary" class="btn btn-primary">Submit</button>
                                         </form>
-                                        <?php
-                                    }
-                                    ?>
+
                                     <?php
                                 } else{
                                     ?>
@@ -337,7 +344,7 @@ if (isset($_POST['salary_update'])) {
                             $user_id = $user['id'];
                         }
                     }
-                    $select_data = $con->query("select * from salary where user_id = '$user_id'");
+                    $select_data = $con->query("select * from salary where user_id = '$user_id' order by salary_id desc");
                     if ($select_data->num_rows > 0){
                     while ($data = mysqli_fetch_assoc($select_data)) {
                         ?>

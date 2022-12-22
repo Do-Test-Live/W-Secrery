@@ -121,7 +121,7 @@ if ($select_user) {
                     </thead>
                     <tbody>
                     <?php
-                    $select_data = $con->query("select * from salary");
+                    $select_data = $con->query("select * from salary order by salary_id desc");
                     if ($select_data->num_rows > 0){
                     while ($data = mysqli_fetch_assoc($select_data)) {
                         ?>
