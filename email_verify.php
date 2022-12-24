@@ -19,7 +19,7 @@ if (isset($_POST['verify'])) {
             $c_email = $row['company_email'];
             $company_vcode = $row['company_vcode'];
         }
-        if ($vcode == $code) {
+        if ($vcode == $code and $c_email != null) {
 
             $email_to = $c_email;
             $subject = 'Verify your email.';
@@ -46,10 +46,14 @@ if (isset($_POST['verify'])) {
                 header("Location: verify_company_email.php");
             }
 
+        }elseif ($vcode == $code){
+            $update = $con->query("update `user` set `status` = '1' where `email` = '$email'");
+            if($update){
+                header("Location: setpass.php");
+            }
         }
     } else {
         $result = 2;
-        session_destroy();
     }
 }
 

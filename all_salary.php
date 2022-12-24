@@ -110,6 +110,7 @@ if ($select_user) {
                 <table class="table uk-text-center">
                     <thead>
                     <tr>
+                        <th scope="col">User Name</th>
                         <th scope="col">Job Rank</th>
                         <th scope="col">Job Title</th>
                         <th scope="col">Annual Salary</th>
@@ -126,6 +127,17 @@ if ($select_user) {
                     while ($data = mysqli_fetch_assoc($select_data)) {
                         ?>
                         <tr>
+                            <td><?php
+                                $user_no = $data['user_id'];
+                                $select_user = $con->query("select f_name, id from user where id = '$user_no'");
+                                if($select_user -> num_rows > 0){
+                                    while ($datas = mysqli_fetch_assoc($select_user)){
+                                        $username = $datas['f_name'];
+                                    }
+                                }
+                                echo $username;
+
+                                ?></td>
                             <td><?php echo $data['job_rank']; ?></td>
                             <td><?php echo $data['job_title']; ?></td>
                             <td><?php echo $data['annual_salary']; ?></td>

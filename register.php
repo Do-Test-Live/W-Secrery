@@ -101,15 +101,14 @@ if (isset($_POST['add_company'])) {
     $company_s_domain =  $_POST['company_s_domain'];
     $subDomain = implode(",", $company_s_domain);
     $company_location = mysqli_real_escape_string($con,$_POST['company_location']);
-    $description = mysqli_real_escape_string($con,$_POST['description']);
     $salary = mysqli_real_escape_string($con,$_POST['salary']);
     $hours = mysqli_real_escape_string($con,$_POST['hours']);
     $days = mysqli_real_escape_string($con,$_POST['days']);
     $year = mysqli_real_escape_string($con,$_POST['year']);
     $verify = $con->query("select `id` from `company_domain` where `domain_name` = '$company_domain'");
     if ($verify->num_rows == 0) {
-        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`,`description`,`monthly_income`,`location`,`working_hour`,`working_day`,`experience`) 
-VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$description."','".$salary."','".$company_location."','".$hours."','".$days."','".$year."')");
+        $insert_company = $con->query("INSERT INTO `company_domain`(`company_name`, `domain_name`,`sub_domain_name`,`monthly_income`,`location`,`working_hour`,`working_day`,`experience`) 
+VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."','".$company_location."','".$hours."','".$days."','".$year."')");
         if ($insert_company) {
             $value = 3;
         } else {
@@ -313,11 +312,6 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$descripti
                         <label class="mb-0"> Company Location</label>
                         <input type="text" name="company_location" placeholder="Your Company Location" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
-                    </div>
-                    <div>
-                        <label class="mb-0"> Description </label>
-                        <textarea name="description" placeholder="Your Company Description" required
-                                  class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"></textarea>
                     </div>
                     <div>
                         <label class="mb-0"> Average Monthly Salary </label>
