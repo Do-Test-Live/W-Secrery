@@ -142,7 +142,7 @@ if (isset($_POST['add_comment'])) {
                                 <img src="assets/images/user/<?php echo $blog_owner_image; ?>" alt=""
                                      class="w-10 rounded-full">
                                 <div>
-                                    <div class="text-base font-semibold"> Anonymous</div>
+                                    <div class="text-base font-semibold"> Anonymous<?php echo rand(100,999);?></div>
                                     <?php
                                     $company_name_fetch = $con->query("select * from company_domain where id = '$c_domain_id'");
                                     if($company_name_fetch){
@@ -185,7 +185,7 @@ if (isset($_POST['add_comment'])) {
                                 <div class="flex gap-x-4 mb-5 relative">
                                     <img src="assets/images/user/<?php echo $data['image'];?>" alt="" class="rounded-full shadow w-12 h-12">
                                     <div>
-                                        <h4 class="text-base m-0">Anonymous</h4>
+                                        <h4 class="text-base m-0">Anonymous<?php echo rand(100,999);?></h4>
                                         <span class="text-gray-700 text-sm"><?php echo $data['position'];?>, </span>
                                         <span class="text-gray-700 text-sm"><?php
                                             $company_id = $data['c_domain_id'];

@@ -163,7 +163,7 @@ if (isset($_POST['resend_email'])) {
             ?>
             <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
                 <p class="mb-6"> An email with a 6 digit code has been sent to your company email. Please enter the code below
-                    to verify the account. <?php echo $email?></p>
+                    to verify the account.</p>
 
                 <div>
                     <input type="text" name="code" placeholder="" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"
