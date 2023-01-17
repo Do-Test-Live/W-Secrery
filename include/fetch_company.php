@@ -11,7 +11,7 @@ if($query->num_rows > 0){
             }
         }
         ?>
-        <li>
+        <li class="company_data">
             <div class="card">
                 <div class="card-media h-28">
                     <div class="card-media-overly"></div>

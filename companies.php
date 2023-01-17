@@ -60,9 +60,12 @@ include("config/dbconfig.php");
                 <!-- search icon for mobile -->
                 <div class="header-search-icon" uk-toggle="target: #wrapper ; cls: show-searchbox"></div>
                 <div class="header_search"><i class="uil-search-alt"></i>
-                    <input value="" type="text" class="form-control"
-                           placeholder="Search" autocomplete="off">
+                    <form>
+                        <input value="" type="text" class="form-control"
+                               placeholder="Search" id="filter" autocomplete="off">
+                    </form>
 
+                    <!-- -->
                 </div>
 
                 <?php
@@ -357,38 +360,31 @@ include("config/dbconfig.php");
 
 <!-- For Night mode -->
 <script>
-    (function (window, document, undefined) {
-        'use strict';
-        if (!('localStorage' in window)) return;
-        var nightMode = localStorage.getItem('gmtNightMode');
-        if (nightMode) {
-            document.documentElement.className += ' night-mode';
-        }
-    })(window, document);
+    $(document).ready(function () {
+        $("#filter").keyup(function () {
 
-    (function (window, document, undefined) {
+            // Retrieve the input field text and reset the count to zero
+            var filter = $(this).val(), count = 0;
 
-        'use strict';
+            // Loop through the comment list
+            $(".company_data").each(function () {
 
-        // Feature test
-        if (!('localStorage' in window)) return;
+                // If the list item does not contain the text phrase fade it out
+                if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                    $(this).fadeOut();
 
-        // Get our newly insert toggle
-        var nightMode = document.querySelector('#night-mode');
-        if (!nightMode) return;
+                    // Show the list item if the phrase matches and increase the count by 1
+                } else {
+                    $(this).show();
+                    count++;
+                }
+            });
 
-        // When clicked, toggle night mode on or off
-        nightMode.addEventListener('click', function (event) {
-            event.preventDefault();
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.setItem('gmtNightMode', true);
-                return;
-            }
-            localStorage.removeItem('gmtNightMode');
-        }, false);
-
-    })(window, document);
+            // Update the count
+            var numberItems = count;
+            $("#filter-count").text("Number of Filter = " + count);
+        });
+    });
 
     function alertCompany(){
         alert("Please add a company email to your profile first!");
