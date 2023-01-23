@@ -162,11 +162,11 @@ if(isset($_POST['add_post'])){
                         <select class="js-example-basic-single mx-2" name="industry" required>
                             <option value=" ">Choose Your Industry</option>
                             <?php
-                            $query = $con->query("select `id`,`industry` from `industry`");
+                            $query = $con->query("select `id`,`en_industry` from `industry`");
                             if($query->num_rows > 0){
                                 while($row = $query->fetch_assoc()){
                                     ?>
-                                    <option value="<?php echo $row['id'];?>"><?php echo $row['industry']?></option>
+                                    <option value="<?php echo $row['id'];?>"><?php echo $row['en_industry']?></option>
                                     <?php
                                 }
                             }

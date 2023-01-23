@@ -28,7 +28,7 @@
                 <div class="contact-avatar">
                     <img src="<?php echo $row['image'];?>" alt="">
                 </div>
-                <div class="contact-username"><?php echo $row['industry'];?></div>
+                <div class="contact-username"><?php echo $row['en_industry'];?></div>
             </a>
             <?php
         }

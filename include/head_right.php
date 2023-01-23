@@ -2,7 +2,10 @@
 
     <div class="header_widgets">
 
-        <a href="all_salary.php" class="is_icon" uk-tooltip="title: View All Salary Data" title="" aria-expanded="false">
+        <a href="../index.php" class="is_icon" title="" aria-expanded="false">CN
+        </a>
+
+        <a href="all_salary.php" class="is_icon" uk-tooltip="title: All Salary" title="" aria-expanded="false">
             <img src="assets/images/icons/salary-1.png" style="width: 25px;">
         </a>
         <a href="index.php" class="is_icon" uk-tooltip="title: Public" title="" aria-expanded="false">
