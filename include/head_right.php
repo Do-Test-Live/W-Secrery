@@ -12,7 +12,7 @@
             <img src="assets/images/icons/post-1.png" style="width: 25px;">
         </a>
         <a href="companies.php" class="is_icon" uk-tooltip="title: Company" title="" aria-expanded="false">
-            <img src="assets/images/icons/Company.png" style="width: 25px;">
+            <img src="assets/images/icons/company.png" style="width: 25px;">
         </a>
 
         <?php
