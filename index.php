@@ -96,24 +96,91 @@ include("config/dbconfig.php");
     <div class="main_content">
         <div class="mcontainer">
 
-            <div class="lg:flex lg:space-x-12">
+            <nav class="responsive-nav md:m-0 -mx-4 nav-small">
+                <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
 
-                <div class="lg:w-2/3 flex-shirink-0" id="post">
+                    <li><a class="lg:px-2" href="#">Trending</a></li>
 
-                    <div class="flex justify-between relative md:mb-4 mb-3">
-                        <div class="flex-1">
-                            <h2 class="text-2xl font-semibold"> Trending </h2>
+                    <li><a class="lg:px-2" href="#">Latest</a></li>
+                </ul>
+            </nav>
+            <div class="mcontainer" style="padding: 0">
+                <div class="uk-switcher" id="components-nav">
+                    <div class="lg:flex lg:space-x-12">
+
+                        <div class="lg:w-2/3 flex-shirink-0" id="post">
+
+                            <div class="flex justify-between relative md:mb-4 mb-3 mt-5">
+                                <div class="flex-1">
+                                    <h2 class="text-2xl font-semibold"> Trending </h2>
+                                </div>
+                            </div>
+
+                            <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
+                                <?php
+                                $blog_data = $con->query("SELECT blog_id, COUNT(id) as total_comment from blog_comment GROUP BY blog_id order by total_comment desc limit 10");
+                                if ($blog_data) {
+                                    while ($blog_number = mysqli_fetch_assoc($blog_data)) {
+                                        $blog_id = $blog_number['blog_id'];
+                                        $total_comment = $blog_number['total_comment'];
+                                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id and b.id = '$blog_id'");
+                                        if ($feed_data->num_rows > 0) {
+                                            while ($feed = mysqli_fetch_assoc($feed_data)) {
+                                                $blog = $feed['id'];
+                                                ?>
+                                                <li>
+                                                    <div class="flex items-start space-x-5 p-7">
+                                                        <img src="assets/images/user/<?php echo $feed['image']; ?>" alt=""
+                                                             class="w-12 h-12 rounded-full">
+                                                        <div class="flex-1">
+                                                            <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
+                                                               class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
+                                                            <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
+                                                            <p style="margin-top: 20px;"><?php echo $feed['created_at']; ?></p>
+                                                        </div>
+                                                        <div class="sm:flex items-center space-x-4 hidden">
+                                                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
+                                                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
+                                                            </svg>
+                                                            <span class="text-xl"> <?php echo $total_comment; ?> </span>
+
+                                                        </div>
+                                                    </div>
+
+                                                </li>
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    ?>
+                                    <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+
+                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
+
+
                         </div>
-                    </div>
 
-                    <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
-                        <?php
-                        $blog_data = $con->query("SELECT blog_id, COUNT(id) as total_comment from blog_comment GROUP BY blog_id order by total_comment desc limit 10");
-                        if ($blog_data) {
-                            while ($blog_number = mysqli_fetch_assoc($blog_data)) {
-                                $blog_id = $blog_number['blog_id'];
-                                $total_comment = $blog_number['total_comment'];
-                                $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id and b.id = '$blog_id'");
+                    </div>
+                    <div class="lg:flex lg:space-x-12">
+
+                        <div class="lg:w-2/3 flex-shirink-0" id="post">
+
+                            <div class="flex justify-between relative md:mb-4 mb-3 mt-5">
+                                <div class="flex-1">
+                                    <h2 class="text-2xl font-semibold"> Latest </h2>
+                                </div>
+                            </div>
+
+                            <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
+                                <?php
+                                $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by b.id desc limit 10");
                                 if ($feed_data->num_rows > 0) {
                                     while ($feed = mysqli_fetch_assoc($feed_data)) {
                                         $blog = $feed['id'];
@@ -126,7 +193,7 @@ include("config/dbconfig.php");
                                                     <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
                                                        class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
                                                     <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
-                                                    <p style="margin-top: 20px;"><?php echo $feed['created_at'];?></p>
+                                                    <p style="margin-top: 20px;"><?php echo $feed['created_at']; ?></p>
                                                 </div>
                                                 <div class="sm:flex items-center space-x-4 hidden">
                                                     <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
@@ -134,97 +201,47 @@ include("config/dbconfig.php");
                                                         <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
                                                         <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
                                                     </svg>
-                                                    <span class="text-xl"> <?php echo $total_comment; ?> </span>
+                                                    <?php
+                                                    $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
+                                                    if ($comment) {
+                                                        while ($number = mysqli_fetch_assoc($comment)) {
+                                                            ?>
+                                                            <span class="text-xl"> <?php echo $number['number']; ?> </span>
+                                                            <?php
+                                                        }
+                                                    }
 
+                                                    ?>
                                                 </div>
                                             </div>
-
                                         </li>
                                         <?php
                                     }
+                                } else {
+                                    ?>
+                                    <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
+                                    <?php
                                 }
-                            }
-                        } else {
-                            ?>
-                            <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-
-                    <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
-
-
-                    <div class="flex justify-between relative md:mb-4 mb-3 mt-5">
-                        <div class="flex-1">
-                            <h2 class="text-2xl font-semibold"> Latest </h2>
-                        </div>
-                    </div>
-
-                    <ul class="card divide-y divide-gray-100 sm:m-0 -mx-5">
-                        <?php
-                        $feed_data = $con->query("select * from `user` as u,`blog` as b where b.user_id = u.id order by b.id desc limit 10");
-                        if ($feed_data->num_rows > 0) {
-                            while ($feed = mysqli_fetch_assoc($feed_data)) {
-                                $blog = $feed['id'];
                                 ?>
-                                <li>
-                                    <div class="flex items-start space-x-5 p-7">
-                                        <img src="assets/images/user/<?php echo $feed['image']; ?>" alt=""
-                                             class="w-12 h-12 rounded-full">
-                                        <div class="flex-1">
-                                            <a href="blog_detail.php?blog_id=<?php echo $feed['id']; ?>"
-                                               class="text-lg font-semibold line-clamp-1 mb-1"><?php echo $feed['blog_heading']; ?> </a>
-                                            <p class="leading-6 line-clamp-2 mt-3"><?php echo $feed['blog_description']; ?></p>
-                                            <p style="margin-top: 20px;"><?php echo $feed['created_at'];?></p>
-                                        </div>
-                                        <div class="sm:flex items-center space-x-4 hidden">
-                                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path>
-                                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path>
-                                            </svg>
-                                            <?php
-                                            $comment = $con->query("select COUNT(id) as number from blog_comment where blog_id = '$blog';");
-                                            if ($comment) {
-                                                while ($number = mysqli_fetch_assoc($comment)) {
-                                                    ?>
-                                                    <span class="text-xl"> <?php echo $number['number']; ?> </span>
-                                                    <?php
-                                                }
-                                            }
+                            </ul>
+                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
 
-                                            ?>
-                                        </div>
-                                    </div>
-                                </li>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                            <p class="leading-6 line-clamp-2 mt-3 px-3">No post published yet!</p>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-                    <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
+                        </div>
 
-                </div>
+                        <div class="lg:w-1/3 pt-5">
 
-                <div class="lg:w-1/3 pt-5">
-
-                    <!--<div uk-sticky="offset:100">
+                            <!--<div uk-sticky="offset:100">
 
                         <h2 class="text-xl font-semibold mb-2"> Top Contributors </h2>
                         <p> People who started the most discussions on Talks. </p>
                         <br>
                         <ul class="space-y-3">
                             <?php
-                    /*                            $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
-                                                if ($select_user->num_rows > 0) {
-                                                    while ($user = mysqli_fetch_assoc($select_user)) {
-                                                        $user_id = $user['id'];
-                                                        */ ?>
+                            /*                            $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
+                                                        if ($select_user->num_rows > 0) {
+                                                            while ($user = mysqli_fetch_assoc($select_user)) {
+                                                                $user_id = $user['id'];
+                                                                */ ?>
                                     <li>
                                         <div class="flex items-center space-x-3">
                                             <img src="assets/images/user/<?php /*echo $user['image']; */ ?>" alt=""
@@ -233,28 +250,30 @@ include("config/dbconfig.php");
                                             <div class="flex items-center space-x-2">
                                                 <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
                                                 <?php
-                    /*                                                $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
-                                                                    if ($num_of_post) {
-                                                                        while ($post = mysqli_fetch_assoc($num_of_post)) {
-                                                                            */ ?>
+                            /*                                                $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
+                                                                            if ($num_of_post) {
+                                                                                while ($post = mysqli_fetch_assoc($num_of_post)) {
+                                                                                    */ ?>
                                                         <span> <?php /*echo $post['post']; */ ?> </span>
                                                         <?php
-                    /*                                                    }
-                                                                    }
-                                                                    */ ?>
+                            /*                                                    }
+                                                                            }
+                                                                            */ ?>
                                             </div>
                                         </div>
                                     </li>
                                     <?php
-                    /*                                }
-                                                }
-                                                */ ?>
+                            /*                                }
+                                                        }
+                                                        */ ?>
                         </ul>
 
                     </div>-->
 
-                </div>
+                        </div>
 
+                    </div>
+                </div>
             </div>
 
         </div>
