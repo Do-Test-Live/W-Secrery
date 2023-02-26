@@ -9,6 +9,14 @@ include("config/dbconfig.php");
 <html lang="en" class="bg-gray-100">
 
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 $result = 0;
 if (isset($_POST['verify'])) {
     $code = mysqli_real_escape_string($con, $_POST['code']);
@@ -24,10 +32,6 @@ if (isset($_POST['verify'])) {
             $email_to = $c_email;
             $subject = 'Verify your email.';
 
-
-            $headers = "From: Secrery <signup@nftprj.com>\r\n";
-            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
             $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
@@ -42,10 +46,36 @@ if (isset($_POST['verify'])) {
                 </body>
             </html>";
 
-            if (mail($email_to, $subject, $messege, $headers)) {
+            $sender_name = "Gong Secrets";
+            $sender_email = "kennedy.kan@gongsecrets.com";
+            //
+            $username = "kennedy.kan@gongsecrets.com";
+            $password = "Gongsecrets2468";
+            //
+            $receiver_email = $email_to;
+
+
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            //$mail->SMTPDebug = 2;
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom($sender_email, $sender_name);
+            $mail->Username = $username;
+            $mail->Password = $password;
+
+            $mail->Subject = $subject;
+            $mail->msgHTML($messege);
+            $mail->addAddress($receiver_email);
+            if (!$mail->send()) {
+                header("Location: email_verify.php");
+            } else {
                 header("Location: verify_company_email.php");
             }
-
         }elseif ($vcode == $code){
             $update = $con->query("update `user` set `status` = '1' where `email` = '$email'");
             if($update){
@@ -66,10 +96,6 @@ if (isset($_POST['resend_email'])) {
         $email_to = $email;
         $subject = 'Verify your email.';
 
-
-        $headers = "From: Secrery <signup@nftprj.com>\r\n";
-        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
         $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
@@ -84,7 +110,34 @@ if (isset($_POST['resend_email'])) {
                 </body>
             </html>";
 
-        if (mail($email_to, $subject, $messege, $headers)) {
+
+        $sender_name = "Gong Secrets";
+        $sender_email = "kennedy.kan@gongsecrets.com";
+        //
+        $username = "kennedy.kan@gongsecrets.com";
+        $password = "Gongsecrets2468";
+        //
+        $receiver_email = $email_to;
+
+
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        //$mail->SMTPDebug = 2;
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setFrom($sender_email, $sender_name);
+        $mail->Username = $username;
+        $mail->Password = $password;
+
+        $mail->Subject = $subject;
+        $mail->msgHTML($messege);
+        $mail->addAddress($receiver_email);
+
+        if ($mail->send()) {
             $x = 1;
         } else {
             $x = 2;

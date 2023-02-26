@@ -1,6 +1,14 @@
 <?php
 include("config/dbconfig.php");
 $value = 0;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 /*register code*/
 if (isset($_POST['register'])) {
     $pemail = strtolower(mysqli_real_escape_string($con, $_POST['pemail']));
@@ -27,24 +35,47 @@ if (isset($_POST['register'])) {
                     $subject = 'Verify your email.';
 
 
-                    $headers = "From: Secrery <contact@gongsecrets.com>\r\n";
-                    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-                    $messege = "
-            <html>
-                <body style='background-color: #eee; font-size: 16px;'>
-                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
-                
-                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
-                
-                    <p style='color:black;text-align: center'>
-                        6 digit authentication code for your email verification is : <strong>$v_code</strong>
-                    </p>
-                </div>
-                </body>
-            </html>";
+                    $messege = "<html>
+                                    <body style='background-color: #eee; font-size: 16px;'>
+                                    <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
+                                    
+                                        <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
+                                    
+                                        <p style='color:black;text-align: center'>
+                                            6 digit authentication code for your email verification is : <strong>$v_code</strong>
+                                        </p>
+                                    </div>
+                                    </body>
+                                </html>";
 
-                    if (mail($email_to, $subject, $messege, $headers)) {
+                    $sender_name = "Gong Secrets";
+                    $sender_email = "kennedy.kan@gongsecrets.com";
+                    //
+                    $username = "kennedy.kan@gongsecrets.com";
+                    $password = "Gongsecrets2468";
+                    //
+                    $receiver_email = $email_to;
+
+
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    //$mail->SMTPDebug = 2;
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom($sender_email, $sender_name);
+                    $mail->Username = $username;
+                    $mail->Password = $password;
+
+                    $mail->Subject = $subject;
+                    $mail->msgHTML($messege);
+                    $mail->addAddress($receiver_email);
+
+                    if ($mail->send()) {
                         session_start();
                         $_SESSION["email"] = $pemail;
                         Header("Location: email_verify.php");
@@ -61,25 +92,47 @@ if (isset($_POST['register'])) {
                 $email_to = $pemail;
                 $subject = 'Verify your email.';
 
+                $messege = "<html>
+                                <body style='background-color: #eee; font-size: 16px;'>
+                                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
+                                
+                                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
+                                
+                                    <p style='color:black;text-align: center'>
+                                        6 digit authentication code for your email verification is : <strong>$v_code</strong>
+                                    </p>
+                                </div>
+                                </body>
+                            </html>";
 
-                $headers = "From: Secrery <signup@nftprj.com>\r\n";
-                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-                $messege = "
-            <html>
-                <body style='background-color: #eee; font-size: 16px;'>
-                <div style='max-width: 600px; min-width: 200px; background-color: #ffffff; padding: 20px; margin: auto;'>
-                
-                    <p style='text-align: center;color:green;font-weight:bold'>Thank you for reaching out us!</p>
-                
-                    <p style='color:black;text-align: center'>
-                        6 digit authentication code for your email verification is : <strong>$v_code</strong>
-                    </p>
-                </div>
-                </body>
-            </html>";
+                $sender_name = "Gong Secrets";
+                $sender_email = "kennedy.kan@gongsecrets.com";
+                //
+                $username = "kennedy.kan@gongsecrets.com";
+                $password = "Gongsecrets2468";
+                //
+                $receiver_email = $email_to;
 
-                if (mail($email_to, $subject, $messege, $headers)) {
+
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                //$mail->SMTPDebug = 2;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
+                $mail->setFrom($sender_email, $sender_name);
+                $mail->Username = $username;
+                $mail->Password = $password;
+
+                $mail->Subject = $subject;
+                $mail->msgHTML($messege);
+                $mail->addAddress($receiver_email);
+
+                if ($mail->send()) {
                     session_start();
                     $_SESSION["email"] = $pemail;
                     Header("Location: email_verify.php");
