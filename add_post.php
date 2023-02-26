@@ -78,8 +78,6 @@ if(isset($_POST['add_post'])){
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
                         </a>
                     </div>
                 </div>
@@ -116,13 +114,6 @@ if(isset($_POST['add_post'])){
     <!-- Main Contents -->
     <div class="main_content">
         <div class="mcontainer">
-
-            <!--  breadcrumb -->
-            <!--<div class="breadcrumb-area py-0">
-                <div class="breadcrumb">
-                    <h2 class="text-2xl font-semibold"> Create Post </h2>
-                </div>
-            </div>-->
 
 
             <!-- create page-->
@@ -162,11 +153,11 @@ if(isset($_POST['add_post'])){
                         <select class="js-example-basic-single mx-2" name="industry" required>
                             <option value=" ">Choose Your Industry</option>
                             <?php
-                            $query = $con->query("select `id`,`en_industry` from `industry`");
+                            $query = $con->query("select `id`,`industry` from `industry`");
                             if($query->num_rows > 0){
                                 while($row = $query->fetch_assoc()){
                                     ?>
-                                    <option value="<?php echo $row['id'];?>"><?php echo $row['en_industry']?></option>
+                                    <option value="<?php echo $row['id'];?>"><?php echo $row['industry']?></option>
                                     <?php
                                 }
                             }
@@ -434,5 +425,4 @@ if(isset($_POST['add_post'])){
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/create-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:20:14 GMT -->
 </html>

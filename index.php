@@ -52,8 +52,7 @@ include("config/dbconfig.php");
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
+
                         </a>
                     </div>
                 </div>
@@ -99,9 +98,9 @@ include("config/dbconfig.php");
             <nav class="responsive-nav md:m-0 -mx-4 nav-small">
                 <ul uk-switcher="connect: #components-nav ;animation: uk-animation-fade ; toggle: > * ">
 
-                    <li><a class="lg:px-2" href="#">Trending</a></li>
+                    <li><a class="lg:px-2" href="#">熱門</a></li>
 
-                    <li><a class="lg:px-2" href="#">Latest</a></li>
+                    <li><a class="lg:px-2" href="#">最新</a></li>
                 </ul>
             </nav>
             <div class="mcontainer" style="padding: 0">
@@ -112,7 +111,7 @@ include("config/dbconfig.php");
 
                             <div class="flex justify-between relative md:mb-4 mb-3 mt-5">
                                 <div class="flex-1">
-                                    <h2 class="text-2xl font-semibold"> Trending </h2>
+                                    <h2 class="text-2xl font-semibold"> 熱門 </h2>
                                 </div>
                             </div>
 
@@ -162,7 +161,7 @@ include("config/dbconfig.php");
                                 ?>
                             </ul>
 
-                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
+                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">查看全部</h4></a>
 
 
                         </div>
@@ -174,7 +173,7 @@ include("config/dbconfig.php");
 
                             <div class="flex justify-between relative md:mb-4 mb-3 mt-5">
                                 <div class="flex-1">
-                                    <h2 class="text-2xl font-semibold"> Latest </h2>
+                                    <h2 class="text-2xl font-semibold"> 最新 </h2>
                                 </div>
                             </div>
 
@@ -224,51 +223,11 @@ include("config/dbconfig.php");
                                 }
                                 ?>
                             </ul>
-                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">View All</h4></a>
+                            <a href="all_post.php"><h4 style="margin-top: 20px; font-size: 18px;">查看全部</h4></a>
 
                         </div>
 
                         <div class="lg:w-1/3 pt-5">
-
-                            <!--<div uk-sticky="offset:100">
-
-                        <h2 class="text-xl font-semibold mb-2"> Top Contributors </h2>
-                        <p> People who started the most discussions on Talks. </p>
-                        <br>
-                        <ul class="space-y-3">
-                            <?php
-                            /*                            $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
-                                                        if ($select_user->num_rows > 0) {
-                                                            while ($user = mysqli_fetch_assoc($select_user)) {
-                                                                $user_id = $user['id'];
-                                                                */ ?>
-                                    <li>
-                                        <div class="flex items-center space-x-3">
-                                            <img src="assets/images/user/<?php /*echo $user['image']; */ ?>" alt=""
-                                                 class="w-8 h-8 rounded-full">
-                                            <a href="#" class="font-semibold"> Anonymous</a>
-                                            <div class="flex items-center space-x-2">
-                                                <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
-                                                <?php
-                            /*                                                $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
-                                                                            if ($num_of_post) {
-                                                                                while ($post = mysqli_fetch_assoc($num_of_post)) {
-                                                                                    */ ?>
-                                                        <span> <?php /*echo $post['post']; */ ?> </span>
-                                                        <?php
-                            /*                                                    }
-                                                                            }
-                                                                            */ ?>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <?php
-                            /*                                }
-                                                        }
-                                                        */ ?>
-                        </ul>
-
-                    </div>-->
 
                         </div>
 
@@ -364,5 +323,4 @@ include("config/dbconfig.php");
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/forums.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:15:04 GMT -->
 </html>

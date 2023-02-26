@@ -59,8 +59,6 @@ if ($select_industry) {
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
                         </a>
                     </div>
                 </div>
@@ -173,46 +171,6 @@ if ($select_industry) {
 
                 <div class="lg:w-1/3 pt-5">
 
-                    <!--<div uk-sticky="offset:100">
-
-                        <h2 class="text-xl font-semibold mb-2"> Top Contributors </h2>
-                        <p> People who started the most discussions on Talks. </p>
-                        <br>
-                        <ul class="space-y-3">
-                            <?php
-/*                            $select_user = $con->query("SELECT DISTINCT(id),f_name,l_name,image FROM `user` ORDER BY rand() LIMIT 5;");
-                            if ($select_user->num_rows > 0) {
-                                while ($user = mysqli_fetch_assoc($select_user)) {
-                                    $user_id = $user['id'];
-                                    */?>
-                                    <li>
-                                        <div class="flex items-center space-x-3">
-                                            <img src="assets/images/user/<?php /*echo $user['image']; */?>" alt=""
-                                                 class="w-8 h-8 rounded-full">
-                                            <a href="#" class="font-semibold"> Anonymous</a>
-                                            <div class="flex items-center space-x-2">
-                                                <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
-                                                <?php
-/*                                                $num_of_post = $con->query("select count(id) as post from blog where user_id = '$user_id'");
-                                                if ($num_of_post) {
-                                                    while ($post = mysqli_fetch_assoc($num_of_post)) {
-                                                        */?>
-                                                        <span> <?php /*echo $post['post']; */?> </span>
-                                                        <?php
-/*                                                    }
-                                                }
-                                                */?>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <?php
-/*                                }
-                            }
-                            */?>
-                        </ul>
-
-                    </div>-->
-
                 </div>
 
             </div>
@@ -308,5 +266,4 @@ if ($select_industry) {
 
 </body>
 
-<!-- Mirrored from demo.foxthemes.net/socialitev2.2/forums.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 12 Nov 2022 06:15:04 GMT -->
 </html>

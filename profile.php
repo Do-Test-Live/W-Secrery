@@ -59,8 +59,7 @@ if($query-> num_rows > 0){
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
+
                         </a>
                     </div>
                 </div>

@@ -15,8 +15,6 @@ if (isset($_POST['update_info'])) {
     $avatar = mysqli_real_escape_string($con, $_POST['avatar']);
     $company = mysqli_real_escape_string($con, $_POST['company']);
     $company_email = strtolower(mysqli_real_escape_string($con, $_POST['company_email']));
-    /*$c_image = $_FILES['c_image']['name'];
-    $c_image_temp = $_FILES['c_image']['tmp_name'];*/
 
     $select_sub_domain = $con->query("select id, domain_name from company_domain where id = '$company'");
     if ($select_sub_domain->num_rows == 1) {
@@ -26,15 +24,6 @@ if (isset($_POST['update_info'])) {
     }
     echo $cemail_last = explode("@", $company_email);
     if ($sub_domain == $cemail_last[1]) {
-        /*if ($c_image_temp != "") {
-            move_uploaded_file($c_image_temp, "assets/images/user/$c_image");
-            $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$c_image',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
-            if ($c_update) {
-                $result = 1;
-            } else {
-                $result = 2;
-            }
-        }*/
             $c_update = $con->query("UPDATE `user` SET `f_name`='$nickname',`l_name`='$lname',`image`='$avatar',`company_email`='$company_email',`c_domain_id`='$company',`industry`='$industry',`position`='$position',`dob`='$dob',`gender`='$gender',`salary`='$salary' WHERE `email` = '$email'");
             if ($c_update) {
                 $result = 1;
@@ -128,8 +117,6 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."'
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
                         </a>
                     </div>
                 </div>
@@ -336,11 +323,6 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."'
                                                class="shadow-none with-border">
                                     </div>
 
-                                    <!--<div class="col-span-2">
-                                        <label for=""> Profile Image</label>
-                                        <input type="file" placeholder="" name="c_image"
-                                               class="shadow-none with-border">
-                                    </div>-->
                                     <div class="row px-3">
                                         <div class="col-4">
                                             <input class="form-check-input" type="radio" name="avatar"
@@ -435,65 +417,65 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."'
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Add Company</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">新增公司</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
                     <div>
-                        <label class="mb-0"> Company Name</label>
-                        <input type="text" name="company_name" placeholder="Your Company Name" required
+                        <label class="mb-0"> 公司名稱</label>
+                        <input type="text" name="company_name" placeholder="公司名稱" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Company Location</label>
-                        <input type="text" name="company_location" placeholder="Your Company Location" required
+                        <label class="mb-0"> 公司位置</label>
+                        <input type="text" name="company_location" placeholder="公司位置" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Average Monthly Salary </label>
-                        <input type="text" name="salary" placeholder="Average Monthly Salary" required
+                        <label class="mb-0"> 每月平均薪金 </label>
+                        <input type="text" name="salary" placeholder="每月平均薪金" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Working Hours </label>
-                        <input type="text" name="hours" placeholder="Working Hours" required
+                        <label class="mb-0"> 工作時數 </label>
+                        <input type="text" name="hours" placeholder="工作時數" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Working Days </label>
-                        <input type="text" name="days" placeholder="Working Days" required
+                        <label class="mb-0"> 工作日數 </label>
+                        <input type="text" name="days" placeholder="工作日數" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Establishment Year </label>
-                        <input type="text" name="year" placeholder="Your Company Establishment Year" required
+                        <label class="mb-0"> 成立年份 </label>
+                        <input type="text" name="year" placeholder="成立年份" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div>
-                        <label class="mb-0"> Company Primary Domain</label>
-                        <input type="text" name="company_domain" placeholder="Your Company Primary Domain" required
+                        <label class="mb-0"> 公司主要域名</label>
+                        <input type="text" name="company_domain" placeholder="公司主要域名" required
                                class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                     </div>
                     <div class="row" id="row">
                         <div class="col-8">
-                            <label> Company Secondary Domain</label>
+                            <label> 公司次要域名</label>
                             <input type="text" name="company_s_domain[]" id="s_domain"
-                                   placeholder="Your Company Secondary Domain"
+                                   placeholder="公司次要域名"
                                    class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full">
                         </div>
                         <div class="col-4">
                             <button type="button" name="add_sub_domain"
                                     class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full"
                                     id="add_sub_domain">
-                                Add
+                                增加
                             </button>
                         </div>
                     </div>
                     <div>
                         <button type="submit" name="add_company"
                                 class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full">
-                            Add Company
+                            新增公司
                         </button>
                     </div>
                 </form>
@@ -546,7 +528,7 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."'
 <script type="text/javascript">
 
     $(document).ready(function () {
-        let html = '<div class="row"> <div class="col-8"> <label> Company Secondary Domain</label> <input type="text" name="company_s_domain[]" id="s_domain" placeholder="Your Company Secondary Domain" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"> </div> <div class="col-4"> <button type="button" name="add_sub_domain"class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full" id="remove">Remove </button> </div> </div>';
+        let html = '<div class="row"> <div class="col-8"> <label> 公司次要域名</label> <input type="text" name="company_s_domain[]" id="s_domain" placeholder="公司次要域名" class="bg-gray-100 h-12 mt-2 px-3 rounded-md w-full"> </div> <div class="col-4"> <button type="button" name="add_sub_domain"class="bg-blue-600 font-semibold p-2 mt-5 rounded-md text-center text-white w-full" id="remove">消除 </button> </div> </div>';
         let x = 1;
         $ ("#add_sub_domain").click(function (){
             $("#row").append(html);

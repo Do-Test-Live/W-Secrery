@@ -331,13 +331,6 @@ if (isset($_POST['update_company'])) {
         Footer end
     ***********************************-->
 
-    <!--**********************************
-       Support ticket button start
-    ***********************************-->
-
-    <!--**********************************
-       Support ticket button end
-    ***********************************-->
 
 
 </div>
@@ -362,7 +355,7 @@ if (isset($_POST['update_company'])) {
 <!-- Apex Chart -->
 <script src="vendor/apexchart/apexchart.js"></script>
 
-<!-- Dashboard 1 -->
+<!-- Dashboard-->
 <script src="js/dashboard/dashboard-1.js"></script>
 
 </body>

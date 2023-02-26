@@ -27,23 +27,6 @@ VALUES ('$user_id','$job_rank','$job_title','$annual_salary','$annual_bonus','$s
         $result = 2;
     }
 }
-/*if (isset($_POST['salary_update'])) {
-    $job_rank = mysqli_real_escape_string($con, $_POST['job_rank']);
-    $job_title = mysqli_real_escape_string($con, $_POST['job_title']);
-    $annual_salary = mysqli_real_escape_string($con, $_POST['annual_salary']);
-    $annual_bonus = mysqli_real_escape_string($con, $_POST['annual_bonus']);
-    $salary_year = mysqli_real_escape_string($con, $_POST['salary_year']);
-    $year_of_tenture = mysqli_real_escape_string($con, $_POST['year_of_tenture']);
-    $comments = mysqli_real_escape_string($con, $_POST['comments']);
-    $company = mysqli_real_escape_string($con, $_POST['company']);
-
-    $update_query = $con->query("UPDATE `salary` SET `job_rank`='$job_rank',`job_title`='$job_title',`annual_salary`='$annual_salary',`annual_bonas`='$annual_bonus',`salary_year`='$salary_year',`year_of_tenture`='$year_of_tenture',`comments`='$comments',`company`='$company' WHERE user_id = '$user_id'");
-    if ($update_query) {
-        $result = 1;
-    } else {
-        $result = 2;
-    }
-}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,8 +81,6 @@ VALUES ('$user_id','$job_rank','$job_title','$annual_salary','$annual_bonus','$s
                     <div id="logo">
                         <a href="#">
                             <span>Secrery</span>
-                            <!--<img src="assets/images/logo.png" alt="">
-                            <img src="assets/images/logo-mobile.png" class="logo_mobile" alt="">-->
                         </a>
                     </div>
                 </div>
