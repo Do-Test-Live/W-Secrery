@@ -1,6 +1,13 @@
 <?php
 include("config/dbconfig.php");
 $value = 0;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 /*register code*/
 if (isset($_POST['register'])) {
     $pemail = strtolower(mysqli_real_escape_string($con, $_POST['pemail']));
@@ -26,10 +33,6 @@ if (isset($_POST['register'])) {
                     $email_to = $pemail;
                     $subject = 'Verify your email.';
 
-
-                    $headers = "From: Secrery <contact@gongsecrets.com>\r\n";
-                    $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
                     $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
@@ -44,7 +47,34 @@ if (isset($_POST['register'])) {
                 </body>
             </html>";
 
-                    if (mail($email_to, $subject, $messege, $headers)) {
+                    $sender_name = "Gong Secrets";
+                    $sender_email = "kennedy.kan@gongsecrets.com";
+                    //
+                    $username = "kennedy.kan@gongsecrets.com";
+                    $password = "Gongsecrets2468";
+                    //
+                    $receiver_email = $email_to;
+
+
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    //$mail->SMTPDebug = 2;
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom($sender_email, $sender_name);
+                    $mail->Username = $username;
+                    $mail->Password = $password;
+
+                    $mail->Subject = $subject;
+                    $mail->msgHTML($messege);
+                    $mail->addAddress($receiver_email);
+
+
+                    if ($mail->send()) {
                         session_start();
                         $_SESSION["email"] = $pemail;
                         Header("Location: email_verify.php");
@@ -61,10 +91,6 @@ if (isset($_POST['register'])) {
                 $email_to = $pemail;
                 $subject = 'Verify your email.';
 
-
-                $headers = "From: Secrery <contact@gongsecrets.com>\r\n";
-                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
                 $messege = "
             <html>
                 <body style='background-color: #eee; font-size: 16px;'>
@@ -79,7 +105,33 @@ if (isset($_POST['register'])) {
                 </body>
             </html>";
 
-                if (mail($email_to, $subject, $messege, $headers)) {
+                $sender_name = "Gong Secrets";
+                $sender_email = "kennedy.kan@gongsecrets.com";
+                //
+                $username = "kennedy.kan@gongsecrets.com";
+                $password = "Gongsecrets2468";
+                //
+                $receiver_email = $email_to;
+
+
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                //$mail->SMTPDebug = 2;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
+                $mail->setFrom($sender_email, $sender_name);
+                $mail->Username = $username;
+                $mail->Password = $password;
+
+                $mail->Subject = $subject;
+                $mail->msgHTML($messege);
+                $mail->addAddress($receiver_email);
+
+                if ($mail->send()) {
                     session_start();
                     $_SESSION["email"] = $pemail;
                     Header("Location: email_verify.php");
