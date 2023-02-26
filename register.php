@@ -281,7 +281,7 @@ VALUES ('".$company_name."','".$company_domain."','".$subDomain."','".$salary."'
                 <?php
             }
             ?>
-            <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="#" method="post">
+            <form class="lg:p-10 p-6 space-y-3 relative bg-white shadow-xl rounded-md" action="" method="post">
                 <h1 class="lg:text-2xl text-xl font-semibold mb-6"> 註冊 </h1>
 
                 <div>
